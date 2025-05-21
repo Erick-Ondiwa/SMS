@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{392181D1-DB8A-49DF-B9FB-BC6C7A618977}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "schoolManagement.API", "backend\schoolManagement.API\schoolManagement.API.csproj", "{8B617DC0-DD63-46F4-8EAA-1D172F717C17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B617DC0-DD63-46F4-8EAA-1D172F717C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B617DC0-DD63-46F4-8EAA-1D172F717C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B617DC0-DD63-46F4-8EAA-1D172F717C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B617DC0-DD63-46F4-8EAA-1D172F717C17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8B617DC0-DD63-46F4-8EAA-1D172F717C17} = {392181D1-DB8A-49DF-B9FB-BC6C7A618977}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8A1445C2-3D0A-4FA1-B8A2-27B21F0796C8}
+	EndGlobalSection
+EndGlobal
