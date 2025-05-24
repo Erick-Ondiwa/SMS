@@ -1,0 +1,109 @@
+// components/Auth/RegisterForm.jsx
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import styles from './RegisterForm.module.css';
+
+const RegisterForm = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: 'Student', // default role
+  });
+
+  const [error, setError] = useState('');
+
+  const handleChange = e => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setError('');
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
+
+    try {
+      // TODO: Add API call to register the user
+      console.log('Registering user', formData);
+    } catch (err) {
+      setError('Registration failed. Try again.');
+    }
+  };
+
+  return (
+    <form className={styles.container} onSubmit={handleSubmit}>
+      <h2>Create Account</h2>
+
+      <input
+        type="text"
+        name="fullName"
+        placeholder="Full Name"
+        value={formData.fullName}
+        onChange={handleChange}
+        required
+        className={styles.input}
+      />
+
+      <input
+        type="email"
+        name="email"
+        placeholder="Email Address"
+        value={formData.email}
+        onChange={handleChange}
+        required
+        className={styles.input}
+      />
+
+      <select
+        name="role"
+        value={formData.role}
+        onChange={handleChange}
+        className={styles.input}
+      >
+        <option value="Student">Student</option>
+        <option value="Teacher">Teacher</option>
+        <option value="Parent">Parent</option>
+      </select>
+
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={formData.password}
+        onChange={handleChange}
+        required
+        className={styles.input}
+      />
+
+      <input
+        type="password"
+        name="confirmPassword"
+        placeholder="Confirm Password"
+        value={formData.confirmPassword}
+        onChange={handleChange}
+        required
+        className={styles.input}
+      />
+
+      {error && <div className={styles.error}>{error}</div>}
+
+      <button type="submit" className={styles.button}>
+        Register
+      </button>
+
+      <p className={styles.linkText}>
+        Already have an account?{' '}
+        <Link to="/login" className={styles.link}>
+          Login
+        </Link>
+      </p>
+    </form>
+  );
+};
+
+export default RegisterForm;

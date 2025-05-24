@@ -30,7 +30,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-//Placeholder for JWT Authentication (you’ll update this soon)
+//Placeholder for JWT Authentication (to update this soon)
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
