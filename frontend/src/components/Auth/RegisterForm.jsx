@@ -1,15 +1,18 @@
 // components/Auth/RegisterForm.jsx
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styles from './RegisterForm.module.css';
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'Student', // default role
+    role: 'Student',
   });
 
   const [error, setError] = useState('');
@@ -23,15 +26,30 @@ const RegisterForm = () => {
     setError('');
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords don't match");
+      setError('Passwords do not match!');
       return;
     }
 
     try {
-      // TODO: Add API call to register the user
-      console.log('Registering user', formData);
+      const response = await axios.post('https://localhost:5001/api/auth/register', {
+        fullName: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
+      });
+
+      // Optionally save the token
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+
+      // Redirect to dashboard or login
+      navigate('/login');
     } catch (err) {
-      setError('Registration failed. Try again.');
+      if (err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else {
+        setError('Registration failed. Try again.');
+      }
     }
   };
 
@@ -107,3 +125,4 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
+

@@ -1,18 +1,29 @@
-using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace schoolManagement.API.Models
 {
     public class Grade
     {
+        [Key]
         public int Id { get; set; }
 
-        // point to Enrollment via composite key
+        [Required]
         public int StudentId { get; set; }
+
+        [Required]
         public int CourseId { get; set; }
+
+        [ForeignKey(nameof(StudentId))]
+        public Student Student { get; set; }
+
         public Enrollment Enrollment { get; set; }
 
-        public double Score { get; set; }
-        public string GradeLetter { get; set; }
-        public DateTime DateAwarded { get; set; }
+        [ForeignKey(nameof(CourseId))]
+        public Course Course { get; set; }
+
+        [Required]
+        [Range(0, 100)]
+        public decimal Score { get; set; }
     }
 }

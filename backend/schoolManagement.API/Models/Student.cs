@@ -1,19 +1,27 @@
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace schoolManagement.API.Models
 {
     public class Student
     {
+        [Key] // Primary key
         public int Id { get; set; }
 
-        // FK to AspNetUsers.Id
-        [ForeignKey(nameof(ApplicationUser))]
-        public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string FullName { get; set; }
 
-        public ICollection<Enrollment> Enrollments { get; set; }
-        public ICollection<Attendance> AttendanceRecords { get; set; }
-        public ICollection<ParentStudent> Parents { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        public DateTime DateOfBirth { get; set; }
+
+        // Navigation properties (relationships)
+        public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+        public ICollection<Attendance> AttendanceRecords { get; set; } = new List<Attendance>();
     }
 }

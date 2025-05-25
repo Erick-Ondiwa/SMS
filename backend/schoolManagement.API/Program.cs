@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using schoolManagement.API.Data; // Replace with your actual namespace
+using schoolManagement.API.Data;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,27 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Database Context (SQL Server)
 builder.Services.AddDbContext<SchoolDbContext>(options =>
-   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add Controllers
-builder.Services.AddControllers();
+// Add Identity (for authentication + roles)
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<SchoolDbContext>()
+    .AddDefaultTokenProviders();
 
-// Swagger for API documentation
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// CORS to allow frontend (React)
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins("http://localhost:5173") // Update if frontend URL changes
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
-
-//Placeholder for JWT Authentication (to update this soon)
+// JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -47,8 +35,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// Add Authorization (roles etc.)
+// Authorization
 builder.Services.AddAuthorization();
+
+// Swagger for API documentation
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// CORS to allow frontend (React)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // Update if frontend URL changes
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -69,4 +72,30 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// -------------------- Seed Roles on Startup --------------------
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await SeedRolesAsync(roleManager);
+}
+
+// -------------------- Run --------------------
+
 app.Run();
+
+// -------------------- Seed Roles Function --------------------
+
+async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+{
+    string[] roles = { "Admin", "Teacher", "Student", "Parent" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
+
