@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,24 +7,31 @@ namespace schoolManagement.API.Models
     public class Grade
     {
         [Key]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int GradeId { get; set; }
 
+        // Composite foreign keys to Enrollment
         [Required]
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
 
         [Required]
         public int CourseId { get; set; }
 
-        [ForeignKey(nameof(StudentId))]
-        public Student Student { get; set; }
-
-        public Enrollment Enrollment { get; set; }
-
-        [ForeignKey(nameof(CourseId))]
-        public Course Course { get; set; }
+        public Enrollment? Enrollment { get; set; }
 
         [Required]
-        [Range(0, 100)]
+        [Column(TypeName = "decimal(5,2)")]
+        [Range(0, 100, ErrorMessage = "Score must be between 0 and 100.")]
         public decimal Score { get; set; }
+
+        [Required]
+        [MaxLength(2)]
+        public string? LetterGrade { get; set; }  // e.g., A, B+, C-, etc.
+
+        [MaxLength(500)]
+        public string? Comments { get; set; }
+
+        [Required]
+        public DateTime DateGraded { get; set; }
     }
 }

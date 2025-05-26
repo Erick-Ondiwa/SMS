@@ -1,27 +1,45 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
 
 namespace schoolManagement.API.Models
 {
     public class Student
     {
-        [Key] // Primary key
-        public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string StudentId { get; set; }
 
         [Required]
-        [MaxLength(100)]
-        public string FullName { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
 
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        [MaxLength(50)]
+        public string? AdmissionNumber { get; set; }
 
         [Required]
         public DateTime DateOfBirth { get; set; }
 
-        // Navigation properties (relationships)
+        [MaxLength(10)]
+        public string? Gender { get; set; }
+
+        public DateTime EnrollmentDate { get; set; }
+
+        public string? ParentId { get; set; }
+        public Parent? Parent { get; set; }
+
+        [MaxLength(255)]
+        public string? Address { get; set; }
+
+        [MaxLength(20)]
+        public string? PhoneNumber { get; set; }
+
+        public string? PhotoUrl { get; set; }
+
+        // Navigation properties
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
-        public ICollection<Attendance> AttendanceRecords { get; set; } = new List<Attendance>();
+        public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
     }
 }

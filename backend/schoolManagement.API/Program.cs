@@ -7,7 +7,11 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// -------------------- Add Services --------------------
+// -------------------- Add services to the container --------------------
+
+builder.Services.AddControllers(); 
+builder.Services.AddDbContext<SchoolDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Database Context (SQL Server)
 builder.Services.AddDbContext<SchoolDbContext>(options =>
@@ -31,7 +35,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
         };
     });
 

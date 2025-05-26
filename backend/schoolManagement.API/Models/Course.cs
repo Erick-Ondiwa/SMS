@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,21 +8,36 @@ namespace schoolManagement.API.Models
     public class Course
     {
         [Key]
-        public int Id { get; set; }
+        public int CourseId { get; set; }
 
         [Required]
-        [MaxLength(200)]
-        public string Name { get; set; }
+        [MaxLength(20)]
+        public string? CourseCode { get; set; }
 
-        public string Description { get; set; }
-
-        [ForeignKey(nameof(Teacher))]
         [Required]
-        public int TeacherId { get; set; }
-        public Teacher Teacher { get; set; }
+        [MaxLength(100)]
+        public string? Title { get; set; }
 
-        // Navigation properties
+        [MaxLength(500)]
+        public string? Description { get; set; }
+
+        [Required]
+        [Range(1, 10, ErrorMessage = "Credit hours must be between 1 and 10.")]
+        public int CreditHours { get; set; }
+
+        [Required]
+        [MaxLength(20)]
+        public string? Semester { get; set; }
+
+        [Required]
+        [MaxLength(20)]
+        public string? Level { get; set; }
+
+        [Required]
+        public string TeacherId { get; set; }
+        public Teacher? Teacher { get; set; }
+
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
-        public ICollection<Attendance> AttendanceRecords { get; set; } = new List<Attendance>();
+        public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
     }
 }

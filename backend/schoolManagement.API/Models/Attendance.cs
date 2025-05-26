@@ -6,22 +6,26 @@ namespace schoolManagement.API.Models
 {
     public class Attendance
     {
-        [Key, Column(Order = 0)]
-        public int StudentId { get; set; }
-
-        [Key, Column(Order = 1)]
-        public int CourseId { get; set; }
-
-        [Key, Column(Order = 2)]
-        public DateTime Date { get; set; }
-
-        [ForeignKey(nameof(StudentId))]
-        public Student Student { get; set; }
-
-        [ForeignKey(nameof(CourseId))]
-        public Course Course { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int AttendanceId { get; set; }
 
         [Required]
-        public bool IsPresent { get; set; }
+        public string StudentId { get; set; }
+        public Student? Student { get; set; }
+
+        [Required]
+        public int CourseId { get; set; }
+        public Course? Course { get; set; }
+
+        [Required]
+        public DateTime Date { get; set; }
+
+        [Required]
+        [MaxLength(20)]
+        public string? Status { get; set; } // e.g., "Present", "Absent", "Late", "Excused"
+
+        [MaxLength(500)]
+        public string? Remarks { get; set; }
     }
 }
