@@ -1,4 +1,3 @@
-// components/Auth/RegisterForm.jsx
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -8,8 +7,11 @@ const RegisterForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    fullName: '',
+    username: '',
+    firstName: '',
+    lastName: '',
     email: '',
+    phoneNumber: '',
     password: '',
     confirmPassword: '',
     role: 'Student',
@@ -31,18 +33,21 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await axios.post('https://localhost:5267/API/Auth/Register', {
-        fullName: formData.fullName,
+      const payload = {
+        username: formData.username,
         email: formData.email,
         password: formData.password,
         role: formData.role,
-      });
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phoneNumber,
+      };
 
-      // Optionally save the token
+      const response = await axios.post('https://localhost:7009/api/Auth/register', payload);
+
       const token = response.data.token;
       localStorage.setItem('token', token);
 
-      // Redirect to dashboard or login
       navigate('/login');
     } catch (err) {
       if (err.response?.data?.message) {
@@ -59,9 +64,29 @@ const RegisterForm = () => {
 
       <input
         type="text"
-        name="fullName"
-        placeholder="Full Name"
-        value={formData.fullName}
+        name="username"
+        placeholder="Username"
+        value={formData.username}
+        onChange={handleChange}
+        required
+        className={styles.input}
+      />
+
+      <input
+        type="text"
+        name="firstName"
+        placeholder="First Name"
+        value={formData.firstName}
+        onChange={handleChange}
+        required
+        className={styles.input}
+      />
+
+      <input
+        type="text"
+        name="lastName"
+        placeholder="Last Name"
+        value={formData.lastName}
         onChange={handleChange}
         required
         className={styles.input}
@@ -77,6 +102,16 @@ const RegisterForm = () => {
         className={styles.input}
       />
 
+      <input
+        type="tel"
+        name="phoneNumber"
+        placeholder="Phone Number"
+        value={formData.phoneNumber}
+        onChange={handleChange}
+        required
+        className={styles.input}
+      />
+
       <select
         name="role"
         value={formData.role}
@@ -86,6 +121,7 @@ const RegisterForm = () => {
         <option value="Student">Student</option>
         <option value="Teacher">Teacher</option>
         <option value="Parent">Parent</option>
+        <option value="Admin">Admin</option>
       </select>
 
       <input
@@ -125,4 +161,3 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
-
