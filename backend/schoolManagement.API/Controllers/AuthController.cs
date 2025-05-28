@@ -53,8 +53,16 @@ namespace schoolManagement.API.Controllers
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
+            // if (!result.Succeeded)
+            //     return BadRequest(new { message = "User creation failed", errors = result.Errors });
+
+
             if (!result.Succeeded)
-                return BadRequest(new { message = "User creation failed", errors = result.Errors });
+            {
+                var errorMessages = result.Errors.Select(e => e.Description).ToList();
+                return BadRequest(new { message = "User creation failed", errors = errorMessages });
+            }
+
 
             // Ensure role exists
             if (!await _roleManager.RoleExistsAsync(model.Role))

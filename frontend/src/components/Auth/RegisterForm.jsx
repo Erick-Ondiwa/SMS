@@ -43,6 +43,7 @@ const RegisterForm = () => {
         phoneNumber: formData.phoneNumber,
       };
 
+      console.log(payload);
       const response = await axios.post('https://localhost:7009/api/Auth/register', payload);
 
       const token = response.data.token;

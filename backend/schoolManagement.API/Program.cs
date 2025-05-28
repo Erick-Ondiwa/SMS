@@ -19,7 +19,7 @@ builder.Services.AddDbContext<SchoolDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add Identity (for authentication + roles)
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<SchoolDbContext>()
     .AddDefaultTokenProviders();
 

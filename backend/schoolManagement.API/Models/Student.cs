@@ -9,10 +9,10 @@ namespace schoolManagement.API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string StudentId { get; set; }
+        public string? StudentId { get; set; }
 
         [Required]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         public ApplicationUser? ApplicationUser { get; set; }
 
         [Required]
