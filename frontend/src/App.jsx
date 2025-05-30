@@ -4,6 +4,9 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import ForgotPasswordForm from './components/Auth/ForgotPasswordForm';
 
+import AssignRoles from './admin/components/AssignRoles';
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -12,6 +15,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPasswordForm />} />
+
+        <Route path="/admin/assign-role" element={<AssignRoles />} />
+
 
       </Routes>
     </BrowserRouter>

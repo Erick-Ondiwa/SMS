@@ -16,11 +16,7 @@ namespace schoolManagement.API.Dtos
         [Required]
         [MinLength(6, ErrorMessage = "Password must be at least 6 characters.")]
         public string? Password { get; set; }  // plain password
-
-        [Required]
-        [MaxLength(20)]
-        public string? Role { get; set; }      // e.g., "Student", "Teacher", etc.
-
+        
         [MaxLength(100)]
         public string? FirstName { get; set; }
 

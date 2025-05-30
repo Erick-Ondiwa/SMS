@@ -158,11 +158,6 @@ C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.A
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\schoolManagement.API.sourcelink.json
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\staticwebassets.development.json
-C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\staticwebassets\msbuild.schoolManagement.API.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\staticwebassets\msbuild.build.schoolManagement.API.props
-C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.schoolManagement.API.props
-C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.schoolManagement.API.props
-C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\scopedcss\bundle\schoolManagement.API.styles.css
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\schoolMa.FF0A7AD4.Up2Date
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\schoolManagement.API.dll
@@ -170,3 +165,6 @@ C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.A
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\schoolManagement.API.pdb
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\schoolManagement.API.genruntimeconfig.cache
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\ref\schoolManagement.API.dll
+C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\schoolManagement.API.staticwebassets.endpoints.json
+C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\staticwebassets.build.endpoints.json

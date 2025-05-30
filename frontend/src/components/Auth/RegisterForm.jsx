@@ -14,7 +14,6 @@ const RegisterForm = () => {
     phoneNumber: '',
     password: '',
     confirmPassword: '',
-    role: 'Student',
   });
 
   const [error, setError] = useState('');
@@ -37,7 +36,6 @@ const RegisterForm = () => {
         username: formData.username,
         email: formData.email,
         password: formData.password,
-        role: formData.role,
         firstName: formData.firstName,
         lastName: formData.lastName,
         phoneNumber: formData.phoneNumber,
@@ -112,18 +110,6 @@ const RegisterForm = () => {
         required
         className={styles.input}
       />
-
-      <select
-        name="role"
-        value={formData.role}
-        onChange={handleChange}
-        className={styles.input}
-      >
-        <option value="Student">Student</option>
-        <option value="Teacher">Teacher</option>
-        <option value="Parent">Parent</option>
-        <option value="Admin">Admin</option>
-      </select>
 
       <input
         type="password"

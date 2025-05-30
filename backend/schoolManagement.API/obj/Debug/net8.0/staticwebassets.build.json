@@ -1,11 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "Vtfo7tGeRwJv1PTcm4bUbw5QlgUEd/52bEHGfOodBhE=",
-  "Source": "schoolManagement.API",
-  "BasePath": "_content/schoolManagement.API",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
-}
+{"Version":1,"Hash":"wW0xd3HD1YICpCW4oKV/a0TJDdrsZQ8iUBvmuPmiSjE=","Source":"schoolManagement.API","BasePath":"_content/schoolManagement.API","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

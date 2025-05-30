@@ -6,14 +6,12 @@ namespace schoolManagement.API.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        [MaxLength(20)]
-        public string? Role { get; set; } // e.g., "Student", "Teacher", "Parent", "Admin"
 
         [MaxLength(100)]
-        public string? FirstName { get; set; }
+        public required string FirstName { get; set; }
 
         [MaxLength(100)]
-        public string? LastName { get; set; }
+        public required string LastName { get; set; }
 
         public string? ProfilePictureUrl { get; set; }
 

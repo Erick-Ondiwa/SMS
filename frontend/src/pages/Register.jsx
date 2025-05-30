@@ -1,7 +1,6 @@
-// pages/Login.jsx
 import RegisterForm from '../components/Auth/RegisterForm';
 
-const Login = () => {
+const Register = () => {
   return (
     <main>
       <RegisterForm />
@@ -9,4 +8,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
