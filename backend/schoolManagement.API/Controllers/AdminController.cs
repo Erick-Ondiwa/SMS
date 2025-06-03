@@ -8,7 +8,7 @@ namespace schoolManagement.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AdminController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -46,8 +46,8 @@ namespace schoolManagement.API.Controllers
             return Ok(userList);
         }
 
-        // POST: api/Admin/assign-role
-        [HttpPost("assign-role")]
+        // POST: api/Admin/roles
+        [HttpPost("roles")]
         public async Task<IActionResult> AssignRole([FromBody] AssignRoleDto model)
         {
             if (!ModelState.IsValid)

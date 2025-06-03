@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './LoginForm.module.css';
@@ -15,34 +16,50 @@ const LoginForm = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
+ 
 
-    try {
-      const response = await axios.post('https://localhost:7009/api/Auth/login', {
-        email: formData.email,
-        password: formData.password,
-      });
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
 
-      const { token, user } = response.data;
+  try {
+    const response = await axios.post('https://localhost:7009/api/Auth/login', {
+      email: formData.email,
+      password: formData.password,
+    });
 
-      // Save token to localStorage (or cookies if needed)
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+    const { token, user } = response.data;
 
-      console.log('Login successful:', user);
+    // Decode token to get roles
+    const decodedToken = jwtDecode(token);
+    const roles = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
-      // Redirect to dashboard or home
-      navigate('/dashboard');
-    } catch (err) {
-      if (err.response && err.response.status === 401) {
-        setError('Invalid email or password.');
-      } else {
-        setError('An error occurred. Please try again later.');
-      }
+    // Save token and user
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+
+    console.log('Roles:', roles);
+
+    // Role-based redirect
+    if (roles?.includes('Admin')) {
+      navigate('/admin/dashboard');
+    } else if(roles?.includes('Student')){
+      navigate('/student/dashboard');
+    } else if(roles?.includes('Teacher')){
+      navigate('/teacher/dashboard');
+    } else if(roles?.includes('Parent')){
+      navigate('/parent/dashboard');
+    }else{
+      setError(`Role ${ roles} does not exist `)
     }
-  };
+  } catch (err) {
+    if (err.response && err.response.status === 401) {
+      setError('Invalid email or password.');
+    } else {
+      setError('An error occurred. Please try again later.');
+    }
+  }
+};
 
   return (
     <form className={styles.container} onSubmit={handleSubmit}>

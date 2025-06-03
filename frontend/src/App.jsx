@@ -4,7 +4,13 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import ForgotPasswordForm from './components/Auth/ForgotPasswordForm';
 
-import AssignRoles from './admin/components/AssignRoles';
+// User dashboards
+import ParentDashboardPage from './pages/ParentDashboardPage.jsx';
+import StudentDashboardPage from './pages/StudentDashboardPage.jsx';
+import TeacherDashboardPage from './pages/TeacherDashboardPage.jsx';
+
+import AdminDashboardPage from './admin/pages/AdminDashboardPage';
+import ManageRolesPage from './admin/pages/ManageRolesPage.jsx';
 
 
 function App() {
@@ -16,7 +22,15 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPasswordForm />} />
 
-        <Route path="/admin/assign-role" element={<AssignRoles />} />
+        {/* User dashboards */}
+        <Route path="/student/dashboard" element={<StudentDashboardPage />} />
+        <Route path="/teacher/dashboard" element={<TeacherDashboardPage />} />
+        <Route path="/parent/dashboard" element={<ParentDashboardPage />} />
+
+        
+
+        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+        <Route path="/admin/roles" element={<ManageRolesPage />} />
 
 
       </Routes>
