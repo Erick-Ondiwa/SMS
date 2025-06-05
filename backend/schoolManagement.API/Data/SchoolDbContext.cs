@@ -81,6 +81,12 @@ namespace schoolManagement.API.Data
                 .HasForeignKey<Student>(t => t.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+             modelBuilder.Entity<Admin>()
+                .HasOne(a => a.ApplicationUser)
+                .WithOne(u => u.Admin)
+                .HasForeignKey<Admin>(a => a.UserId)
+                .OnDelete(DeleteBehavior.Restrict); 
+
         }
     }
 }

@@ -23,5 +23,6 @@ namespace schoolManagement.API.Models
         public Student? Student { get; set; }
         public Teacher? Teacher { get; set; }
         public Parent? Parent { get; set; }
+        public Admin? Admin { get; set; }
     }
 }

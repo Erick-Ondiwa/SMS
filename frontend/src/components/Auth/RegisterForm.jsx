@@ -22,40 +22,30 @@ const RegisterForm = () => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
-    if (formData.password !== formData.confirmPassword) {
+  
+    const { username, email, password, confirmPassword, firstName, lastName, phoneNumber } = formData;
+  
+    if (password !== confirmPassword) {
       setError('Passwords do not match!');
       return;
     }
-
+  
     try {
-      const payload = {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        phoneNumber: formData.phoneNumber,
-      };
-
-      console.log(payload);
-      const response = await axios.post('https://localhost:7009/api/Auth/register', payload);
-
-      const token = response.data.token;
-      localStorage.setItem('token', token);
-
-      navigate('/login');
+      const payload = { username, email, password, firstName, lastName, phoneNumber };
+  
+      const { data } = await axios.post('https://localhost:7009/api/Auth/register', payload);
+  
+      localStorage.setItem('token', data.token);  // Optional: usually you redirect first
+      navigate('/login'); // You could also redirect to a dashboard if token is valid immediately
     } catch (err) {
-      if (err.response?.data?.message) {
-        setError(err.response.data.message);
-      } else {
-        setError('Registration failed. Try again.');
-      }
+      const message = err?.response?.data?.message || 'Registration failed. Try again.';
+      setError(message);
     }
   };
+  
 
   return (
     <form className={styles.container} onSubmit={handleSubmit}>

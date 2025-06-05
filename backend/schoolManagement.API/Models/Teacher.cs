@@ -13,6 +13,10 @@ namespace schoolManagement.API.Models
         public string UserId { get; set; }
         public ApplicationUser? ApplicationUser { get; set; }
 
+        public string? AdminId { get; set; }
+        public Admin Admin { get; set; }
+
+
         [MaxLength(100)]
         public string? EmployeeNumber { get; set; }
 

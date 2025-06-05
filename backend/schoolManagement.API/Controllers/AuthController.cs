@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 using schoolManagement.API.Dtos;
 using schoolManagement.API.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using schoolManagement.API.Data;
+
 
 namespace schoolManagement.API.Controllers
 {
@@ -17,17 +20,20 @@ namespace schoolManagement.API.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly SchoolDbContext _context;
 
         public AuthController(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            SchoolDbContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _context = context;
         }
 
         [HttpPost("register")]
@@ -58,12 +64,26 @@ namespace schoolManagement.API.Controllers
                 return BadRequest(new { message = "User creation failed", errors = errorMessages });
             }
 
-            // Set a default role (e.g., "Student")
+            // Set default role
             var defaultRole = "Student";
             if (!await _roleManager.RoleExistsAsync(defaultRole))
                 await _roleManager.CreateAsync(new IdentityRole(defaultRole));
 
             await _userManager.AddToRoleAsync(user, defaultRole);
+
+            // ✅ Create Student entry in role-specific table
+            var studentExists = await _context.Students.AnyAsync(s => s.UserId == user.Id);
+            if (!studentExists)
+            {
+                var student = new Student
+                {
+                    UserId = user.Id,
+                    // Optionally initialize other student-specific fields
+                };
+
+                _context.Students.Add(student);
+                await _context.SaveChangesAsync();
+            }
 
             var token = await GenerateJwtToken(user);
 
@@ -97,7 +117,8 @@ namespace schoolManagement.API.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Email, user.Email ?? ""),
-                new Claim(ClaimTypes.Name, user.UserName ?? ""),
+                new Claim("firstName", user.FirstName ?? ""), // Custom claim
+                new Claim("userName", user.UserName ?? ""),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
