@@ -47,9 +47,51 @@ const AdminDashboard = () => {
           <button onClick={handleLogout} className={styles.logout}>Logout</button>
         </header>
 
-        <section className={styles.content}>
-          <p>This is the admin dashboard where you can manage users, assign roles, and view system reports.</p>
+        <div className={styles.mainContent}>
+
+        <section className={styles.overview}>
+          <h2>Overview</h2>
+          <p>Monitor user activity, manage roles, and keep your school data up to date.</p>
         </section>
+
+
+          {/* Stat Cards */}
+          <div className={styles.statsGrid}>
+            <div className={styles.statCard}>
+              <h3>Students</h3>
+              <p>620</p>
+            </div>
+            <div className={styles.statCard}>
+              <h3>Teachers</h3>
+              <p>45</p>
+            </div>
+            <div className={styles.statCard}>
+              <h3>Staff</h3>
+              <p>10</p>
+            </div>
+            <div className={styles.statCard}>
+              <h3>Courses</h3>
+              <p>38</p>
+            </div>
+          </div>
+
+          {/* Recent Activity */}
+          <div className={styles.activitySection}>
+            <h3>Recent Activities</h3>
+            <ul>
+              <li>🟢 John Doe (Student) registered</li>
+              <li>📘 "Physics 101" course added</li>
+              <li>⚠️ No teacher assigned to "Biology 204"</li>
+            </ul>
+          </div>
+
+          {/* Quick Actions */}
+          <div className={styles.quickActions}>
+            <button className={styles.actionButton}>➕ Add New User</button>
+            <button className={styles.actionButton}>📚 Create Course</button>
+            <button className={styles.actionButton}>👩‍🏫 Assign Teacher</button>
+          </div>
+        </div>
       </main>
     </div>
   );

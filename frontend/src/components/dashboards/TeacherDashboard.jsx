@@ -8,6 +8,21 @@ const TeacherDashboard = () => {
   const user = getUserFromToken();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return navigate('/login');
+
+    try {
+      const decoded = jwtDecode(token);
+      const roles = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      if (!roles?.includes('Teacher')) {
+        return navigate('/unauthorized');
+      }
+    } catch (error) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
   const displayName =
     user?.firstName || user?.userName || user?.email || 'Teacher';
 

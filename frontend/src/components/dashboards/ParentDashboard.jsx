@@ -1,84 +1,68 @@
 import React from 'react';
 import styles from './ParentDashboard.module.css';
-import { FileText, MessageSquare, CreditCard, Users } from 'lucide-react';
+import { LogOut, Users, Mail, Calendar } from 'lucide-react';
+import { getUserFromToken } from '../../utils/Auth';
+import { useNavigate } from 'react-router-dom';
 
 const ParentDashboard = () => {
-  const parent = {
-    name: "Mr. Ochieng Ondiwa",
-    childName: "Erick O. Ondiwa",
-    class: "3rd Year, Computer Science",
-    feeBalance: "Ksh 5,000",
-    attendance: "94%",
-    performance: "B+ Average",
+  const user = getUserFromToken();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return navigate('/login');
+
+    try {
+      const decoded = jwtDecode(token);
+      const roles = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      if (!roles?.includes('Parent')) {
+        return navigate('/unauthorized');
+      }
+    } catch (error) {
+      navigate('/login');
+    }
+  }, [navigate]);
+  const navigate = useNavigate();
+
+  const displayName = user?.firstName || user?.userName || 'Parent';
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
   };
 
-  const announcements = [
-    { title: "Parents-Teachers Meeting", date: "May 28, 2025" },
-    { title: "Mid-Term Exams Start", date: "June 5, 2025" },
-  ];
-
-  const quickLinks = [
-    { label: "Report Card", icon: <FileText size={24} />, link: "#" },
-    { label: "Fee Payment", icon: <CreditCard size={24} />, link: "#" },
-    { label: "Messages", icon: <MessageSquare size={24} />, link: "#" },
-    { label: "Teachers", icon: <Users size={24} />, link: "#" },
-  ];
-
   return (
-    <div className={styles.container}>
-      <h1 className={styles.header}>Welcome, {parent.name} 👨‍👧</h1>
-      <p className={styles.subText}>
-        Monitoring: <strong>{parent.childName}</strong> ({parent.class})
-      </p>
-
-      {/* Stat Cards */}
-      <div className={styles.grid}>
-        <div className={styles.card}>
-          <div>
-            <h3>Performance</h3>
-            <p><strong>{parent.performance}</strong></p>
-          </div>
-          <FileText color="#3b82f6" size={32} />
-        </div>
-
-        <div className={styles.card}>
-          <div>
-            <h3>Attendance</h3>
-            <p><strong>{parent.attendance}</strong></p>
-          </div>
-          <Users color="#10b981" size={32} />
-        </div>
-
-        <div className={styles.card}>
-          <div>
-            <h3>Fee Balance</h3>
-            <p>{parent.feeBalance}</p>
-          </div>
-          <CreditCard color="#f59e0b" size={32} />
-        </div>
+    <div className={styles.dashboard}>
+      <div className={styles.header}>
+        <h1 className={styles.welcome}>Welcome, {displayName} 👋</h1>
+        <button className={styles.logoutButton} onClick={handleLogout}>
+          <LogOut size={18} /> Logout
+        </button>
       </div>
 
-      {/* Announcements */}
-      <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>📢 Important Announcements</h2>
-        <ul>
-          {announcements.map((a, index) => (
-            <li key={index} className={styles.listItem}>
-              <span>{a.title}</span>
-              <span className="text-sm text-gray-500">{a.date}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <div className={styles.cardGrid}>
+        <div className={styles.card}>
+          <Users className={styles.icon} size={28} />
+          <div>
+            <h2 className={styles.cardTitle}>Children</h2>
+            <p className={styles.cardDesc}>View and monitor your children</p>
+          </div>
+        </div>
 
-      {/* Quick Links */}
-      <div className={styles.quickLinks}>
-        {quickLinks.map((link, index) => (
-          <a href={link.link} className={styles.link} key={index}>
-            {link.icon}
-            <div className={styles.linkText}>{link.label}</div>
-          </a>
-        ))}
+        <div className={styles.card}>
+          <Mail className={styles.icon} size={28} />
+          <div>
+            <h2 className={styles.cardTitle}>Messages</h2>
+            <p className={styles.cardDesc}>Check school communications</p>
+          </div>
+        </div>
+
+        <div className={styles.card}>
+          <Calendar className={styles.icon} size={28} />
+          <div>
+            <h2 className={styles.cardTitle}>Attendance</h2>
+            <p className={styles.cardDesc}>Track student attendance</p>
+          </div>
+        </div>
       </div>
     </div>
   );

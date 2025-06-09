@@ -1,71 +1,66 @@
 .footer {
-  background-color: #1e3a8a;
-  color: white;
-  padding: 3rem 2rem 1rem;
+  background: #1e1e2f;
+  /* background: #1e293b; */
+  color: #e2e8f0;
+  padding: 3rem 1.5rem 2rem;
   font-family: 'Segoe UI', sans-serif;
 }
 
 .container {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: auto;
+  gap: 2rem;
 }
 
-.branding {
-  text-align: center;
+.section {
+  flex: 1 1 250px;
 }
 
 .logo {
   font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: #facc15;
 }
 
-.tagline {
-  font-size: 1rem;
-  color: #d1d5db;
+.text {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #94a3b8;
 }
 
-.links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  text-align: left;
-}
-
-.links h4 {
+.section h4 {
   font-size: 1.1rem;
-  margin-bottom: 0.7rem;
-  color: #f3f4f6;
+  margin-bottom: 0.8rem;
+  color: #e2e8f0;
 }
 
-.links ul {
+.section ul {
   list-style: none;
   padding: 0;
 }
 
-.links li {
+.section ul li {
   margin-bottom: 0.4rem;
 }
 
-.links a {
-  color: #e0e7ff;
+.section ul li a {
   text-decoration: none;
-  transition: color 0.2s ease;
+  color: #94a3b8;
+  transition: color 0.3s ease;
 }
 
-.links a:hover {
-  color: #a5b4fc;
+.section ul li a:hover {
+  color: #facc15;
 }
 
 .bottom {
+  border-top: 1px solid #334155;
   text-align: center;
   margin-top: 2rem;
-  font-size: 0.9rem;
-  color: #dbeafe;
-  border-top: 1px solid #3b82f6;
   padding-top: 1rem;
+  font-size: 0.85rem;
+  color: #64748b;
 }

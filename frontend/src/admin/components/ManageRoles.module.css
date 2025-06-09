@@ -39,3 +39,19 @@ select {
   border-radius: 6px;
   cursor: pointer;
 }
+
+.backButton {
+  background-color: #475569;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.backButton:hover {
+  background-color: #334155;
+}
+

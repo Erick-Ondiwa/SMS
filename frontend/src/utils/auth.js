@@ -17,7 +17,7 @@ export const getUserFromToken = () => {
 
     return {
       email: decoded.email || decoded.unique_name || '',
-      firstName: decoded.firstName || '',  // now works
+      firstName: decoded.firstName || '', 
       userName: decoded.userName || '',
       roles: Array.isArray(roles) ? roles : [roles],
       exp: decoded.exp,

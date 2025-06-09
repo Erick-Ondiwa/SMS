@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,13 +16,10 @@ const Navbar = () => {
           <a href="#features" className={styles.link}>Features</a>
           <a href="#contact" className={styles.link}>Contact</a>
           <Link to="/login" className={styles.button}>Login</Link>
-          <Link to="/register" className={styles.outlineButton}>Register</Link>
         </div>
 
         <div className={styles.menuIcon} onClick={() => setIsOpen(!isOpen)}>
-          <div className={isOpen ? styles.barOpen : styles.bar}></div>
-          <div className={isOpen ? styles.barOpen : styles.bar}></div>
-          <div className={isOpen ? styles.barOpen : styles.bar}></div>
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
         </div>
       </div>
     </nav>
