@@ -1,10 +1,51 @@
 import styles from './AdminDashboard.module.css';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  const [activities, setActivities] = useState([]);
+  const [loadingActivities, setLoadingActivities] = useState(false);
+  const [error, setError] = useState('');
+
+  const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const token = localStorage.getItem('token');
+  //     if (!token) return navigate('/login');
+
+  //     try {
+  //       const decoded = jwtDecode(token);
+  //       const roles = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+  //       if (!roles?.includes('Admin')) return navigate('/unauthorized');
+
+  //       // Fetch recent activities
+  //       setLoadingActivities(true);
+  //       const response = await axios.get(`${baseURL}/api/admin/recent-activities`, {
+  //         headers: { Authorization: `Bearer ${token}` }
+  //       });
+  //       setActivities(response.data);
+  //     } catch (err) {
+  //       console.error('Error:', err);
+  //       setError('Failed to load recent activities.');
+  //       navigate('/login');
+  //     } finally {
+  //       setLoadingActivities(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [navigate]);
+
+  // const handleLogout = () => {
+  //   localStorage.removeItem('token');
+  //   localStorage.removeItem('user');
+  //   navigate('/login');
+  // };
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -79,11 +120,22 @@ const AdminDashboard = () => {
           <div className={styles.activitySection}>
             <h3>Recent Activities</h3>
             <ul>
+              {activities.map((act, index) => (
+                <li key={index}>
+                  🕓 {new Date(act.timestamp).toLocaleString()} — {act.description}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* <div className={styles.activitySection}>
+            <h3>Recent Activities</h3>
+            <ul>
               <li>🟢 John Doe (Student) registered</li>
               <li>📘 "Physics 101" course added</li>
               <li>⚠️ No teacher assigned to "Biology 204"</li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Quick Actions */}
           <div className={styles.quickActions}>

@@ -7,13 +7,14 @@ namespace schoolManagement.API.Models
    public class Admin
   {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public string AdminId { get; set; }
 
     [Required]
     public string? UserId { get; set; }
     public ApplicationUser? ApplicationUser { get; set; }
 
-    public string Department { get; set; }
+    public string? Department { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

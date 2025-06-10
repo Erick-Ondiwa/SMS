@@ -40,12 +40,12 @@ const RegisterForm = () => {
   
       localStorage.setItem('token', data.token);  // Optional: usually you redirect first
       navigate('/login'); // You could also redirect to a dashboard if token is valid immediately
+      
     } catch (err) {
       const message = err?.response?.data?.message || 'Registration failed. Try again.';
       setError(message);
     }
   };
-  
 
   return (
     <form className={styles.container} onSubmit={handleSubmit}>

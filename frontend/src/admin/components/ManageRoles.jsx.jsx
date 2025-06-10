@@ -13,7 +13,7 @@ const ManageRoles = () => {
 
   const navigate = useNavigate();
 
-  const roles = ['Student', 'Teacher', 'Staff', 'Admin'];
+  const roles = ['Student', 'Teacher', 'Parent', 'Admin'];
 
   useEffect(() => {
     const fetchUsers = async () => {

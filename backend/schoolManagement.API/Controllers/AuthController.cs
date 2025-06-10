@@ -85,6 +85,17 @@ namespace schoolManagement.API.Controllers
                 await _context.SaveChangesAsync();
             }
 
+                // ✅ Log the activity
+            var activity = new AdminActivity
+            {
+                ActivityType = "User Registered",
+                PerformedBy = user.Email, // or "Self-Register"
+                TargetUser = user.Email,
+                Description = $"{user.Email} registered with role 'Student'."
+            };
+            _context.AdminActivities.Add(activity);
+            await _context.SaveChangesAsync();
+
             var token = await GenerateJwtToken(user);
 
             return Ok(new { token });
