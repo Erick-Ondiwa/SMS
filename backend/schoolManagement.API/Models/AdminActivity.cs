@@ -1,20 +1,51 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace schoolManagement.API.Models{
-  public class AdminActivity
+namespace schoolManagement.API.Models
 {
-    public int Id { get; set; }
-    public string ActivityType { get; set; }  // e.g. "User Registered", "Role Assigned"
+    public class AdminActivity
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
-    [Required]
-    public string PerformedBy { get; set; } 
+        [Required]
+        [MaxLength(100)]
+        public string ActivityType { get; set; } = string.Empty;  // e.g., "User Registered", "Role Assigned"
 
-    public string TargetUser { get; set; }    // The affected user (email or username)
-    public string Description { get; set; }   // Custom message
-    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+        [Required]
+        public string PerformedBy { get; set; } = string.Empty;  // UserId or Admin email
+
+        [MaxLength(256)]
+        public string? TargetUser { get; set; }  // Could be null if the activity isn't user-specific
+
+        [MaxLength(1000)]
+        public string? Description { get; set; }
+
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+    }
 }
-}
+
+
+
+// using System;
+// using System.Collections.Generic;
+// using System.ComponentModel.DataAnnotations;
+// using System.ComponentModel.DataAnnotations.Schema;
+
+// namespace schoolManagement.API.Models{
+//   public class AdminActivity
+// {
+//     public int Id { get; set; }
+//     public string ActivityType { get; set; }  // e.g. "User Registered", "Role Assigned"
+
+//     [Required]
+//     public string PerformedBy { get; set; } 
+
+//     public string TargetUser { get; set; }    // The affected user (email or username)
+//     public string Description { get; set; }   // Custom message
+//     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+// }
+// }
 

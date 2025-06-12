@@ -10,8 +10,11 @@ import ParentDashboardPage from './pages/ParentDashboardPage.jsx';
 import StudentDashboardPage from './pages/StudentDashboardPage.jsx';
 import TeacherDashboardPage from './pages/TeacherDashboardPage.jsx';
 
+// Admin Pages
 import AdminDashboardPage from './admin/pages/AdminDashboardPage';
 import ManageRolesPage from './admin/pages/ManageRolesPage.jsx';
+import TeachersPage from './admin/pages/TeachersPage.jsx';
+import StudentsPage from './admin/pages/StudentsPage.jsx';
 
 import RedirectIfAuthenticated from './routes/RedirectIfAuthenticated.jsx';
 
@@ -83,6 +86,22 @@ function App() {
               // </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/teachers"
+            element={
+              // <ProtectedRoute allowedRoles={['Admin']}>
+                <TeachersPage />
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/students"
+            element={
+              // <ProtectedRoute allowedRoles={['Admin']}>
+                <StudentsPage />
+              // </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
@@ -90,46 +109,3 @@ function App() {
 }
 
 export default App;
-
-
-// import { BrowserRouter, Routes, Route } from 'react-router-dom';
-// import Landing from './pages/Landing';
-// import Register from './pages/Register';
-// import Login from './pages/Login';
-// import ForgotPasswordForm from './components/Auth/ForgotPasswordForm';
-
-// // User dashboards
-// import ParentDashboardPage from './pages/ParentDashboardPage.jsx';
-// import StudentDashboardPage from './pages/StudentDashboardPage.jsx';
-// import TeacherDashboardPage from './pages/TeacherDashboardPage.jsx';
-
-// import AdminDashboardPage from './admin/pages/AdminDashboardPage';
-// import ManageRolesPage from './admin/pages/ManageRolesPage.jsx';
-
-
-// function App() {
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//         <Route path="/" element={<Landing />} />
-//         <Route path="/login" element={<Login />} />
-//         <Route path="/register" element={<Register />} />
-//         <Route path="/forgot-password" element={<ForgotPasswordForm />} />
-
-//         {/* User dashboards */}
-//         <Route path="/student/dashboard" element={<StudentDashboardPage />} />
-//         <Route path="/teacher/dashboard" element={<TeacherDashboardPage />} />
-//         <Route path="/parent/dashboard" element={<ParentDashboardPage />} />
-
-        
-
-//         <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-//         <Route path="/admin/roles" element={<ManageRolesPage />} />
-
-
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// }
-
-// export default App;

@@ -1,26 +1,56 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace schoolManagement.API.Models
 {
-   public class Admin
-  {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public string AdminId { get; set; }
+    public class Admin
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)] // Since you're manually setting AdminId = UserId
+        public string AdminId { get; set; } = string.Empty;
 
-    [Required]
-    public string? UserId { get; set; }
-    public ApplicationUser? ApplicationUser { get; set; }
+        public string? UserId { get; set; }
 
-    public string? Department { get; set; }
+        [ForeignKey("UserId")]
+        public ApplicationUser? ApplicationUser { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [MaxLength(100)]
+        public string? Department { get; set; }
 
-    // Optional navigation properties
-    public ICollection<Teacher> ManagedTeachers { get; set; }
-    public ICollection<Student> ManagedStudents { get; set; }
-  }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        // Navigation properties
+        public ICollection<Teacher> ManagedTeachers { get; set; } = new List<Teacher>();
+        public ICollection<Student> ManagedStudents { get; set; } = new List<Student>();
+    }
 }
+
+
+// using System;
+// using System.ComponentModel.DataAnnotations;
+// using System.ComponentModel.DataAnnotations.Schema;
+
+// namespace schoolManagement.API.Models
+// {
+//    public class Admin
+//   {
+//     [Key]
+//     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+//     public string AdminId { get; set; }
+
+//     [Required]
+//     public string? UserId { get; set; }
+//     public ApplicationUser? ApplicationUser { get; set; }
+
+//     public string? Department { get; set; }
+
+//     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+//     // Optional navigation properties
+//     public ICollection<Teacher> ManagedTeachers { get; set; }
+//     public ICollection<Student> ManagedStudents { get; set; }
+//   }
+
+// }

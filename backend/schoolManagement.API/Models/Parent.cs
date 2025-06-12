@@ -9,11 +9,13 @@ namespace schoolManagement.API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string? ParentId { get; set; }
+        public string ParentId { get; set; }
 
-        [Required]
+        //[Required]
         public string? UserId { get; set; }
-        public ApplicationUser? ApplicationUser { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        public ApplicationUser ApplicationUser { get; set; }
 
         [MaxLength(20)]
         public string? PhoneNumber { get; set; }
@@ -31,6 +33,6 @@ namespace schoolManagement.API.Models
         public string? RelationshipToStudent { get; set; }  // e.g., Father, Mother, Guardian
 
         // Navigation property
-        public ICollection<Student> Children { get; set; } = new List<Student>();
+        public ICollection<Student> Students { get; set; } = new List<Student>();
     }
 }

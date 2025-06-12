@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,17 +9,21 @@ namespace schoolManagement.API.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string StudentId { get; set; }
 
-        [Required]
+        // Link to ASP.NET Identity user
+        //[Required]
         public string? UserId { get; set; }
+
+        [ForeignKey("UserId")]
         public ApplicationUser? ApplicationUser { get; set; }
 
-        public string? AdminId { get; set; }
-        public Admin Admin { get; set; }
 
+        [Required]
+        [MaxLength(100)]
+        public string FullName { get; set; }
 
-        //[Required]
+        [Required]
         [MaxLength(50)]
-        public string? AdmissionNumber { get; set; }
+        public string AdmissionNumber { get; set; }
 
         [Required]
         public DateTime DateOfBirth { get; set; }
@@ -29,9 +31,10 @@ namespace schoolManagement.API.Models
         [MaxLength(10)]
         public string? Gender { get; set; }
 
-        public DateTime EnrollmentDate { get; set; }
+        public DateTime EnrollmentDate { get; set; } = DateTime.UtcNow;
 
-        public string? ParentId { get; set; }
+        // Parent info (nullable)
+        public string ParentId { get; set; }
         public Parent? Parent { get; set; }
 
         [MaxLength(255)]
@@ -40,10 +43,12 @@ namespace schoolManagement.API.Models
         [MaxLength(20)]
         public string? PhoneNumber { get; set; }
 
+        [MaxLength(255)]
         public string? PhotoUrl { get; set; }
 
-        // Navigation properties
+        // Navigation
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
         public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
     }
 }
+

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace schoolManagement.API.Models
 {
     public class Teacher
@@ -11,26 +14,34 @@ namespace schoolManagement.API.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string TeacherId { get; set; }
 
-        [Required]
-        public string UserId { get; set; }
+        // Link to Identity user
+        public string? UserId { get; set; }
+
+        [ForeignKey("UserId")]
         public ApplicationUser? ApplicationUser { get; set; }
 
-        public string? AdminId { get; set; }
-        public Admin Admin { get; set; }
 
+        [Required]
+        [MaxLength(100)]
+        public string FullName { get; set; }
 
         [MaxLength(100)]
-        public string? EmployeeNumber { get; set; }
+        public string? Email { get; set; }
+
+        [MaxLength(20)]
+        public string? PhoneNumber { get; set; }
 
         [MaxLength(100)]
-        public string? Specialization { get; set; }
+        public string? Department { get; set; }
 
-        public DateTime HireDate { get; set; }
+        [MaxLength(255)]
+        public string? Address { get; set; }
 
-        public bool IsActive { get; set; } = true;
+        [MaxLength(300)]
+        public string? PhotoUrl { get; set; }
 
-        // Navigation properties
+        // Navigation 
         public ICollection<Course> Courses { get; set; } = new List<Course>();
-        public ICollection<Grade> Grades { get; set; } = new List<Grade>();
+        // public ICollection<Grade> Grades { get; set; } = new List<Grade>();
     }
 }

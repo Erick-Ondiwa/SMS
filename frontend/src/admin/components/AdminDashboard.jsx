@@ -75,9 +75,10 @@ const AdminDashboard = () => {
         <nav className={styles.nav}>
           <ul>
             <li><a href="/admin/dashboard">Dashboard</a></li>
-            <li><a href="/admin/users">Manage Users</a></li>
-            <li><a href="/admin/roles">Assign Roles</a></li>
-            <li><a href="/admin/reports">Reports</a></li>
+            <li><a href="/admin/users">User Management</a></li>
+            <li><a href="/admin/roles">Role Management</a></li>
+            <li><a href="/admin/students">Students</a></li>
+            <li><a href="/admin/teachers">Teachers</a></li>
           </ul>
         </nav>
       </aside>
