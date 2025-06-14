@@ -33,8 +33,8 @@ namespace schoolManagement.API.Models
         [MaxLength(20)]
         public string Level { get; set; } = string.Empty;
 
-        [Required]
-        public string TeacherId { get; set; }
+        //[Required]
+        public string? TeacherId { get; set; }
 
         [ForeignKey(nameof(TeacherId))]
         public Teacher? Teacher { get; set; }

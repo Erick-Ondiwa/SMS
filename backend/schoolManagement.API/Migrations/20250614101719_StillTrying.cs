@@ -262,7 +262,7 @@ namespace schoolManagement.API.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     EnrollmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ParentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ParentId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     PhotoUrl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
@@ -302,7 +302,7 @@ namespace schoolManagement.API.Migrations
                     CreditHours = table.Column<int>(type: "int", nullable: false),
                     Semester = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Level = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    TeacherId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    TeacherId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {

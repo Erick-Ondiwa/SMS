@@ -7,9 +7,13 @@ namespace schoolManagement.API.Dtos
     {
         public string? StudentId { get; set; } // Optional, for update scenarios
 
-        [Required]
+        // [Required]
         [MaxLength(100)]
         public string FullName { get; set; }
+
+           // ⬇️ These should be mapped from the linked AspNetUser
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         [Required]
         [MaxLength(50)]

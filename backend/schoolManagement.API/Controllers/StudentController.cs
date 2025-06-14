@@ -13,7 +13,7 @@ namespace schoolManagement.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class StudentsController : ControllerBase
     {
         private readonly SchoolDbContext _context;
@@ -28,20 +28,21 @@ namespace schoolManagement.API.Controllers
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetAllStudents()
         {
             var students = await _context.Students
+                .Include(s => s.ApplicationUser) // Include related AspNetUsers data
                 .AsNoTracking()
                 .ToListAsync();
 
             var studentDtos = students.Select(s => new StudentDto
             {
                 StudentId = s.StudentId,
-                FullName = s.FullName,
+                FullName = $"{s.User?.FirstName} {s.User?.LastName}".Trim(), // Combine names
                 AdmissionNumber = s.AdmissionNumber,
                 DateOfBirth = s.DateOfBirth,
                 Gender = s.Gender,
                 EnrollmentDate = s.EnrollmentDate,
                 ParentId = s.ParentId,
                 Address = s.Address,
-                PhoneNumber = s.PhoneNumber,
+                PhoneNumber = s.User?.PhoneNumber ?? s.PhoneNumber, // Prefer phone from User
                 PhotoUrl = s.PhotoUrl,
                 UserId = s.UserId
             }).ToList();
@@ -54,22 +55,23 @@ namespace schoolManagement.API.Controllers
         public async Task<ActionResult<StudentDto>> GetStudent(string id)
         {
             var student = await _context.Students
+                .Include(s => s.ApplicationUser)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(s => s.StudentId == id);
+                .FirstOrDefaultAsync(s => s.StudentId.ToString() == id);
 
             if (student == null) return NotFound();
 
             var dto = new StudentDto
             {
                 StudentId = student.StudentId,
-                FullName = student.FullName,
+                FullName = $"{student.ApplicationUser?.FirstName} {student.User?.LastName}".Trim(),
                 AdmissionNumber = student.AdmissionNumber,
                 DateOfBirth = student.DateOfBirth,
                 Gender = student.Gender,
                 EnrollmentDate = student.EnrollmentDate,
                 ParentId = student.ParentId,
                 Address = student.Address,
-                PhoneNumber = student.PhoneNumber,
+                PhoneNumber = student.ApplicationUser?.PhoneNumber ?? student.PhoneNumber,
                 PhotoUrl = student.PhotoUrl,
                 UserId = student.UserId
             };
@@ -81,20 +83,16 @@ namespace schoolManagement.API.Controllers
         [HttpPost]
         public async Task<ActionResult<StudentDto>> CreateStudent(StudentDto dto)
         {
-            // Optional: Ensure AdmissionNumber is unique
             if (!string.IsNullOrEmpty(dto.AdmissionNumber))
             {
                 var exists = await _context.Students.AnyAsync(s => s.AdmissionNumber == dto.AdmissionNumber);
                 if (exists)
-                {
                     return BadRequest("Admission number already exists.");
-                }
             }
 
             var student = new Student
             {
                 StudentId = dto.StudentId,
-                FullName = dto.FullName,
                 AdmissionNumber = dto.AdmissionNumber,
                 DateOfBirth = dto.DateOfBirth,
                 Gender = dto.Gender,
@@ -109,22 +107,26 @@ namespace schoolManagement.API.Controllers
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
+            // Refetch with user info
+            var created = await _context.Students.Include(s => s.ApplicationUser)
+                .FirstOrDefaultAsync(s => s.StudentId == student.StudentId);
+
             var result = new StudentDto
             {
-                StudentId = student.StudentId,
-                FullName = student.FullName,
-                AdmissionNumber = student.AdmissionNumber,
-                DateOfBirth = student.DateOfBirth,
-                Gender = student.Gender,
-                EnrollmentDate = student.EnrollmentDate,
-                ParentId = student.ParentId,
-                Address = student.Address,
-                PhoneNumber = student.PhoneNumber,
-                PhotoUrl = student.PhotoUrl,
-                UserId = student.UserId
+                StudentId = created.StudentId,
+                FullName = $"{created.ApplicationUser?.FirstName} {created.ApplicationUser?.LastName}".Trim(),
+                AdmissionNumber = created.AdmissionNumber,
+                DateOfBirth = created.DateOfBirth,
+                Gender = created.Gender,
+                EnrollmentDate = created.EnrollmentDate,
+                ParentId = created.ParentId,
+                Address = created.Address,
+                PhoneNumber = created.ApplicationUser?.PhoneNumber ?? created.PhoneNumber,
+                PhotoUrl = created.PhotoUrl,
+                UserId = created.UserId
             };
 
-            return CreatedAtAction(nameof(GetStudent), new { id = student.StudentId }, result);
+            return CreatedAtAction(nameof(GetStudent), new { id = result.StudentId }, result);
         }
 
         // PUT: api/students/{id}
@@ -134,7 +136,6 @@ namespace schoolManagement.API.Controllers
             var student = await _context.Students.FindAsync(id);
             if (student == null) return NotFound();
 
-            student.FullName = dto.FullName;
             student.AdmissionNumber = dto.AdmissionNumber;
             student.DateOfBirth = dto.DateOfBirth;
             student.Gender = dto.Gender;
@@ -156,14 +157,12 @@ namespace schoolManagement.API.Controllers
             var student = await _context.Students
                 .Include(s => s.Enrollments)
                 .Include(s => s.Attendances)
-                .FirstOrDefaultAsync(s => s.StudentId == id);
+                .FirstOrDefaultAsync(s => s.StudentId.ToString() == id);
 
             if (student == null) return NotFound();
 
             if (student.Enrollments.Any() || student.Attendances.Any())
-            {
                 return BadRequest("Cannot delete student with associated records.");
-            }
 
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();

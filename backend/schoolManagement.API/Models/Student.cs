@@ -17,13 +17,13 @@ namespace schoolManagement.API.Models
         public ApplicationUser? ApplicationUser { get; set; }
 
 
-        [Required]
+        //[Required]
         [MaxLength(100)]
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
 
-        [Required]
+        //[Required]
         [MaxLength(50)]
-        public string AdmissionNumber { get; set; }
+        public string? AdmissionNumber { get; set; }
 
         [Required]
         public DateTime DateOfBirth { get; set; }
@@ -34,7 +34,7 @@ namespace schoolManagement.API.Models
         public DateTime EnrollmentDate { get; set; } = DateTime.UtcNow;
 
         // Parent info (nullable)
-        public string ParentId { get; set; }
+        public string? ParentId { get; set; }
         public Parent? Parent { get; set; }
 
         [MaxLength(255)]

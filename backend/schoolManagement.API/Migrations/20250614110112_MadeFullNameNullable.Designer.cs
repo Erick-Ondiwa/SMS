@@ -12,8 +12,8 @@ using schoolManagement.API.Data;
 namespace schoolManagement.API.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    [Migration("20250612132004_StillTrying")]
-    partial class StillTrying
+    [Migration("20250614110112_MadeFullNameNullable")]
+    partial class MadeFullNameNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -367,7 +367,6 @@ namespace schoolManagement.API.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("TeacherId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
@@ -501,7 +500,6 @@ namespace schoolManagement.API.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AdmissionNumber")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -512,7 +510,6 @@ namespace schoolManagement.API.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -521,7 +518,6 @@ namespace schoolManagement.API.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("ParentId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhoneNumber")
@@ -681,8 +677,7 @@ namespace schoolManagement.API.Migrations
                     b.HasOne("schoolManagement.API.Models.Teacher", "Teacher")
                         .WithMany("Courses")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Teacher");
                 });
@@ -737,8 +732,7 @@ namespace schoolManagement.API.Migrations
                     b.HasOne("schoolManagement.API.Models.Parent", "Parent")
                         .WithMany("Students")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("schoolManagement.API.Models.ApplicationUser", "ApplicationUser")
                         .WithOne("Student")
