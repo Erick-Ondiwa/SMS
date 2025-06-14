@@ -1,104 +1,116 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './TeacherFormModal.module.css';
 import axios from 'axios';
 import { getUserFromToken } from '../../../utils/Auth';
 
 const TeacherFormModal = ({ teacher, onClose, onRefresh }) => {
-  const isEdit = Boolean(teacher);
   const { user } = getUserFromToken();
 
-  const [form, setForm] = useState({
-    fullName: '',
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
     email: '',
-    phoneNumber: ''
+    phoneNumber: '',
+    department: '',
+    address: '',
+    photoUrl: ''
   });
 
-  const [loading, setLoading] = useState(false);
-
   useEffect(() => {
-    if (isEdit) {
-      setForm({
-        fullName: teacher.fullName || '',
+    if (teacher) {
+      setFormData({
+        firstName: teacher.firstName || '',
+        lastName: teacher.lastName || '',
         email: teacher.email || '',
-        phoneNumber: teacher.phoneNumber || ''
+        phoneNumber: teacher.phoneNumber || '',
+        department: teacher.department || '',
+        address: teacher.address || '',
+        photoUrl: teacher.photoUrl || ''
       });
     }
   }, [teacher]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.fullName.trim()) return alert("Full name is required.");
-
     try {
-      setLoading(true);
-      if (isEdit) {
-        await axios.put(`/api/teachers/${teacher.teacherId}`, form, {
+      if (teacher) {
+        await axios.put(`/api/teachers/${teacher.teacherId}`, formData, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
       } else {
-        await axios.post('/api/teachers', form, {
+        await axios.post('/api/teachers', formData, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
       }
 
-      onRefresh();
       onClose();
+      onRefresh();
     } catch (err) {
       console.error(err);
-      alert("Something went wrong.");
-    } finally {
-      setLoading(false);
+      alert("Something went wrong while saving teacher.");
     }
   };
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
-        <h2 className={styles.title}>{isEdit ? 'Edit Teacher' : 'Add Teacher'}</h2>
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContent}>
+        <h2 className={styles.modalTitle}>{teacher ? 'Edit Teacher' : 'Add Teacher'}</h2>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <label className={styles.label}>
-            Full Name
-            <input
-              type="text"
-              name="fullName"
-              value={form.fullName}
-              onChange={handleChange}
-              className={styles.input}
-              required
-            />
-          </label>
-
-          <label className={styles.label}>
-            Email
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className={styles.input}
-            />
-          </label>
-
-          <label className={styles.label}>
-            Phone Number
-            <input
-              type="tel"
-              name="phoneNumber"
-              value={form.phoneNumber}
-              onChange={handleChange}
-              className={styles.input}
-            />
-          </label>
+          <input
+            name="firstName"
+            placeholder="First Name"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="lastName"
+            placeholder="Last Name"
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <input
+            name="phoneNumber"
+            placeholder="Phone Number"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+          />
+          <input
+            name="department"
+            placeholder="Department"
+            value={formData.department}
+            onChange={handleChange}
+          />
+          <input
+            name="address"
+            placeholder="Address"
+            value={formData.address}
+            onChange={handleChange}
+          />
+          <input
+            name="photoUrl"
+            placeholder="Photo URL"
+            value={formData.photoUrl}
+            onChange={handleChange}
+          />
 
           <div className={styles.actions}>
-            <button type="submit" className={styles.submitBtn} disabled={loading}>
-              {loading ? 'Saving...' : isEdit ? 'Update' : 'Create'}
+            <button type="submit" className={styles.saveBtn}>
+              {teacher ? 'Update' : 'Add'}
             </button>
             <button type="button" className={styles.cancelBtn} onClick={onClose}>
               Cancel

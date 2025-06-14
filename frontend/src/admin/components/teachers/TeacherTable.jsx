@@ -1,43 +1,43 @@
 import React from 'react';
-import TeacherRow from './TeacherRow';
 import styles from './TeacherTable.module.css';
 
 const TeacherTable = ({ teachers, onEdit, onDelete, isAdmin }) => {
   return (
-    <div className={styles.wrapper} role="region" aria-labelledby="teacher-heading">
-      <h2 id="teacher-heading" className={styles.srOnly}>Teacher Table</h2>
-
-      <table className={styles.table}>
-        <thead className={styles.thead}>
-          <tr>
-            <th className={styles.th}>Name</th>
-            <th className={styles.th}>Email</th>
-            <th className={`${styles.th} ${styles.right}`}>Phone</th>
-            {isAdmin && <th className={styles.th}>Actions</th>}
-          </tr>
-        </thead>
-
-        <tbody>
-          {teachers.length > 0 ? (
-            teachers.map((teacher) => (
-              <TeacherRow
-                key={teacher.teacherId}
-                teacher={teacher}
-                onEdit={onEdit}
-                onDelete={onDelete}
-                isAdmin={isAdmin}
-              />
-            ))
-          ) : (
-            <tr>
-              <td colSpan={isAdmin ? 4 : 3} className={styles.emptyRow}>
-                No teachers found.
+    <table className={styles.table}>
+      <thead className={styles.thead}>
+        <tr>
+          <th className={styles.th}>Name</th>
+          <th className={styles.th}>Email</th>
+          <th className={styles.th}>Phone</th>
+          <th className={styles.th}>Department</th>
+          <th className={styles.th}>Address</th>
+          {isAdmin && <th className={styles.th}>Actions</th>}
+        </tr>
+      </thead>
+      <tbody>
+        {teachers.map((teacher) => (
+          <tr key={teacher.teacherId} className={styles.row}>
+            <td className={styles.td}>{teacher.fullName || 'N/A'}</td>
+            <td className={styles.td}>{teacher.email || 'N/A'}</td>
+            <td className={styles.td}>{teacher.phoneNumber || 'N/A'}</td>
+            <td className={styles.td}>{teacher.department || 'N/A'}</td>
+            <td className={styles.td}>{teacher.address || 'N/A'}</td>
+            {isAdmin && (
+              <td className={styles.td}>
+                <div className={styles.actions}>
+                  <button onClick={() => onEdit(teacher)} className={styles.editBtn}>
+                    Edit
+                  </button>
+                  <button onClick={() => onDelete(teacher.teacherId)} className={styles.deleteBtn}>
+                    Delete
+                  </button>
+                </div>
               </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+            )}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
 

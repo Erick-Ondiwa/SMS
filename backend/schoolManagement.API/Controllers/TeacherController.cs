@@ -2,13 +2,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using schoolManagement.API.Data;
-using schoolManagement.API.DTOs;
+using schoolManagement.API.Dtos;
 using schoolManagement.API.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace schoolManagement.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    //[Authorize(Roles = "Admin")]
     public class TeachersController : ControllerBase
     {
         private readonly SchoolDbContext _context;
@@ -20,44 +25,49 @@ namespace schoolManagement.API.Controllers
 
         // GET: api/teachers
         [HttpGet]
-        [Authorize]
-        public async Task<ActionResult<IEnumerable<TeacherDto>>> GetTeachers()
+        public async Task<ActionResult<IEnumerable<TeacherDto>>> GetAllTeachers()
         {
             var teachers = await _context.Teachers
-                .Select(t => new TeacherDto
-                {
-                    TeacherId = t.TeacherId,
-                    FullName = t.FullName,
-                    Email = t.Email,
-                    PhoneNumber = t.PhoneNumber,
-                    Department = t.Department,
-                    Address = t.Address,
-                    PhotoUrl = t.PhotoUrl
-                })
+                .Include(t => t.ApplicationUser)
+                .AsNoTracking()
                 .ToListAsync();
 
-            return Ok(teachers);
+            var teacherDtos = teachers.Select(t => new TeacherDto
+            {
+                TeacherId = t.TeacherId,
+                FullName = $"{t.ApplicationUser?.FirstName} {t.ApplicationUser?.LastName}".Trim(),
+                Department = t.Department,
+                Email = t.Email,
+                Address = t.Address,
+                PhoneNumber = t.ApplicationUser?.PhoneNumber ?? t.PhoneNumber,
+                PhotoUrl = t.PhotoUrl,
+                UserId = t.UserId
+            }).ToList();
+
+            return Ok(teacherDtos);
         }
 
         // GET: api/teachers/{id}
         [HttpGet("{id}")]
-        [Authorize]
         public async Task<ActionResult<TeacherDto>> GetTeacher(string id)
         {
-            var teacher = await _context.Teachers.FindAsync(id);
+            var teacher = await _context.Teachers
+                .Include(t => t.ApplicationUser)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(t => t.TeacherId == id);
 
-            if (teacher == null)
-                return NotFound();
+            if (teacher == null) return NotFound();
 
             var dto = new TeacherDto
             {
                 TeacherId = teacher.TeacherId,
-                FullName = teacher.FullName,
-                Email = teacher.Email,
-                PhoneNumber = teacher.PhoneNumber,
+                FullName = $"{teacher.ApplicationUser?.FirstName} {teacher.ApplicationUser?.LastName}".Trim(),
                 Department = teacher.Department,
+                Email = teacher.Email,
                 Address = teacher.Address,
-                PhotoUrl = teacher.PhotoUrl
+                PhoneNumber = teacher.ApplicationUser?.PhoneNumber ?? teacher.PhoneNumber,
+                PhotoUrl = teacher.PhotoUrl,
+                UserId = teacher.UserId
             };
 
             return Ok(dto);
@@ -65,41 +75,56 @@ namespace schoolManagement.API.Controllers
 
         // POST: api/teachers
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<TeacherDto>> CreateTeacher(TeacherDto dto)
         {
             var teacher = new Teacher
             {
-                FullName = dto.FullName,
-                Email = dto.Email,
-                PhoneNumber = dto.PhoneNumber,
+                TeacherId = Guid.NewGuid().ToString(),
                 Department = dto.Department,
+                Email = dto.Email,
                 Address = dto.Address,
-                PhotoUrl = dto.PhotoUrl
+                PhoneNumber = dto.PhoneNumber,
+                PhotoUrl = dto.PhotoUrl,
+                UserId = dto.UserId
             };
 
             _context.Teachers.Add(teacher);
             await _context.SaveChangesAsync();
 
-            dto.TeacherId = teacher.TeacherId;
+            var created = await _context.Teachers
+                .Include(t => t.ApplicationUser)
+                .FirstOrDefaultAsync(t => t.TeacherId == teacher.TeacherId);
 
-            return CreatedAtAction(nameof(GetTeacher), new { id = teacher.TeacherId }, dto);
+            if (created == null) return NotFound("Error retrieving created teacher.");
+
+            var result = new TeacherDto
+            {
+                TeacherId = created.TeacherId,
+                FullName = $"{created.ApplicationUser?.FirstName} {created.ApplicationUser?.LastName}".Trim(),
+                Department = created.Department,
+                Email = created.Email,
+                Address = created.Address,
+                PhoneNumber = created.ApplicationUser?.PhoneNumber ?? created.PhoneNumber,
+                PhotoUrl = created.PhotoUrl,
+                UserId = created.UserId
+            };
+
+            return CreatedAtAction(nameof(GetTeacher), new { id = result.TeacherId }, result);
         }
 
         // PUT: api/teachers/{id}
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateTeacher(string id, TeacherDto dto)
         {
             var teacher = await _context.Teachers.FindAsync(id);
             if (teacher == null) return NotFound();
 
-            teacher.FullName = dto.FullName;
             teacher.Email = dto.Email;
-            teacher.PhoneNumber = dto.PhoneNumber;
             teacher.Department = dto.Department;
             teacher.Address = dto.Address;
+            teacher.PhoneNumber = dto.PhoneNumber;
             teacher.PhotoUrl = dto.PhotoUrl;
+            teacher.UserId = dto.UserId;
 
             await _context.SaveChangesAsync();
             return NoContent();
@@ -107,7 +132,6 @@ namespace schoolManagement.API.Controllers
 
         // DELETE: api/teachers/{id}
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteTeacher(string id)
         {
             var teacher = await _context.Teachers.FindAsync(id);

@@ -2,28 +2,26 @@ import React from 'react';
 import styles from './TeacherRow.module.css';
 
 const TeacherRow = ({ teacher, onEdit, onDelete, isAdmin }) => {
+  const fullName = student.fullName || `${student.firstName ?? ''} ${student.lastName ?? ''}`.trim();
+
   return (
     <tr className={styles.row}>
-      <td className={styles.cell}>{teacher.fullName}</td>
-      <td className={styles.cell}>{teacher.email || 'N/A'}</td>
-      <td className={`${styles.cell} ${styles.right}`}>{teacher.phoneNumber || 'N/A'}</td>
+      <td className={styles.td}>{fullName || 'N/A'}</td>
+      <td className={styles.td}>{teacher.email || 'N/A'}</td>
+      <td className={styles.td}>{teacher.phoneNumber || 'N/A'}</td>
+      <td className={styles.td}>{teacher.department || 'N/A'}</td>
+      <td className={styles.td}>{teacher.address || 'N/A'}</td>
 
       {isAdmin && (
-        <td className={`${styles.cell} ${styles.actions}`}>
-          <button
-            onClick={() => onEdit(teacher)}
-            className={`${styles.btn} ${styles.editBtn}`}
-            aria-label={`Edit ${teacher.fullName}`}
-          >
-            Edit
-          </button>
-          <button
-            onClick={() => onDelete(teacher.teacherId)}
-            className={`${styles.btn} ${styles.deleteBtn}`}
-            aria-label={`Delete ${teacher.fullName}`}
-          >
-            Delete
-          </button>
+        <td className={styles.td}>
+          <div className={styles.actions}>
+            <button onClick={() => onEdit(teacher)} className={styles.editBtn}>
+              Edit
+            </button>
+            <button onClick={() => onDelete(teacher.teacherId)} className={styles.deleteBtn}>
+              Delete
+            </button>
+          </div>
         </td>
       )}
     </tr>
@@ -31,3 +29,4 @@ const TeacherRow = ({ teacher, onEdit, onDelete, isAdmin }) => {
 };
 
 export default TeacherRow;
+
