@@ -35,14 +35,14 @@ namespace schoolManagement.API.Controllers
             var studentDtos = students.Select(s => new StudentDto
             {
                 StudentId = s.StudentId,
-                FullName = $"{s.User?.FirstName} {s.User?.LastName}".Trim(), // Combine names
+                FullName = $"{s.ApplicationUser?.FirstName} {s.ApplicationUser?.LastName}".Trim(), // Combine names
                 AdmissionNumber = s.AdmissionNumber,
                 DateOfBirth = s.DateOfBirth,
                 Gender = s.Gender,
                 EnrollmentDate = s.EnrollmentDate,
                 ParentId = s.ParentId,
                 Address = s.Address,
-                PhoneNumber = s.User?.PhoneNumber ?? s.PhoneNumber, // Prefer phone from User
+                PhoneNumber = s.ApplicationUser?.PhoneNumber ?? s.PhoneNumber, // Prefer phone from User
                 PhotoUrl = s.PhotoUrl,
                 UserId = s.UserId
             }).ToList();
@@ -64,7 +64,7 @@ namespace schoolManagement.API.Controllers
             var dto = new StudentDto
             {
                 StudentId = student.StudentId,
-                FullName = $"{student.ApplicationUser?.FirstName} {student.User?.LastName}".Trim(),
+                FullName = $"{student.ApplicationUser?.FirstName} {student.ApplicationUser?.LastName}".Trim(),
                 AdmissionNumber = student.AdmissionNumber,
                 DateOfBirth = student.DateOfBirth,
                 Gender = student.Gender,

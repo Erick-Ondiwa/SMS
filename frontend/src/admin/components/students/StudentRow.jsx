@@ -2,15 +2,14 @@ import React from 'react';
 import styles from './StudentRow.module.css';
 
 const StudentRow = ({ student, onEdit, onDelete, isAdmin }) => {
-  // Destructure fallback if data is nested under `user`
-  const firstName = student.firstName || student.user?.firstName || '';
-  const lastName = student.lastName || student.user?.lastName || '';
-  const fullName = `${firstName} ${lastName}`.trim();
-
+  const fullName = student.fullName || `${student.firstName ?? ''} ${student.lastName ?? ''}`.trim();
   const admissionNumber = student.admissionNumber || 'N/A';
   const gender = student.gender || 'N/A';
-  const dateOfBirth = student.dateOfBirth ? new Date(student.dateOfBirth).toLocaleDateString() : 'N/A';
-  const phoneNumber = student.phoneNumber || student.user?.phoneNumber || 'N/A';
+  const dateOfBirth =
+    student.dateOfBirth && student.dateOfBirth !== '0001-01-01T00:00:00'
+      ? new Date(student.dateOfBirth).toLocaleDateString()
+      : 'N/A';
+  const phoneNumber = student.phoneNumber || 'N/A';
 
   return (
     <tr className={styles.row}>
@@ -36,6 +35,7 @@ const StudentRow = ({ student, onEdit, onDelete, isAdmin }) => {
 };
 
 export default StudentRow;
+
 
 
 
