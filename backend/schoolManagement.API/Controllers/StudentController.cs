@@ -79,7 +79,7 @@ namespace schoolManagement.API.Controllers
             return Ok(dto);
         }
 
-        // POST: api/students
+        // POST: api/students -------- Creating student ---------
         [HttpPost]
         public async Task<ActionResult<StudentDto>> CreateStudent(StudentDto dto)
         {
@@ -129,7 +129,7 @@ namespace schoolManagement.API.Controllers
             return CreatedAtAction(nameof(GetStudent), new { id = result.StudentId }, result);
         }
 
-        // PUT: api/students/{id}
+        // PUT: api/students/{id} ----------- Updating student -----------
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStudent(string id, StudentDto dto)
         {

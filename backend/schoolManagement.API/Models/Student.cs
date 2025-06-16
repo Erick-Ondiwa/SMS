@@ -20,6 +20,9 @@ namespace schoolManagement.API.Models
         //[Required]
         [MaxLength(100)]
         public string? FullName { get; set; }
+        
+        [MaxLength(100)]
+        public string? Email { get; set; }
 
         //[Required]
         [MaxLength(50)]

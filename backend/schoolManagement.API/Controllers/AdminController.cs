@@ -67,7 +67,7 @@ namespace schoolManagement.API.Controllers
         //     return Ok(activities);
         // }
 
-
+        // Assign Roles
         [HttpPost("roles")]
         public async Task<IActionResult> AssignRole([FromBody] AssignRoleDto model)
         {
@@ -116,46 +116,70 @@ namespace schoolManagement.API.Controllers
             {
                 case "student":
                     if (student == null)
-                        _context.Students.Add(new Student { UserId = user.Id });
+                    {
+                        var fullName = $"{user.FirstName} {user.LastName}".Trim();
+                        _context.Students.Add(new Student
+                        {
+                            UserId = user.Id,
+                            FullName = fullName,
+                            Email = user.Email,
+                            PhoneNumber = user.PhoneNumber
+                            // Address = user.Address
+                        });
+                    }
                     break;
-
+                
                 case "teacher":
                     if (teacher == null)
-                        _context.Teachers.Add(new Teacher { UserId = user.Id });
+                    {
+                        var fullName = $"{user.FirstName} {user.LastName}".Trim();
+                        _context.Teachers.Add(new Teacher
+                        {
+                            UserId = user.Id,
+                            FullName = fullName,
+                            Email = user.Email,
+                            PhoneNumber = user.PhoneNumber
+                            // Address = user.Address
+                        });
+                    }
                     break;
-
+                
                 case "admin":
                     if (admin == null)
-                        _context.Admins.Add(new Admin { UserId = user.Id });
+                    {
+                        var fullName = $"{user.FirstName} {user.LastName}".Trim();
+                        _context.Admins.Add(new Admin
+                        {
+                            UserId = user.Id,
+                            FullName = fullName,
+                            Email = user.Email,
+                            PhoneNumber = user.PhoneNumber
+                            // Address = user.Address
+                        });
+                    }
                     break;
 
                 case "parent":
                     if (parent == null)
-                        _context.Parents.Add(new Parent { UserId = user.Id });
+                    {
+                        var fullName = $"{user.FirstName} {user.LastName}".Trim();
+                        _context.Parents.Add(new Parent
+                        {
+                            UserId = user.Id,
+                            FullName = fullName,
+                            Email = user.Email,
+                            PhoneNumber = user.PhoneNumber
+                            // Address = user.Address
+                        });
+                    }
                     break;
 
                 default:
                     return BadRequest(new { message = $"Unsupported role: {model.Role}" });
             }
 
-            // Extract the user performing the action
-            // var performedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value 
-            //             ?? User.FindFirst("sub")?.Value;
-
-            // // Prepare the activity log
-            // var activity = new AdminActivity
-            // {
-            //     ActivityType = "Role Assigned",
-            //     PerformedBy = performedBy,
-            //     TargetUser = user.Email,
-            //     Description = $"Assigned role '{model.Role}' to {user.Email}.",
-            //     Timestamp = DateTime.UtcNow // optional but useful
-            // };
-
-            // _context.AdminActivities.Add(activity);
-
-            // // Now save all changes at once
-            // await _context.SaveChangesAsync();
+            // Save to database
+            await _context.SaveChangesAsync(); 
 
             return Ok(new { message = $"Role '{model.Role}' assigned to user '{user.UserName}' successfully." });
         }

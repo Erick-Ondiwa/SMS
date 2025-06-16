@@ -75,10 +75,13 @@ namespace schoolManagement.API.Controllers
             var studentExists = await _context.Students.AnyAsync(s => s.UserId == user.Id);
             if (!studentExists)
             {
+                var fullName = $"{user.FirstName} {user.LastName}".Trim();
                 var student = new Student
                 {
                     UserId = user.Id,
-                    // Optionally initialize other student-specific fields
+                    FullName = fullName,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email
                 };
 
                 _context.Students.Add(student);

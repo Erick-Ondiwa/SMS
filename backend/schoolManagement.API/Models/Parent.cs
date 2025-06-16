@@ -17,6 +17,9 @@ namespace schoolManagement.API.Models
         [ForeignKey(nameof(UserId))]
         public ApplicationUser ApplicationUser { get; set; }
 
+        [MaxLength(100)]
+        public string? FullName { get; set; }
+
         [MaxLength(20)]
         public string? PhoneNumber { get; set; }
 
