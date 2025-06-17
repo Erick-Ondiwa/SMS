@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using schoolManagement.API.Data;
@@ -13,7 +12,6 @@ namespace schoolManagement.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize(Roles = "Admin")]
     public class StudentsController : ControllerBase
     {
         private readonly SchoolDbContext _context;
@@ -28,21 +26,21 @@ namespace schoolManagement.API.Controllers
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetAllStudents()
         {
             var students = await _context.Students
-                .Include(s => s.ApplicationUser) // Include related AspNetUsers data
+                .Include(s => s.ApplicationUser)
                 .AsNoTracking()
                 .ToListAsync();
 
             var studentDtos = students.Select(s => new StudentDto
             {
                 StudentId = s.StudentId,
-                FullName = $"{s.ApplicationUser?.FirstName} {s.ApplicationUser?.LastName}".Trim(), // Combine names
+                FullName = $"{s.ApplicationUser?.FirstName} {s.ApplicationUser?.LastName}".Trim(),
                 AdmissionNumber = s.AdmissionNumber,
                 DateOfBirth = s.DateOfBirth,
                 Gender = s.Gender,
                 EnrollmentDate = s.EnrollmentDate,
                 ParentId = s.ParentId,
                 Address = s.Address,
-                PhoneNumber = s.ApplicationUser?.PhoneNumber ?? s.PhoneNumber, // Prefer phone from User
+                PhoneNumber = s.ApplicationUser?.PhoneNumber ?? s.PhoneNumber,
                 PhotoUrl = s.PhotoUrl,
                 UserId = s.UserId
             }).ToList();
@@ -50,14 +48,14 @@ namespace schoolManagement.API.Controllers
             return Ok(studentDtos);
         }
 
-        // GET: api/students/{id}
+        // GET: api/students/{id} // Get specific student
         [HttpGet("{id}")]
         public async Task<ActionResult<StudentDto>> GetStudent(string id)
         {
             var student = await _context.Students
                 .Include(s => s.ApplicationUser)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(s => s.StudentId.ToString() == id);
+                .FirstOrDefaultAsync(s => s.StudentId == id);
 
             if (student == null) return NotFound();
 
@@ -79,9 +77,9 @@ namespace schoolManagement.API.Controllers
             return Ok(dto);
         }
 
-        // POST: api/students -------- Creating student ---------
+        // POST: api/students // Adding a new student
         [HttpPost]
-        public async Task<ActionResult<StudentDto>> CreateStudent(StudentDto dto)
+        public async Task<ActionResult<StudentDto>> CreateStudent([FromBody] StudentDto dto)
         {
             if (!string.IsNullOrEmpty(dto.AdmissionNumber))
             {
@@ -92,12 +90,11 @@ namespace schoolManagement.API.Controllers
 
             var student = new Student
             {
-                StudentId = dto.StudentId,
                 AdmissionNumber = dto.AdmissionNumber,
                 DateOfBirth = dto.DateOfBirth,
                 Gender = dto.Gender,
                 EnrollmentDate = dto.EnrollmentDate ?? DateTime.UtcNow,
-                ParentId = dto.ParentId,
+                ParentId = dto.ParentId == "" ? null : dto.ParentId,
                 Address = dto.Address,
                 PhoneNumber = dto.PhoneNumber,
                 PhotoUrl = dto.PhotoUrl,
@@ -107,7 +104,6 @@ namespace schoolManagement.API.Controllers
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
-            // Refetch with user info
             var created = await _context.Students.Include(s => s.ApplicationUser)
                 .FirstOrDefaultAsync(s => s.StudentId == student.StudentId);
 
@@ -129,7 +125,7 @@ namespace schoolManagement.API.Controllers
             return CreatedAtAction(nameof(GetStudent), new { id = result.StudentId }, result);
         }
 
-        // PUT: api/students/{id} ----------- Updating student -----------
+        // PUT: api/students/{id} // Updating a specific student
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStudent(string id, StudentDto dto)
         {
@@ -140,11 +136,10 @@ namespace schoolManagement.API.Controllers
             student.DateOfBirth = dto.DateOfBirth;
             student.Gender = dto.Gender;
             student.EnrollmentDate = dto.EnrollmentDate ?? student.EnrollmentDate;
-            student.ParentId = dto.ParentId;
+            student.ParentId = dto.ParentId == "" ? null : dto.ParentId;
             student.Address = dto.Address;
             student.PhoneNumber = dto.PhoneNumber;
             student.PhotoUrl = dto.PhotoUrl;
-            student.UserId = dto.UserId;
 
             await _context.SaveChangesAsync();
             return NoContent();
@@ -157,7 +152,7 @@ namespace schoolManagement.API.Controllers
             var student = await _context.Students
                 .Include(s => s.Enrollments)
                 .Include(s => s.Attendances)
-                .FirstOrDefaultAsync(s => s.StudentId.ToString() == id);
+                .FirstOrDefaultAsync(s => s.StudentId == id);
 
             if (student == null) return NotFound();
 

@@ -38,6 +38,8 @@ namespace schoolManagement.API.Models
 
         // Parent info (nullable)
         public string? ParentId { get; set; }
+        
+        [ForeignKey("ParentId")]
         public Parent? Parent { get; set; }
 
         [MaxLength(255)]
