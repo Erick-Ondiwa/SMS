@@ -1,4 +1,3 @@
-// components/students/StudentForm.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './StudentFormModal.module.css';
@@ -6,11 +5,12 @@ import styles from './StudentFormModal.module.css';
 const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
 
 const StudentFormModal = ({ student, onClose, onRefresh }) => {
+  const isEditMode = !!student?.studentId;
+
   const [formData, setFormData] = useState({
     userId: student?.userId || '',
     fullName: student?.fullName || '',
     admissionNumber: student?.admissionNumber || '',
-    // dateOfBirth: formData.dateOfBirth ? formData.dateOfBirth : null,
     dateOfBirth: student?.dateOfBirth?.slice(0, 10) || '',
     gender: student?.gender || '',
     phoneNumber: student?.phoneNumber || '',
@@ -18,9 +18,6 @@ const StudentFormModal = ({ student, onClose, onRefresh }) => {
     parentId: student?.parentId || '',
     photoUrl: student?.photoUrl || ''
   });
-
-  const isEditMode = !!formData?.studentId || !!formData?.userId;
-
 
   const [parents, setParents] = useState([]);
   const [error, setError] = useState('');
@@ -47,21 +44,24 @@ const StudentFormModal = ({ student, onClose, onRefresh }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
     try {
       const token = localStorage.getItem('token');
-      if (student) {
-        await axios.put(`${baseURL}/api/students/${student.studentId}`, formData, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+      const headers = { Authorization: `Bearer ${token}` };
+
+      if (isEditMode) {
+        // PUT for editing existing student
+        await axios.put(`${baseURL}/api/students/${student.studentId}`, formData, { headers });
       } else {
-        await axios.post(`${baseURL}/api/students`, formData, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        // POST for creating new student
+        await axios.post(`${baseURL}/api/students`, formData, { headers });
       }
-      onRefresh();
-      onClose();
+
+      onRefresh?.(); // refresh table/list if applicable
+      onClose();     // close modal
     } catch (err) {
-      setError('❌ Failed to save student. Make sure all required fields are selected.');
+      setError('❌ Failed to save student. Check required fields and try again.');
       console.error(err);
     }
   };
@@ -71,22 +71,21 @@ const StudentFormModal = ({ student, onClose, onRefresh }) => {
       <h2 className={styles.heading}>
         {isEditMode ? 'Edit Student' : 'Add New Student'}
       </h2>
-  
+
       {error && <div className={styles.errorMessage}>{error}</div>}
-  
+
       <form onSubmit={handleSubmit}>
         <div className={styles.inputGroup}>
           <label className={styles.inputLabel}>Full Name</label>
           <input
             name="fullName"
             value={formData.fullName}
-            onChange={handleChange}
+            readOnly
             className={styles.inputField}
-            placeholder="Full Name"
             required
           />
         </div>
-  
+
         <div className={styles.inputGroup}>
           <label className={styles.inputLabel}>Admission Number</label>
           <input
@@ -94,33 +93,20 @@ const StudentFormModal = ({ student, onClose, onRefresh }) => {
             value={formData.admissionNumber}
             onChange={handleChange}
             className={styles.inputField}
-            placeholder="ADM No."
             required
           />
         </div>
-  
+
         <div className={styles.inputGroup}>
           <label className={styles.inputLabel}>Phone Number</label>
           <input
             name="phoneNumber"
             value={formData.phoneNumber}
-            onChange={handleChange}
+            readOnly
             className={styles.inputField}
-            placeholder="Phone"
           />
         </div>
-  
-        {/* <div className={styles.inputGroup}>
-          <label className={styles.inputLabel}>Email</label>
-          <input
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className={styles.inputField}
-            placeholder="Email"
-          />
-        </div> */}
-  
+
         <div className={styles.inputGroup}>
           <label className={styles.inputLabel}>Gender</label>
           <select
@@ -135,7 +121,7 @@ const StudentFormModal = ({ student, onClose, onRefresh }) => {
             <option value="Female">Female</option>
           </select>
         </div>
-  
+
         <div className={styles.inputGroup}>
           <label className={styles.inputLabel}>Date of Birth</label>
           <input
@@ -146,7 +132,7 @@ const StudentFormModal = ({ student, onClose, onRefresh }) => {
             className={styles.inputField}
           />
         </div>
-  
+
         <div className={styles.inputGroup}>
           <label className={styles.inputLabel}>Address</label>
           <input
@@ -154,10 +140,9 @@ const StudentFormModal = ({ student, onClose, onRefresh }) => {
             value={formData.address}
             onChange={handleChange}
             className={styles.inputField}
-            placeholder="Address"
           />
         </div>
-  
+
         <div className={styles.inputGroup}>
           <label className={styles.inputLabel}>Parent</label>
           <select
@@ -165,7 +150,6 @@ const StudentFormModal = ({ student, onClose, onRefresh }) => {
             value={formData.parentId}
             onChange={handleChange}
             className={styles.selectField}
-            // required
           >
             <option value="">Select Parent</option>
             {parents.map((parent) => (
@@ -175,7 +159,7 @@ const StudentFormModal = ({ student, onClose, onRefresh }) => {
             ))}
           </select>
         </div>
-  
+
         <div className={styles.buttonGroup}>
           <button type="submit" className={styles.submitButton}>
             {isEditMode ? 'Update Student' : 'Add Student'}
@@ -191,57 +175,52 @@ const StudentFormModal = ({ student, onClose, onRefresh }) => {
       </form>
     </div>
   );
-  
 };
 
 export default StudentFormModal;
 
 
+// // components/students/StudentForm.jsx
 // import React, { useState, useEffect } from 'react';
-// import styles from './StudentFormModal.module.css';
 // import axios from 'axios';
-// import { getUserFromToken } from '../../../utils/Auth';
+// import styles from './StudentFormModal.module.css';
 
 // const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
 
 // const StudentFormModal = ({ student, onClose, onRefresh }) => {
-//   const { user } = getUserFromToken();
-
-//   console.log(user)
-
 //   const [formData, setFormData] = useState({
-//     firstName: '',
-//     lastName: '',
-//     admissionNumber: '',
-//     dateOfBirth: '',
-//     gender: '',
-//     address: '',
-//     phoneNumber: '',
-//     photoUrl: ''
+//     userId: student?.userId || '',
+//     fullName: student?.fullName || '',
+//     admissionNumber: student?.admissionNumber || '',
+//     // dateOfBirth: formData.dateOfBirth ? formData.dateOfBirth : null,
+//     dateOfBirth: student?.dateOfBirth?.slice(0, 10) || '',
+//     gender: student?.gender || '',
+//     phoneNumber: student?.phoneNumber || '',
+//     address: student?.address || '',
+//     parentId: student?.parentId || '',
+//     photoUrl: student?.photoUrl || ''
 //   });
 
+//   const isEditMode = !!formData?.studentId || !!formData?.userId;
+
+
+//   const [parents, setParents] = useState([]);
+//   const [error, setError] = useState('');
+
 //   useEffect(() => {
-//     if (student) {
-//       const nameParts = (student.fullName || '').split(' ');
-//       const firstName = nameParts[0] || '';
-//       const lastName = nameParts.slice(1).join(' ') || '';
-
-//       setFormData({
-//         firstName,
-//         lastName,
-//         admissionNumber: student.admissionNumber || '',
-//         dateOfBirth: student.dateOfBirth?.split('T')[0] || '',
-//         gender: student.gender || '',
-//         address: student.address || '',
-//         phoneNumber: student.phoneNumber || '',
-
-//         UserId: student.userId,
-//         ParentId: student.ParentId || '',
-
-//         photoUrl: student.photoUrl || ''
-//       });
-//     }
-//   }, [student]);
+//     const fetchParents = async () => {
+//       try {
+//         const token = localStorage.getItem('token');
+//         const response = await axios.get(`${baseURL}/api/parents`, {
+//           headers: { Authorization: `Bearer ${token}` }
+//         });
+//         setParents(response.data);
+//       } catch (err) {
+//         console.error('Failed to fetch parents', err);
+//       }
+//     };
+//     fetchParents();
+//   }, []);
 
 //   const handleChange = (e) => {
 //     const { name, value } = e.target;
@@ -250,105 +229,151 @@ export default StudentFormModal;
 
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
-
 //     try {
-//       const payload = {
-//         ...formData,
-//         fullName: `${formData.firstName} ${formData.lastName}`.trim()
-//       };
-
+//       const token = localStorage.getItem('token');
 //       if (student) {
-//         const token = localStorage.getItem('token');
-//         const response = await axios.put(`${baseURL}/api/students/${student.studentId}`, payload, {
+//         await axios.put(`${baseURL}/api/students/${student.studentId}`, formData, {
 //           headers: { Authorization: `Bearer ${token}` }
-
 //         });
 //       } else {
-        
-//         await axios.post(`${baseURL}/api/students`, payload, {
+//         await axios.post(`${baseURL}/api/students`, formData, {
 //           headers: { Authorization: `Bearer ${token}` }
 //         });
 //       }
-
-//       onClose();
 //       onRefresh();
+//       onClose();
 //     } catch (err) {
+//       setError('❌ Failed to save student. Make sure all required fields are selected.');
 //       console.error(err);
-//       alert("Something went wrong while saving the student.");
 //     }
 //   };
 
 //   return (
-//     <div className={styles.modalOverlay}>
-//       <div className={styles.modalContent}>
-//         <h2 className={styles.modalTitle}>{student ? 'Edit Student' : 'Add Student'}</h2>
-//         <form onSubmit={handleSubmit} className={styles.form}>
+//     <div className={styles.formContainer}>
+//       <h2 className={styles.heading}>
+//         {isEditMode ? 'Edit Student' : 'Add New Student'}
+//       </h2>
+  
+//       {error && <div className={styles.errorMessage}>{error}</div>}
+  
+//       <form onSubmit={handleSubmit}>
+//         <div className={styles.inputGroup}>
+//           <label className={styles.inputLabel}>Full Name</label>
 //           <input
-//             name="firstName"
-//             placeholder="First Name"
-//             value={formData.firstName}
+//             name="fullName"
+//             value={formData.fullName}
 //             onChange={handleChange}
+//             className={styles.inputField}
+//             placeholder="Full Name"
 //             required
 //           />
-//           <input
-//             name="lastName"
-//             placeholder="Last Name"
-//             value={formData.lastName}
-//             onChange={handleChange}
-//             required
-//           />
+//         </div>
+  
+//         <div className={styles.inputGroup}>
+//           <label className={styles.inputLabel}>Admission Number</label>
 //           <input
 //             name="admissionNumber"
-//             placeholder="Admission Number"
 //             value={formData.admissionNumber}
 //             onChange={handleChange}
+//             className={styles.inputField}
+//             placeholder="ADM No."
 //             required
 //           />
+//         </div>
+  
+//         <div className={styles.inputGroup}>
+//           <label className={styles.inputLabel}>Phone Number</label>
+//           <input
+//             name="phoneNumber"
+//             value={formData.phoneNumber}
+//             onChange={handleChange}
+//             className={styles.inputField}
+//             placeholder="Phone"
+//           />
+//         </div>
+  
+//         {/* <div className={styles.inputGroup}>
+//           <label className={styles.inputLabel}>Email</label>
+//           <input
+//             name="email"
+//             value={formData.email}
+//             onChange={handleChange}
+//             className={styles.inputField}
+//             placeholder="Email"
+//           />
+//         </div> */}
+  
+//         <div className={styles.inputGroup}>
+//           <label className={styles.inputLabel}>Gender</label>
+//           <select
+//             name="gender"
+//             value={formData.gender}
+//             onChange={handleChange}
+//             className={styles.selectField}
+//             required
+//           >
+//             <option value="">Select Gender</option>
+//             <option value="Male">Male</option>
+//             <option value="Female">Female</option>
+//           </select>
+//         </div>
+  
+//         <div className={styles.inputGroup}>
+//           <label className={styles.inputLabel}>Date of Birth</label>
 //           <input
 //             type="date"
 //             name="dateOfBirth"
 //             value={formData.dateOfBirth}
 //             onChange={handleChange}
-//             required
+//             className={styles.inputField}
 //           />
-//           <select name="gender" value={formData.gender} onChange={handleChange} required>
-//             <option value="">Select Gender</option>
-//             <option value="Male">Male</option>
-//             <option value="Female">Female</option>
-//           </select>
+//         </div>
+  
+//         <div className={styles.inputGroup}>
+//           <label className={styles.inputLabel}>Address</label>
 //           <input
 //             name="address"
-//             placeholder="Address"
 //             value={formData.address}
 //             onChange={handleChange}
+//             className={styles.inputField}
+//             placeholder="Address"
 //           />
-//           <input
-//             name="phoneNumber"
-//             placeholder="Phone Number"
-//             value={formData.phoneNumber}
+//         </div>
+  
+//         <div className={styles.inputGroup}>
+//           <label className={styles.inputLabel}>Parent</label>
+//           <select
+//             name="parentId"
+//             value={formData.parentId}
 //             onChange={handleChange}
-//           />
-//           <input
-//             name="photoUrl"
-//             placeholder="Photo URL"
-//             value={formData.photoUrl}
-//             onChange={handleChange}
-//           />
-
-//           <div className={styles.actions}>
-//             <button type="submit" className={styles.saveBtn}>
-//               {student ? 'Update' : 'Add'}
-//             </button>
-//             <button type="button" className={styles.cancelBtn} onClick={onClose}>
-//               Cancel
-//             </button>
-//           </div>
-//         </form>
-//       </div>
+//             className={styles.selectField}
+//             // required
+//           >
+//             <option value="">Select Parent</option>
+//             {parents.map((parent) => (
+//               <option key={parent.parentId} value={parent.parentId}>
+//                 {parent.fullName}
+//               </option>
+//             ))}
+//           </select>
+//         </div>
+  
+//         <div className={styles.buttonGroup}>
+//           <button type="submit" className={styles.submitButton}>
+//             {isEditMode ? 'Update Student' : 'Add Student'}
+//           </button>
+//           <button
+//             type="button"
+//             onClick={onClose}
+//             className={styles.cancelButton}
+//           >
+//             Cancel
+//           </button>
+//         </div>
+//       </form>
 //     </div>
 //   );
+  
 // };
 
 // export default StudentFormModal;
-
-

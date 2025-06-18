@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.section}>
-          <h3 className={styles.logo}>EduTrack</h3>
+          <h3 className={styles.logo}>EduHub</h3>
           <p className={styles.text}>
             Empowering schools with efficient digital management tools.
           </p>
@@ -24,13 +24,13 @@ const Footer = () => {
 
         <div className={styles.section}>
           <h4>Contact</h4>
-          <p>Email: support@edutrack.com</p>
+          <p>Email: support@eduhub.com</p>
           <p>Phone: +254 700 123 456</p>
         </div>
       </div>
 
       <div className={styles.bottom}>
-        <p>© {new Date().getFullYear()} EduTrack. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} EduHub. All rights reserved.</p>
       </div>
     </footer>
   );
