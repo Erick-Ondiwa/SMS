@@ -2,7 +2,8 @@ import React from 'react';
 import styles from './TeacherRow.module.css';
 
 const TeacherRow = ({ teacher, onEdit, onDelete, isAdmin }) => {
-  const fullName = student.fullName || `${student.firstName ?? ''} ${student.lastName ?? ''}`.trim();
+  const fullName =
+    teacher.fullName || `${teacher.firstName ?? ''} ${teacher.lastName ?? ''}`.trim();
 
   return (
     <tr className={styles.row}>

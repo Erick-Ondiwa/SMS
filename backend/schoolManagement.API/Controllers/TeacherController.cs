@@ -79,7 +79,7 @@ namespace schoolManagement.API.Controllers
         {
             var teacher = new Teacher
             {
-                TeacherId = Guid.NewGuid().ToString(),
+                TeacherId = dto.TeacherId,
                 Department = dto.Department,
                 Email = dto.Email,
                 Address = dto.Address,

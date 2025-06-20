@@ -42,10 +42,12 @@ namespace schoolManagement.API.Controllers
             foreach (var user in users)
             {
                 var roles = await _userManager.GetRolesAsync(user);
+                //var fullName = $"{user.FirstName} {user.LastName}".Trim();
                 userList.Add(new UserWithRoleDto
                 {
                     Id = user.Id,
                     UserName = user.UserName,
+                    FullName = $"{user.FirstName} {user.LastName}".Trim(),
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
                     Roles = roles.ToList()
@@ -200,6 +202,7 @@ namespace schoolManagement.API.Controllers
     {
         public string Id { get; set; } = string.Empty;
         public string? UserName { get; set; }
+         public string FullName { get; set; }
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
         public List<string> Roles { get; set; } = new();

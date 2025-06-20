@@ -60,11 +60,11 @@ const ManageRoles = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Assign Roles to Users</h2>
+      <h2>Manage Roles</h2>
 
-      <button className={styles.backButton} onClick={() => navigate('/admin/dashboard')}>
+      {/* <button className={styles.backButton} onClick={() => navigate('/admin/dashboard')}>
         ← Back
-      </button>
+      </button> */}
 
 
       {message && <div className={styles.message}>{message}</div>}
@@ -74,6 +74,7 @@ const ManageRoles = () => {
         <table className={styles.table}>
           <thead>
             <tr>
+              <th>Name</th>
               <th>Email</th>
               <th>Current Role(s)</th>
               <th>Assign New Role</th>
@@ -83,6 +84,7 @@ const ManageRoles = () => {
           <tbody>
             {users.map(user => (
               <tr key={user.id}>
+                <td> {user.FirstName}</td>
                 <td>{user.email}</td>
                 <td>{user.roles?.length > 0 ? user.roles.join(', ') : 'None'}</td>
                 <td>

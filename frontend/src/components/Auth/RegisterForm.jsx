@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './RegisterForm.module.css';
+// const RegisterForm = ({ isAdminCreating = false, role = 'Student', onRegisterComplete }) => {
 
-const RegisterForm = ({ isAdminCreating = false, onRegisterComplete }) => {
+
+  const RegisterForm = ({ isAdminCreating = false, role = 'Student', onRegisterComplete }) => {
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -48,35 +51,38 @@ const RegisterForm = ({ isAdminCreating = false, onRegisterComplete }) => {
         password,
         firstName,
         lastName,
-        phoneNumber
+        phoneNumber,
+        role
       };
 
       const { data } = await axios.post('https://localhost:7009/api/Auth/register', payload);
 
       if (isAdminCreating && typeof onRegisterComplete === 'function') {
-        // admin use-case: hand off userId and studentId to parent
         const userId = data.userId;
-
         const fullName = `${firstName} ${lastName}`;
         onRegisterComplete(userId, {
           fullName,
-          phoneNumber
+          firstName,
+          lastName,
+          phoneNumber,
+          email
         });
-
       } else {
-        // regular user use-case
         localStorage.setItem('token', data.token);
         navigate('/login');
       }
     } catch (err) {
-      const message = err?.response?.data?.message || 'Registration failed. Try again.';
+      const message =
+        err?.response?.data?.message ||
+        err?.response?.data?.errors?.[0] ||
+        'Registration failed. Try again.';
       setError(message);
     }
   };
 
   return (
     <form className={styles.container} onSubmit={handleSubmit}>
-      <h2>{isAdminCreating ? 'Add New Student' : 'Create Account'}</h2>
+      <h2>{isAdminCreating ? `Add New ${role}` : 'Create Account'}</h2>
 
       <input
         type="text"
@@ -174,7 +180,7 @@ export default RegisterForm;
 // import axios from 'axios';
 // import styles from './RegisterForm.module.css';
 
-// const RegisterForm = () => {
+// const RegisterForm = ({ isAdminCreating = false, onRegisterComplete }) => {
 //   const navigate = useNavigate();
 
 //   const [formData, setFormData] = useState({
@@ -189,29 +195,56 @@ export default RegisterForm;
 
 //   const [error, setError] = useState('');
 
-//   const handleChange = e => {
+//   const handleChange = (e) => {
 //     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
 //   };
 
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 //     setError('');
-  
-//     const { username, email, password, confirmPassword, firstName, lastName, phoneNumber } = formData;
-  
+
+//     const {
+//       username,
+//       email,
+//       password,
+//       confirmPassword,
+//       firstName,
+//       lastName,
+//       phoneNumber
+//     } = formData;
+
 //     if (password !== confirmPassword) {
 //       setError('Passwords do not match!');
 //       return;
 //     }
-  
+
 //     try {
-//       const payload = { username, email, password, firstName, lastName, phoneNumber };
-  
+//       const payload = {
+//         username,
+//         email,
+//         password,
+//         firstName,
+//         lastName,
+//         phoneNumber
+//       };
+
 //       const { data } = await axios.post('https://localhost:7009/api/Auth/register', payload);
-  
-//       localStorage.setItem('token', data.token);  // Optional: usually you redirect first
-//       navigate('/login'); // You could also redirect to a dashboard if token is valid immediately
-      
+
+//       if (isAdminCreating && typeof onRegisterComplete === 'function') {
+//         // admin use-case: hand off userId and studentId to parent
+//         const userId = data.userId;
+
+//         const fullName = `${firstName} ${lastName}`;
+//         onRegisterComplete(userId, {
+//           fullName,
+//           phoneNumber
+//         });
+
+//       } else {
+//         // regular user use-case
+//         localStorage.setItem('token', data.token);
+//         navigate('/login');
+//       }
 //     } catch (err) {
 //       const message = err?.response?.data?.message || 'Registration failed. Try again.';
 //       setError(message);
@@ -220,7 +253,7 @@ export default RegisterForm;
 
 //   return (
 //     <form className={styles.container} onSubmit={handleSubmit}>
-//       <h2>Create Account</h2>
+//       <h2>{isAdminCreating ? 'Add New Student' : 'Create Account'}</h2>
 
 //       <input
 //         type="text"
@@ -295,15 +328,17 @@ export default RegisterForm;
 //       {error && <div className={styles.error}>{error}</div>}
 
 //       <button type="submit" className={styles.button}>
-//         Register
+//         {isAdminCreating ? 'Register & Proceed' : 'Register'}
 //       </button>
 
-//       <p className={styles.linkText}>
-//         Already have an account?{' '}
-//         <Link to="/login" className={styles.link}>
-//           Login
-//         </Link>
-//       </p>
+//       {!isAdminCreating && (
+//         <p className={styles.linkText}>
+//           Already have an account?{' '}
+//           <Link to="/login" className={styles.link}>
+//             Login
+//           </Link>
+//         </p>
+//       )}
 //     </form>
 //   );
 // };

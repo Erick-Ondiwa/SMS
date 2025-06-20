@@ -1,0 +1,30 @@
+.container {
+  padding: 1rem;
+}
+.title {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th,
+.table td {
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+}
+.table th {
+  background-color: #f1f5f9;
+  font-weight: 600;
+}
+.info {
+  color: #3b82f6;
+}
+.error {
+  color: #ef4444;
+}
+.table tr:nth-child(even) {
+  background-color: #f9fafb;
+}

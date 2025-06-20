@@ -127,6 +127,7 @@ const StudentsPage = () => {
           <div className={styles.modalContent}>
             <RegisterForm
               isAdminCreating={true}
+              role="Student"
               onRegisterComplete={(userId, details) => handleRegisterComplete(userId, details)}
             />
             <button onClick={() => setShowRegisterForm(false)} className={styles.cancelButton}>

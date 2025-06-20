@@ -57,51 +57,65 @@ namespace schoolManagement.API.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
-
             if (!result.Succeeded)
             {
                 var errorMessages = result.Errors.Select(e => e.Description).ToList();
                 return BadRequest(new { message = "User creation failed", errors = errorMessages });
             }
 
-            // Set default role
-            var defaultRole = "Student";
-            if (!await _roleManager.RoleExistsAsync(defaultRole))
-                await _roleManager.CreateAsync(new IdentityRole(defaultRole));
+            // 🔁 Allow custom role, fallback to "Student"
+            var role = string.IsNullOrWhiteSpace(model.Role) ? "Student" : model.Role;
 
-            await _userManager.AddToRoleAsync(user, defaultRole);
+            // Ensure the role exists
+            if (!await _roleManager.RoleExistsAsync(role))
+                await _roleManager.CreateAsync(new IdentityRole(role));
 
-            // ✅ Create Student entry in role-specific table
-            var studentExists = await _context.Students.AnyAsync(s => s.UserId == user.Id);
-            if (!studentExists)
+            await _userManager.AddToRoleAsync(user, role);
+
+            // ✅ Create corresponding role-specific entity
+            var fullName = $"{user.FirstName} {user.LastName}".Trim();
+
+            if (role == "Student")
             {
-                var fullName = $"{user.FirstName} {user.LastName}".Trim();
-                var student = new Student
+                if (!await _context.Students.AnyAsync(s => s.UserId == user.Id))
                 {
-                    UserId = user.Id,
-                    FullName = fullName,
-                    PhoneNumber = user.PhoneNumber,
-                    Email = user.Email
-                };
-
-                _context.Students.Add(student);
-                await _context.SaveChangesAsync();
+                    var student = new Student
+                    {
+                        UserId = user.Id,
+                        FullName = fullName,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber
+                    };
+                    _context.Students.Add(student);
+                }
+            }
+            else if (role == "Teacher")
+            {
+                if (!await _context.Teachers.AnyAsync(t => t.UserId == user.Id))
+                {
+                    var teacher = new Teacher
+                    {
+                        UserId = user.Id,
+                        FullName = fullName,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber
+                        // Additional default fields can be set here if needed
+                    };
+                    _context.Teachers.Add(teacher);
+                }
             }
 
-                // ✅ Log the activity
-            var activity = new AdminActivity
-            {
-                ActivityType = "User Registered",
-                PerformedBy = user.Email, // or "Self-Register"
-                TargetUser = user.Email,
-                Description = $"{user.Email} registered with role 'Student'."
-            };
-            _context.AdminActivities.Add(activity);
             await _context.SaveChangesAsync();
 
             var token = await GenerateJwtToken(user);
 
-            return Ok(new { token });
+            return Ok(new
+            {
+                token,
+                userId = user.Id,
+                fullName,
+                phoneNumber = user.PhoneNumber
+            });
         }
 
         [HttpPost("login")]

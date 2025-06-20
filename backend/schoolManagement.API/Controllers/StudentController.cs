@@ -90,6 +90,7 @@ namespace schoolManagement.API.Controllers
 
             var student = new Student
             {
+                StudentId = dto.StudentId,
                 AdmissionNumber = dto.AdmissionNumber,
                 DateOfBirth = dto.DateOfBirth,
                 Gender = dto.Gender,

@@ -26,5 +26,7 @@ namespace schoolManagement.API.Dtos
         [Phone]
         [MaxLength(20)]
         public string? PhoneNumber { get; set; }
+
+        public string Role { get; set; }
     }
 }
