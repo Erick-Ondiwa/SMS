@@ -39,6 +39,9 @@ namespace schoolManagement.API.Models
         [ForeignKey(nameof(TeacherId))]
         public Teacher? Teacher { get; set; }
 
+        public string Status { get; set; }
+        public DateTime CreatedAt { get; set; }
+
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
         public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
     }

@@ -17,6 +17,7 @@ import TeachersPage from './admin/pages/TeachersPage.jsx';
 import StudentsPage from './admin/pages/StudentsPage.jsx';
 import DashboardHome from './admin/pages/AdminDashboardHome.jsx';
 import ManageUsersPage from './admin/pages/ManageUsersPage.jsx';
+import CoursesPage from './admin/pages/CoursePage.jsx';
 
 import RedirectIfAuthenticated from './routes/RedirectIfAuthenticated.jsx';
 
@@ -50,6 +51,8 @@ function App() {
             <Route path="roles" element={<ManageRolesPage />}/>
             <Route path="teachers"element={<TeachersPage />}/>
             <Route path="students"element={<StudentsPage />}/>
+            <Route path="courses" element={<CoursesPage />} />
+
 
             {/* Add more nested routes here */}
           </Route>

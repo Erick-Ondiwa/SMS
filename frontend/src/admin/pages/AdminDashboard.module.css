@@ -52,9 +52,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
+  background-color: #1e1e2f;
   padding: 20px 30px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.adminInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.profileIcon {
+  font-size: 1.5rem;
+  color: whitesmoke;
+}
+
+.welcomeText {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: white;
+  margin: 0;
 }
 
 .logout {
@@ -205,4 +223,6 @@
   transition: background-color 0.3s ease, color 0.3s ease;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
+
+
 

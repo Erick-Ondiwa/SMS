@@ -1,80 +1,26 @@
 import styles from '../pages/AdminDashboard.module.css';
-import { useNavigate,  NavLink, Outlet } from 'react-router-dom';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import { useNavigate, NavLink, Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
+import { getUserFromToken } from '../../utils/Auth';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
+  const user = getUserFromToken();
 
-  const [activities, setActivities] = useState([]);
-  const [loadingActivities, setLoadingActivities] = useState(false);
-  const [error, setError] = useState('');
-
-  const [stats, setStats] = useState({
-    students: 0,
-    teachers: 0,
-    staff: 0,
-    courses: 0
-  });
+  const displayName =
+    user?.firstName || user?.userName || user?.email || 'Admin';
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) return navigate('/login');
-
-    try {
-      const decoded = jwtDecode(token);
-      const roles = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-      if (!roles?.includes('Admin')) {
-        return navigate('/unauthorized');
-      }
-    } catch (error) {
-      navigate('/login');
+    if (!user) {
+      localStorage.clear();
+      return navigate('/login');
     }
 
-    fetchDashboardData();
-    fetchActivities();
-  }, [navigate]);
-
-  const fetchDashboardData = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const headers = { Authorization: `Bearer ${token}` };
-
-      const [studentsRes, teachersRes, staffRes, coursesRes] = await Promise.all([
-        axios.get(`${baseURL}/api/students`, { headers }),
-        axios.get(`${baseURL}/api/teachers`, { headers }),
-        // axios.get(`${baseURL}/api/staff`, { headers }), // Adjust if staff is under another endpoint
-        // axios.get(`${baseURL}/api/courses`, { headers }),
-      ]);
-
-      setStats({
-        students: studentsRes.data.length,
-        teachers: teachersRes.data.length,
-        // staff: staffRes.data.length,
-        // courses: coursesRes.data.length
-      });
-    } catch (err) {
-      console.error('Failed to load dashboard stats:', err);
+    const roles = user?.roles || [];
+    if (!roles.includes('Admin')) {
+      return navigate('/unauthorized');
     }
-  };
-
-  const fetchActivities = async () => {
-    try {
-      setLoadingActivities(true);
-      const token = localStorage.getItem('token');
-      const headers = { Authorization: `Bearer ${token}` };
-
-      const response = await axios.get(`${baseURL}/api/activity-logs`, { headers });
-      setActivities(response.data || []);
-    } catch (err) {
-      console.error('Failed to load activities:', err);
-      setError('Unable to fetch recent activities.');
-    } finally {
-      setLoadingActivities(false);
-    }
-  };
+  }, [navigate, user]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -88,29 +34,30 @@ const AdminDashboard = () => {
         <h2 className={styles.logo}>Admin Panel</h2>
         <nav className={styles.nav}>
           <ul>
-          <ul>
             <li><NavLink to="dashboard" className={({ isActive }) => isActive ? styles.active : ''}>Dashboard</NavLink></li>
-            <li><NavLink to="users" className={({ isActive }) => isActive ? styles.active : ''}> User Management </NavLink></li>
-            <li><NavLink to="roles" className={({ isActive }) => isActive ? styles.active : ''}>Role Management</NavLink></li>
+            <li><NavLink to="users" className={({ isActive }) => isActive ? styles.active : ''}>Users</NavLink></li>
+            {/* <li><NavLink to="roles" className={({ isActive }) => isActive ? styles.active : ''}>Role Management</NavLink></li> */}
             <li><NavLink to="students" className={({ isActive }) => isActive ? styles.active : ''}>Students</NavLink></li>
             <li><NavLink to="teachers" className={({ isActive }) => isActive ? styles.active : ''}>Teachers</NavLink></li>
             <li><NavLink to="courses" className={({ isActive }) => isActive ? styles.active : ''}>Courses</NavLink></li>
-          </ul>
-
           </ul>
         </nav>
       </aside>
 
       <main className={styles.main}>
         <header className={styles.header}>
-          <h1>Welcome Admin</h1>
+          <div className={styles.adminInfo}>
+            <span className={styles.profileIcon}>👤</span>
+            <h1 className={styles.welcomeText}>
+              Welcome, {displayName}
+            </h1>
+          </div>
           <button onClick={handleLogout} className={styles.logout}>Logout</button>
         </header>
 
         <div className={styles.mainContent}>
           <Outlet />
         </div>
-
       </main>
     </div>
   );
