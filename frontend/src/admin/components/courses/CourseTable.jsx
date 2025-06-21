@@ -1,13 +1,12 @@
-// CourseTable.jsx 
 import React from 'react';
 import CourseRow from './CourseRow';
 import styles from './CourseTable.module.css';
 
-const CourseTable = ({ courses, onEdit }) => (
+const CourseTable = ({ courses, onEdit, onViewDetails }) => (
   <table className={styles.table}>
     <thead>
       <tr>
-      <th>Course Code</th>
+        <th>Course Code</th>
         <th>Title</th>
         <th>Level</th>
         <th>Semester</th>
@@ -19,11 +18,15 @@ const CourseTable = ({ courses, onEdit }) => (
     </thead>
     <tbody>
       {courses.map((course) => (
-        <CourseRow key={course.courseId} course={course} onEdit={onEdit} />
+        <CourseRow
+          key={course.courseId}
+          course={course}
+          onEdit={onEdit}
+          onViewDetails={onViewDetails}
+        />
       ))}
     </tbody>
   </table>
 );
 
-export default CourseTable; 
-
+export default CourseTable;

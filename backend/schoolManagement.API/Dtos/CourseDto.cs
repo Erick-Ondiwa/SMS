@@ -29,12 +29,18 @@ namespace schoolManagement.API.Dtos
         [MaxLength(20)]
         public string Level { get; set; }
 
+        public string Status { get; set; }
+
         public string? TeacherId { get; set; }  // Can be null initially if not assigned
         public string? TeacherName { get; set; }  // Optional for display purposes
-        public string Status { get; set; } //= "Active"
+         //= "Active"
         public DateTime CreatedAt { get; set; }
+
+        public TeacherDto? Teacher { get; set; }
     }
 }
+
+
  
     
     

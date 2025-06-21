@@ -50,6 +50,7 @@ namespace schoolManagement.API.Controllers
                     FullName = $"{user.FirstName} {user.LastName}".Trim(),
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
+                    CreatedAt = user.CreatedAt,
                     Roles = roles.ToList()
                 });
             }
@@ -205,6 +206,7 @@ namespace schoolManagement.API.Controllers
          public string FullName { get; set; }
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
+        public DateTime CreatedAt { get; set; }
         public List<string> Roles { get; set; } = new();
     }
 }

@@ -1,8 +1,7 @@
-// CourseRow.jsx
 import React from 'react';
 import styles from './CourseRow.module.css';
 
-const CourseRow = ({ course, onEdit }) => (
+const CourseRow = ({ course, onEdit, onViewDetails }) => (
   <tr>
     <td>{course.courseCode}</td>
     <td>{course.title}</td>
@@ -12,9 +11,14 @@ const CourseRow = ({ course, onEdit }) => (
     <td>{new Date(course.createdAt).toLocaleDateString()}</td>
     <td>{course.status}</td>
     <td>
-      <button onClick={() => onEdit(course)} className={styles.editBtn}>
-        Edit
-      </button>
+      <div className={styles.buttonGroup}>
+        <button onClick={() => onEdit(course)} className={styles.actionBtn}>
+          Edit
+        </button>
+        <button onClick={() => onViewDetails(course)} className={styles.actionBtn}>
+          View Details
+        </button>
+      </div>
     </td>
   </tr>
 );

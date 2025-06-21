@@ -7,7 +7,12 @@ namespace schoolManagement.API.Dtos
     {
         public string? StudentId { get; set; }
 
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+
         public string? FullName { get; set; }
+
+        public string? Email { get; set; }
 
         public string? AdmissionNumber { get; set; }
 
