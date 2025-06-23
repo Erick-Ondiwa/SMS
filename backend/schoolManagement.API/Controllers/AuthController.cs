@@ -143,8 +143,8 @@ namespace schoolManagement.API.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Email, user.Email ?? ""),
+                new Claim("userId", user.Id ?? ""),
+                new Claim("email", user.Email ?? ""),
                 new Claim("firstName", user.FirstName ?? ""), // Custom claim
                 new Claim("userName", user.UserName ?? ""),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

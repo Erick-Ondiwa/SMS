@@ -1,0 +1,131 @@
+.dashboard {
+  display: flex;
+  height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ==== Sidebar ==== */
+.sidebar {
+  width: 240px;
+  background-color: #002b5b;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #f0f8ff;
+}
+
+.nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav li {
+  margin-bottom: 20px;
+}
+
+.nav a {
+  color: #b0c4de;
+  text-decoration: none;
+  font-size: 1rem;
+  display: block;
+  padding: 10px 15px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.nav a:hover {
+  background-color: #004080;
+  color: #ffffff;
+}
+
+.active {
+  background-color: #0066cc;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ==== Main Content Area ==== */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 0;
+  overflow-y: auto;
+}
+
+/* ==== Header ==== */
+.header {
+  background-color: #f1f5f9;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: 1px solid #dcdcdc;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.welcome {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.profilePic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #0066cc;
+}
+
+.logoutBtn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.logoutBtn:hover {
+  background-color: #b02a37;
+}
+
+/* ==== Main Page Outlet ==== */
+.mainContent {
+  padding: 25px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Scrollbar styling for better UX */
+.mainContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.mainContent::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.mainContent::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}

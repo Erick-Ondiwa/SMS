@@ -72,12 +72,23 @@ const CourseDetailsModal = ({ course, onClose, onRefresh }) => {
         <h2>Course Details</h2>
         <p><strong>Code:</strong> {course.courseCode}</p>
         <p><strong>Title:</strong> {course.title}</p>
+        <p><strong>Program:</strong> {course.program?.name || '—'}</p> {/* ✅ NEW LINE */}
         <p><strong>Description:</strong> {course.description || '—'}</p>
         <p><strong>Level:</strong> {course.level}</p>
         <p><strong>Semester:</strong> {course.semester}</p>
         <p><strong>Status:</strong> {course.status || '—'}</p>
         <p><strong>Teacher:</strong> {course.teacher?.fullName || 'Unassigned'}</p>
         <p><strong>Enrolled Students:</strong> {enrolled.length}</p>
+
+        {/* <h2>Course Details</h2>
+        <p><strong>Code:</strong> {course.courseCode}</p>
+        <p><strong>Title:</strong> {course.title}</p>
+        <p><strong>Description:</strong> {course.description || '—'}</p>
+        <p><strong>Level:</strong> {course.level}</p>
+        <p><strong>Semester:</strong> {course.semester}</p>
+        <p><strong>Status:</strong> {course.status || '—'}</p>
+        <p><strong>Teacher:</strong> {course.teacher?.fullName || 'Unassigned'}</p>
+        <p><strong>Enrolled Students:</strong> {enrolled.length}</p> */}
 
         <div className={styles.enrollSection}>
           <select

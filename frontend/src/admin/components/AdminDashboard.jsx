@@ -40,6 +40,7 @@ const AdminDashboard = () => {
             <li><NavLink to="students" className={({ isActive }) => isActive ? styles.active : ''}>Students</NavLink></li>
             <li><NavLink to="teachers" className={({ isActive }) => isActive ? styles.active : ''}>Teachers</NavLink></li>
             <li><NavLink to="courses" className={({ isActive }) => isActive ? styles.active : ''}>Courses</NavLink></li>
+            <li><NavLink to="programs" className={({ isActive }) => isActive ? styles.active : ''}>Programs</NavLink></li>
           </ul>
         </nav>
       </aside>

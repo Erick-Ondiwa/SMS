@@ -5,6 +5,7 @@ const CourseRow = ({ course, onEdit, onViewDetails }) => (
   <tr>
     <td>{course.courseCode}</td>
     <td>{course.title}</td>
+    <td>{course.program?.name || 'N/A'}</td> {/* ✅ Program name */}
     <td>{course.level}</td>
     <td>{course.semester}</td>
     <td>{course.teacher?.fullName || 'Unassigned'}</td>

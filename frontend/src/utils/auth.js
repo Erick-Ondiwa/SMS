@@ -16,6 +16,7 @@ export const getUserFromToken = () => {
       [];
 
     return {
+      userId: decoded.userId || '',
       email: decoded.email || decoded.unique_name || '',
       firstName: decoded.firstName || '', 
       userName: decoded.userName || '',

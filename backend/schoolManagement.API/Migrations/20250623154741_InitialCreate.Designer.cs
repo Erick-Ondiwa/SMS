@@ -12,8 +12,8 @@ using schoolManagement.API.Data;
 namespace schoolManagement.API.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    [Migration("20250614110112_MadeFullNameNullable")]
-    partial class MadeFullNameNullable
+    [Migration("20250623154741_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,10 +158,43 @@ namespace schoolManagement.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("schoolManagement.API.Models.AcademicProgram", b =>
+                {
+                    b.Property<int>("ProgramId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProgramId"));
+
+                    b.Property<string>("Category")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("DurationInYears")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ProgramId");
+
+                    b.ToTable("AcademicPrograms");
+                });
+
             modelBuilder.Entity("schoolManagement.API.Models.Admin", b =>
                 {
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -169,6 +202,18 @@ namespace schoolManagement.API.Migrations
                     b.Property<string>("Department")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("FullName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -349,6 +394,9 @@ namespace schoolManagement.API.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("CreditHours")
                         .HasColumnType("int");
 
@@ -361,10 +409,17 @@ namespace schoolManagement.API.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int>("ProgramId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Semester")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TeacherId")
                         .HasColumnType("nvarchar(450)");
@@ -375,6 +430,8 @@ namespace schoolManagement.API.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("CourseId");
+
+                    b.HasIndex("ProgramId");
 
                     b.HasIndex("TeacherId");
 
@@ -462,6 +519,10 @@ namespace schoolManagement.API.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("FullName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Occupation")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -506,6 +567,10 @@ namespace schoolManagement.API.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Email")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<DateTime>("EnrollmentDate")
                         .HasColumnType("datetime2");
 
@@ -528,14 +593,25 @@ namespace schoolManagement.API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int?>("ProgramId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Semester")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("YearOfStudy")
+                        .HasColumnType("int");
 
                     b.HasKey("StudentId");
 
                     b.HasIndex("AdminId");
 
                     b.HasIndex("ParentId");
+
+                    b.HasIndex("ProgramId");
 
                     b.HasIndex("UserId")
                         .IsUnique()
@@ -674,10 +750,18 @@ namespace schoolManagement.API.Migrations
 
             modelBuilder.Entity("schoolManagement.API.Models.Course", b =>
                 {
+                    b.HasOne("schoolManagement.API.Models.AcademicProgram", "AcademicProgram")
+                        .WithMany("Courses")
+                        .HasForeignKey("ProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("schoolManagement.API.Models.Teacher", "Teacher")
                         .WithMany("Courses")
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("AcademicProgram");
 
                     b.Navigation("Teacher");
                 });
@@ -734,10 +818,17 @@ namespace schoolManagement.API.Migrations
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("schoolManagement.API.Models.AcademicProgram", "AcademicProgram")
+                        .WithMany("Students")
+                        .HasForeignKey("ProgramId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("schoolManagement.API.Models.ApplicationUser", "ApplicationUser")
                         .WithOne("Student")
                         .HasForeignKey("schoolManagement.API.Models.Student", "UserId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("AcademicProgram");
 
                     b.Navigation("ApplicationUser");
 
@@ -756,6 +847,13 @@ namespace schoolManagement.API.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("schoolManagement.API.Models.AcademicProgram", b =>
+                {
+                    b.Navigation("Courses");
+
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("schoolManagement.API.Models.Admin", b =>

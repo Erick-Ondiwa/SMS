@@ -6,8 +6,14 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import ForgotPasswordForm from './components/Auth/ForgotPasswordForm';
 
+// Student Pages
+import StudentDashboard from './pages/student/StudentDashboard.jsx';
+import StudentHomePage from './pages/student/StudentHomePage.jsx';
+
+// Program Pages
+import ProgramList from './components/programs/ProgramList.jsx';
+
 import ParentDashboardPage from './pages/ParentDashboardPage.jsx';
-import StudentDashboardPage from './pages/StudentDashboardPage.jsx';
 import TeacherDashboardPage from './pages/TeacherDashboardPage.jsx';
 
 // Admin Pages
@@ -37,9 +43,19 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPasswordForm />} />
 
          
-          {/*  -------------- User Dashboards ----------- */}
-          <Route path="/student/dashboard" element={ <StudentDashboardPage /> }/>
+          {/*  -------------- Pages ----------- */}
+                  {/* -------Student Pages */}
+          <Route path="/student" element={<StudentDashboard />}>
+            <Route index element={<StudentHomePage />} />
+            <Route path="dashboard" element={<StudentHomePage />} />
+            {/* <Route path="courses" element={<ViewEnrolledCourses />} />
+            <Route path="grades" element={<ViewGrades />} />
+            <Route path="attendance" element={<ViewAttendance />} /> */}
+          </Route>
+          
+                  {/* -------Teacher Pages */}
           <Route path="/teacher/dashboard" element={<TeacherDashboardPage />}/>
+                  {/* -------Parent Pages */}
           <Route path="/parent/dashboard" element={<ParentDashboardPage />} />
 
           {/* ----------------- Admin Routes --------------- */}
@@ -52,6 +68,7 @@ function App() {
             <Route path="teachers"element={<TeachersPage />}/>
             <Route path="students"element={<StudentsPage />}/>
             <Route path="courses" element={<CoursesPage />} />
+            <Route path="programs" element={<ProgramList />} />
 
 
             {/* Add more nested routes here */}

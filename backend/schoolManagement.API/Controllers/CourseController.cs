@@ -28,6 +28,7 @@ namespace schoolManagement.API.Controllers
                     .ThenInclude(t => t.ApplicationUser)
                 .ToListAsync();
 
+            // Inside GET: api/courses
             return courses.Select(c => new CourseDto
             {
                 CourseId = c.CourseId,
@@ -40,12 +41,21 @@ namespace schoolManagement.API.Controllers
                 CreditHours = c.CreditHours,
                 TeacherId = c.TeacherId,
                 CreatedAt = c.CreatedAt,
+                ProgramId = c.ProgramId, // ✅ NEW
+                AcademicProgram = c.AcademicProgram != null ? new ProgramDto // ✅ NEW
+                {
+                    ProgramId = c.AcademicProgram.ProgramId,
+                    Name = c.AcademicProgram.Name,
+                    Category = c.AcademicProgram.Category,
+                    DurationInYears = c.AcademicProgram.DurationInYears
+                } : null,
                 Teacher = c.Teacher != null ? new TeacherDto
                 {
                     TeacherId = c.Teacher.TeacherId,
                     FullName = c.Teacher.FullName ?? $"{c.Teacher.ApplicationUser?.FirstName} {c.Teacher.ApplicationUser?.LastName}".Trim()
                 } : null
             }).ToList();
+
         }
 
         // GET: api/courses/5
@@ -58,6 +68,7 @@ namespace schoolManagement.API.Controllers
 
             if (course == null) return NotFound();
 
+            // Inside GET: api/courses/{id}
             return new CourseDto
             {
                 CourseId = course.CourseId,
@@ -70,12 +81,23 @@ namespace schoolManagement.API.Controllers
                 CreditHours = course.CreditHours,
                 TeacherId = course.TeacherId,
                 CreatedAt = course.CreatedAt,
+                ProgramId = course.ProgramId, // ✅ NEW
+                AcademicProgram = await _context.AcademicPrograms
+                    .Where(p => p.ProgramId == course.ProgramId)
+                    .Select(p => new ProgramDto
+                    {
+                        ProgramId = p.ProgramId,
+                        Name = p.Name,
+                        Category = p.Category,
+                        DurationInYears = p.DurationInYears
+                    }).FirstOrDefaultAsync(), // ✅ NEW
                 Teacher = course.Teacher != null ? new TeacherDto
                 {
                     TeacherId = course.Teacher.TeacherId,
                     FullName = course.Teacher.FullName ?? $"{course.Teacher.ApplicationUser?.FirstName} {course.Teacher.ApplicationUser?.LastName}".Trim()
                 } : null
             };
+
         }
 
         // POST: api/courses
@@ -92,6 +114,7 @@ namespace schoolManagement.API.Controllers
                 Status = dto.Status,
                 CreditHours = dto.CreditHours,
                 TeacherId = dto.TeacherId,
+                ProgramId = dto.ProgramId,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -115,6 +138,7 @@ namespace schoolManagement.API.Controllers
             course.Level = dto.Level;
             course.Status = dto.Status;
             course.CreditHours = dto.CreditHours;
+            course.ProgramId = dto.ProgramId;
             course.TeacherId = dto.TeacherId;
 
             await _context.SaveChangesAsync();

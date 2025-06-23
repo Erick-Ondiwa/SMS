@@ -6,11 +6,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace schoolManagement.API.Migrations
 {
     /// <inheritdoc />
-    public partial class StillTrying : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AcademicPrograms",
+                columns: table => new
+                {
+                    ProgramId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    DurationInYears = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AcademicPrograms", x => x.ProgramId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AdminActivities",
                 columns: table => new
@@ -99,6 +115,10 @@ namespace schoolManagement.API.Migrations
                 {
                     AdminId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Department = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -204,6 +224,7 @@ namespace schoolManagement.API.Migrations
                 {
                     ParentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Occupation = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -257,20 +278,30 @@ namespace schoolManagement.API.Migrations
                 {
                     StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    AdmissionNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ProgramId = table.Column<int>(type: "int", nullable: true),
+                    YearOfStudy = table.Column<int>(type: "int", nullable: false),
+                    Semester = table.Column<int>(type: "int", nullable: false),
+                    AdmissionNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    EnrollmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    EnrollmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ParentId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     PhotoUrl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    ParentId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     AdminId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Students", x => x.StudentId);
+                    table.ForeignKey(
+                        name: "FK_Students_AcademicPrograms_ProgramId",
+                        column: x => x.ProgramId,
+                        principalTable: "AcademicPrograms",
+                        principalColumn: "ProgramId",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Students_Admins_AdminId",
                         column: x => x.AdminId,
@@ -302,11 +333,20 @@ namespace schoolManagement.API.Migrations
                     CreditHours = table.Column<int>(type: "int", nullable: false),
                     Semester = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Level = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    TeacherId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    TeacherId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ProgramId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Courses", x => x.CourseId);
+                    table.ForeignKey(
+                        name: "FK_Courses_AcademicPrograms_ProgramId",
+                        column: x => x.ProgramId,
+                        principalTable: "AcademicPrograms",
+                        principalColumn: "ProgramId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Courses_Teachers_TeacherId",
                         column: x => x.TeacherId,
@@ -454,6 +494,11 @@ namespace schoolManagement.API.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Courses_ProgramId",
+                table: "Courses",
+                column: "ProgramId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Courses_TeacherId",
                 table: "Courses",
                 column: "TeacherId");
@@ -484,6 +529,11 @@ namespace schoolManagement.API.Migrations
                 name: "IX_Students_ParentId",
                 table: "Students",
                 column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Students_ProgramId",
+                table: "Students",
+                column: "ProgramId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_UserId",
@@ -546,6 +596,9 @@ namespace schoolManagement.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Teachers");
+
+            migrationBuilder.DropTable(
+                name: "AcademicPrograms");
 
             migrationBuilder.DropTable(
                 name: "Parents");

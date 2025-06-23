@@ -8,6 +8,7 @@ const CourseTable = ({ courses, onEdit, onViewDetails }) => (
       <tr>
         <th>Course Code</th>
         <th>Title</th>
+        <th>Program</th> {/* ✅ Added */}
         <th>Level</th>
         <th>Semester</th>
         <th>Teacher</th>
