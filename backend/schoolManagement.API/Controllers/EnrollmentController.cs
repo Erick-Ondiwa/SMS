@@ -20,6 +20,7 @@ public class EnrollmentController : ControllerBase
         _context = context;
     }
 
+    // Enrolling a student
     [HttpPost]
     public async Task<IActionResult> EnrollStudent([FromBody] EnrollmentDto dto)
     {

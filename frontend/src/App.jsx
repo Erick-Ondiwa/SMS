@@ -9,6 +9,7 @@ import ForgotPasswordForm from './components/Auth/ForgotPasswordForm';
 // Student Pages
 import StudentDashboard from './pages/student/StudentDashboard.jsx';
 import StudentHomePage from './pages/student/StudentHomePage.jsx';
+import MyCourses from './pages/student/MyCourses.jsx';
 
 // Program Pages
 import ProgramList from './components/programs/ProgramList.jsx';
@@ -48,9 +49,9 @@ function App() {
           <Route path="/student" element={<StudentDashboard />}>
             <Route index element={<StudentHomePage />} />
             <Route path="dashboard" element={<StudentHomePage />} />
-            {/* <Route path="courses" element={<ViewEnrolledCourses />} />
-            <Route path="grades" element={<ViewGrades />} />
-            <Route path="attendance" element={<ViewAttendance />} /> */}
+            <Route path="courses" element={<MyCourses />} />
+            {/* <Route path="grades" element={<ViewGrades />} />
+            <Route path="attendance" element={<ViewAttendance />} />  */}
           </Route>
           
                   {/* -------Teacher Pages */}

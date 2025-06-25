@@ -26,6 +26,7 @@ namespace schoolManagement.API.Controllers
             var courses = await _context.Courses
                 .Include(c => c.Teacher)
                     .ThenInclude(t => t.ApplicationUser)
+                .Include(c => c.AcademicProgram)
                 .ToListAsync();
 
             // Inside GET: api/courses
@@ -41,8 +42,8 @@ namespace schoolManagement.API.Controllers
                 CreditHours = c.CreditHours,
                 TeacherId = c.TeacherId,
                 CreatedAt = c.CreatedAt,
-                ProgramId = c.ProgramId, // ✅ NEW
-                AcademicProgram = c.AcademicProgram != null ? new ProgramDto // ✅ NEW
+                ProgramId = c.ProgramId, 
+                AcademicProgram = c.AcademicProgram != null ? new ProgramDto
                 {
                     ProgramId = c.AcademicProgram.ProgramId,
                     Name = c.AcademicProgram.Name,

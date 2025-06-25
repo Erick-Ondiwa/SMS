@@ -143,7 +143,7 @@ namespace schoolManagement.API.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim("userId", user.Id ?? ""),
+                new Claim("userId", user.Id ?? ""), // This was the original code
                 new Claim("email", user.Email ?? ""),
                 new Claim("firstName", user.FirstName ?? ""), // Custom claim
                 new Claim("userName", user.UserName ?? ""),

@@ -53,7 +53,7 @@ const DashboardHome = () => {
       <div className={styles.statsGrid}>
         <div className={styles.statCard}><h3>Students</h3><p>{stats.students}</p></div>
         <div className={styles.statCard}><h3>Teachers</h3><p>{stats.teachers}</p></div>
-        <div className={styles.statCard}><h3>Staff</h3><p>{stats.staff}</p></div>
+        <div className={styles.statCard}><h3>Programs</h3><p>{stats.staff}</p></div>
         <div className={styles.statCard}><h3>Courses</h3><p>{stats.courses}</p></div>
       </div>
 

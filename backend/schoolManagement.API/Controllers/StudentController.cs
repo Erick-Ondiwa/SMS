@@ -4,6 +4,7 @@ using schoolManagement.API.Data;
 using schoolManagement.API.Dtos;
 using schoolManagement.API.Models;
 using System;
+using System.Security.Claims;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -95,6 +96,88 @@ namespace schoolManagement.API.Controllers
 
             return Ok(dto);
         }
+        [HttpGet("my-courses")]
+        public async Task<ActionResult<StudentCourseDto>> GetMyCourses(string userId)
+        {
+            var student = await _context.Students
+                .Include(s => s.ApplicationUser)
+                .Include(s => s.AcademicProgram)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.UserId == userId);
+
+            if (student == null)
+                return NotFound("Student profile not found.");
+
+            // Map to StudentDto
+            var studentDto = new StudentDto
+            {
+                StudentId = student.StudentId,
+                FirstName = student.ApplicationUser?.FirstName,
+                LastName = student.ApplicationUser?.LastName,
+                FullName = $"{student.ApplicationUser?.FirstName} {student.ApplicationUser?.LastName}".Trim(),
+                Email = student.ApplicationUser?.Email ?? student.Email,
+                PhoneNumber = student.ApplicationUser?.PhoneNumber ?? student.PhoneNumber,
+                Address = student.Address,
+                Gender = student.Gender,
+                DateOfBirth = student.DateOfBirth,
+                AdmissionNumber = student.AdmissionNumber,
+                ProgramId = student.ProgramId,
+                ProgramName = student.AcademicProgram?.Name,
+                YearOfStudy = student.YearOfStudy,
+                Semester = student.Semester,
+                EnrollmentDate = student.EnrollmentDate,
+                ParentId = student.ParentId,
+                PhotoUrl = student.PhotoUrl,
+                UserId = student.UserId ?? string.Empty
+            };
+
+            // Get courses
+            var enrolledCourses = await _context.Enrollments
+                .Where(e => e.StudentId == student.StudentId)
+                .Include(e => e.Course)
+                    .ThenInclude(c => c.Teacher)
+                        .ThenInclude(t => t.ApplicationUser)
+                .Include(e => e.Course.AcademicProgram)
+                .Select(e => new CourseDto
+                {
+                    CourseId = e.Course.CourseId,
+                    CourseCode = e.Course.CourseCode,
+                    Title = e.Course.Title,
+                    Description = e.Course.Description,
+                    CreditHours = e.Course.CreditHours,
+                    Semester = e.Course.Semester,
+                    Level = e.Course.Level,
+                    Status = e.Course.Status,
+                    CreatedAt = e.Course.CreatedAt,
+                    TeacherId = e.Course.TeacherId,
+                    Teacher = e.Course.Teacher != null ? new TeacherDto
+                    {
+                        TeacherId = e.Course.Teacher.TeacherId,
+                        FullName = e.Course.Teacher.FullName
+                            ?? (e.Course.Teacher.ApplicationUser != null
+                                ? (e.Course.Teacher.ApplicationUser.FirstName + " " + e.Course.Teacher.ApplicationUser.LastName).Trim()
+                                : string.Empty)
+                    } : null,
+                    ProgramId = e.Course.ProgramId,
+                    AcademicProgram = e.Course.AcademicProgram != null ? new ProgramDto
+                    {
+                        ProgramId = e.Course.AcademicProgram.ProgramId,
+                        Name = e.Course.AcademicProgram.Name,
+                        Category = e.Course.AcademicProgram.Category,
+                        DurationInYears = e.Course.AcademicProgram.DurationInYears,
+                        Description = e.Course.AcademicProgram.Description
+                    } : null
+                })
+                .ToListAsync();
+
+            return Ok(new StudentCourseDto
+            {
+                Student = studentDto,
+                EnrolledCourses = enrolledCourses
+            });
+        }
+
+
 
         [HttpPost]
         public async Task<ActionResult<StudentDto>> CreateStudent([FromBody] StudentDto dto)
