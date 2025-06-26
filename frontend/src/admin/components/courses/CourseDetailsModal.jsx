@@ -72,23 +72,13 @@ const CourseDetailsModal = ({ course, onClose, onRefresh }) => {
         <h2>Course Details</h2>
         <p><strong>Code:</strong> {course.courseCode}</p>
         <p><strong>Title:</strong> {course.title}</p>
-        <p><strong>Program:</strong> {course.academicProgram?.name || '—'}</p> {/* ✅ NEW LINE */}
+        <p><strong>Program:</strong> {course.academicProgram?.name || '—'}</p>
         <p><strong>Description:</strong> {course.description || '—'}</p>
         <p><strong>Level:</strong> {course.level}</p>
         <p><strong>Semester:</strong> {course.semester}</p>
         <p><strong>Status:</strong> {course.status || '—'}</p>
         <p><strong>Teacher:</strong> {course.teacher?.fullName || 'Unassigned'}</p>
         <p><strong>Enrolled Students:</strong> {enrolled.length}</p>
-
-        {/* <h2>Course Details</h2>
-        <p><strong>Code:</strong> {course.courseCode}</p>
-        <p><strong>Title:</strong> {course.title}</p>
-        <p><strong>Description:</strong> {course.description || '—'}</p>
-        <p><strong>Level:</strong> {course.level}</p>
-        <p><strong>Semester:</strong> {course.semester}</p>
-        <p><strong>Status:</strong> {course.status || '—'}</p>
-        <p><strong>Teacher:</strong> {course.teacher?.fullName || 'Unassigned'}</p>
-        <p><strong>Enrolled Students:</strong> {enrolled.length}</p> */}
 
         <div className={styles.enrollSection}>
           <select
@@ -107,16 +97,34 @@ const CourseDetailsModal = ({ course, onClose, onRefresh }) => {
 
         <div className={styles.enrolledList}>
           <h4>Enrolled Students</h4>
-          <ul>
-            {enrolled.map((s) => (
-              <li key={s.studentId}>
-                {`${s.firstName} ${s.lastName}`} ({s.email}){' '}
-                <button onClick={() => handleUnenroll(s.studentId)} className={styles.unenrollBtn}>
-                  Unenroll
-                </button>
-              </li>
-            ))}
-          </ul>
+          {enrolled.length === 0 ? (
+            <p>No students enrolled in this course.</p>
+          ) : (
+            <table className={styles.enrolledTable}>
+              <thead>
+                <tr>
+                  <th>Admission No</th>
+                  <th>Full Name</th>
+                  <th>Enrollment Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {enrolled.map((s) => (
+                  <tr key={s.studentId}>
+                    <td>{s.admissionNumber || 'N/A'}</td>
+                    <td>{`${s.firstName ?? ''} ${s.lastName ?? ''}`.trim()}</td>
+                    <td>{new Date(s.enrollmentDate).toLocaleDateString()}</td>
+                    <td>
+                      <button onClick={() => handleUnenroll(s.studentId)} className={styles.unenrollBtn}>
+                        Unenroll
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
 
         <div className={styles.actions}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './TeacherRow.module.css';
 
-const TeacherRow = ({ teacher, onEdit, onDelete, isAdmin }) => {
+const TeacherRow = ({ teacher, onEdit, onViewDetails, isAdmin }) => {
   const fullName =
     teacher.fullName || `${teacher.firstName ?? ''} ${teacher.lastName ?? ''}`.trim();
 
@@ -19,8 +19,8 @@ const TeacherRow = ({ teacher, onEdit, onDelete, isAdmin }) => {
             <button onClick={() => onEdit(teacher)} className={styles.editBtn}>
               Edit
             </button>
-            <button onClick={() => onDelete(teacher.teacherId)} className={styles.deleteBtn}>
-              Delete
+            <button onClick={() => onViewDetails(teacher)} className={styles.viewDetailsBtn}>
+              View Details
             </button>
           </div>
         </td>

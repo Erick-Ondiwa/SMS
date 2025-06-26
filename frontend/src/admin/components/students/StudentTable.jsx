@@ -2,7 +2,7 @@ import React from 'react';
 import StudentRow from './StudentRow';
 import styles from './StudentTable.module.css';
 
-const StudentTable = ({ students, onEdit, onDelete, isAdmin }) => {
+const StudentTable = ({ students, onEdit, onViewDetails, isAdmin }) => {
   const validStudents = Array.isArray(students) ? students : [];
 
   return (
@@ -25,7 +25,7 @@ const StudentTable = ({ students, onEdit, onDelete, isAdmin }) => {
                 key={student.studentId}
                 student={student}
                 onEdit={onEdit}
-                onDelete={onDelete}
+                onViewDetails={onViewDetails}
                 isAdmin={isAdmin}
               />
             ))

@@ -22,7 +22,10 @@ namespace schoolManagement.API.Dtos
         public string? AdmissionNumber { get; set; }
 
         public int? ProgramId { get; set; }             // FK for POST/PUT
-        public string? ProgramName { get; set; }       // For display in GET
+        public string? Name { get; set; }       // For display in GET
+
+        public ProgramDto? AcademicProgram { get; set; }
+
 
         public int YearOfStudy { get; set; }
         public int Semester { get; set; }

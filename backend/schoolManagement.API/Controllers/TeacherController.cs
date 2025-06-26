@@ -73,6 +73,54 @@ namespace schoolManagement.API.Controllers
             return Ok(dto);
         }
 
+        [HttpGet("{id}/courses")]
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCoursesByTeacher(string id)
+        {
+            var courses = await _context.Courses
+                .Where(c => c.TeacherId == id)
+                .Include(c => c.AcademicProgram) // ✅ Include program
+                .ToListAsync();
+
+            var dto = courses.Select(c => new CourseDto {
+                CourseId = c.CourseId,
+                CourseCode = c.CourseCode,
+                Title = c.Title,
+                Semester = c.Semester,
+                Level = c.Level,
+                CreditHours = c.CreditHours,
+                Status = c.Status,
+                CreatedAt = c.CreatedAt,
+                TeacherId = c.TeacherId,
+                TeacherName = null,
+                Teacher = null,
+                AcademicProgram = c.AcademicProgram != null ? new ProgramDto {
+                    ProgramId = c.AcademicProgram.ProgramId,
+                    Name = c.AcademicProgram.Name,
+                    Category = c.AcademicProgram.Category,
+                    DurationInYears = c.AcademicProgram.DurationInYears
+                } : null
+            }).ToList();
+
+            return Ok(dto);
+        }
+
+        // TeachersController.cs
+        [HttpDelete("{teacherId}/courses/{courseId}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RemoveCourseFromTeacher(string teacherId, int courseId)
+        {
+            var course = await _context.Courses
+                .FirstOrDefaultAsync(c => c.CourseId == courseId && c.TeacherId == teacherId);
+
+            if (course == null) return NotFound("Course not assigned to this teacher.");
+
+            course.TeacherId = null;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         // POST: api/teachers
         [HttpPost]
         public async Task<ActionResult<TeacherDto>> CreateTeacher(TeacherDto dto)

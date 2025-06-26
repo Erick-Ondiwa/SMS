@@ -1,0 +1,143 @@
+/* TeacherDetailsModal.module.css */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.modal {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: #333;
+  text-align: center;
+}
+
+h3 {
+  font-size: 20px;
+  margin: 24px 0 12px;
+  color: #444;
+}
+
+p {
+  font-size: 16px;
+  color: #555;
+  margin: 8px 0;
+}
+
+strong {
+  color: #222;
+}
+
+.courseList {
+  list-style: disc;
+  padding-left: 20px;
+  color: #444;
+  font-size: 15px;
+}
+
+.courseList li {
+  margin-bottom: 6px;
+}
+
+.noCourses {
+  font-style: italic;
+  color: #999;
+  font-size: 15px;
+}
+
+.courseTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.courseTable th,
+.courseTable td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.removeBtn {
+  padding: 6px 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.removeBtn:hover {
+  background-color: #c0392b;
+}
+
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.deleteBtn {
+  background-color: #d32f2f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.deleteBtn:hover {
+  background-color: #b71c1c;
+}
+
+.closeBtn {
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.closeBtn:hover {
+  background-color: #5a6268;
+}
+

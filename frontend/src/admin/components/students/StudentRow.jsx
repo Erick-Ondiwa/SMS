@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './StudentRow.module.css';
 
-const StudentRow = ({ student, onEdit, onDelete, isAdmin }) => {
+const StudentRow = ({ student, onEdit, onViewDetails, isAdmin }) => {
   const fullName = student.fullName || `${student.firstName ?? ''} ${student.lastName ?? ''}`.trim();
   const admissionNumber = student.admissionNumber || 'N/A';
   const gender = student.gender || 'N/A';
@@ -24,8 +24,8 @@ const StudentRow = ({ student, onEdit, onDelete, isAdmin }) => {
             <button onClick={() => onEdit(student)} className={styles.editBtn}>
               Edit
             </button>
-            <button onClick={() => onDelete(student.studentId)} className={styles.deleteBtn}>
-              Delete
+            <button onClick={() => onViewDetails(student)} className={styles.viewDetailsBtn}>
+              View Details
             </button>
           </div>
         </td>
@@ -35,3 +35,4 @@ const StudentRow = ({ student, onEdit, onDelete, isAdmin }) => {
 };
 
 export default StudentRow;
+

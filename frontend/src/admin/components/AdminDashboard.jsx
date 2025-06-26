@@ -36,7 +36,6 @@ const AdminDashboard = () => {
           <ul>
             <li><NavLink to="dashboard" className={({ isActive }) => isActive ? styles.active : ''}>Dashboard</NavLink></li>
             <li><NavLink to="users" className={({ isActive }) => isActive ? styles.active : ''}>Users</NavLink></li>
-            {/* <li><NavLink to="roles" className={({ isActive }) => isActive ? styles.active : ''}>Role Management</NavLink></li> */}
             <li><NavLink to="students" className={({ isActive }) => isActive ? styles.active : ''}>Students</NavLink></li>
             <li><NavLink to="teachers" className={({ isActive }) => isActive ? styles.active : ''}>Teachers</NavLink></li>
             <li><NavLink to="courses" className={({ isActive }) => isActive ? styles.active : ''}>Courses</NavLink></li>
@@ -49,8 +48,9 @@ const AdminDashboard = () => {
         <header className={styles.header}>
           <div className={styles.adminInfo}>
             <span className={styles.profileIcon}>👤</span>
+
             <h1 className={styles.welcomeText}>
-              Welcome, {displayName}
+              Welcome, <span className={styles.nameAccent}>{displayName}</span>
             </h1>
           </div>
           <button onClick={handleLogout} className={styles.logout}>Logout</button>
