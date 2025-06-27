@@ -134,21 +134,10 @@ namespace schoolManagement.API.Controllers
             return courses;
         }
 
-        [HttpGet("my-courses")]
-        //[Authorize(Roles = "Student")]
-        public async Task<ActionResult<IEnumerable<CourseDto>>> GetMyCourses()
+       [HttpGet("my-courses/{userId}")]
+        // [Authorize(Roles = "Student")]
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetMyCourses(string userId)
         {
-            
-            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
-            Console.WriteLine("User Claims:");
-            foreach (var claim in claims)
-            {
-                Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
-            }
-
-            var userId = User.FindFirst("UserId")?.Value;
-            Console.WriteLine("Extracted userId from claim: " + userId);
-
             var student = await _context.Students
                 .Include(s => s.Enrollments)
                     .ThenInclude(e => e.Course)
@@ -158,7 +147,8 @@ namespace schoolManagement.API.Controllers
                         .ThenInclude(c => c.AcademicProgram)
                 .FirstOrDefaultAsync(s => s.UserId == userId);
 
-            if (student == null) return NotFound("Student not found");
+            if (student == null)
+                return NotFound("Student not found");
 
             var enrolledCourses = student.Enrollments.Select(e => new CourseDto
             {
@@ -185,6 +175,7 @@ namespace schoolManagement.API.Controllers
 
             return Ok(enrolledCourses);
         }
+
 
         [HttpDelete("{studentId}/courses/{courseId}")]
         //[Authorize(Roles = "Admin")]

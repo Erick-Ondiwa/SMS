@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserFromToken } from '../../utils/Auth';
 import { logout } from '../../utils/authService';
@@ -21,7 +21,7 @@ const TeacherDashboard = () => {
     } catch (error) {
       navigate('/login');
     }
-  }, [navigate]);
+  }, [navigate, user]);
 
   const displayName =
     user?.firstName || user?.userName || user?.email || 'Teacher';

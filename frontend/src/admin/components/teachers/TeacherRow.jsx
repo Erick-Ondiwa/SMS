@@ -1,33 +1,33 @@
-import React from 'react';
-import styles from './TeacherRow.module.css';
+// import React from 'react';
+// import styles from './TeacherRow.module.css';
 
-const TeacherRow = ({ teacher, onEdit, onViewDetails, isAdmin }) => {
-  const fullName =
-    teacher.fullName || `${teacher.firstName ?? ''} ${teacher.lastName ?? ''}`.trim();
+// const TeacherRow = ({ teacher, onEdit, onViewDetails, isAdmin }) => {
+//   const fullName =
+//     teacher.fullName || `${teacher.firstName ?? ''} ${teacher.lastName ?? ''}`.trim();
 
-  return (
-    <tr className={styles.row}>
-      <td className={styles.td}>{fullName || 'N/A'}</td>
-      <td className={styles.td}>{teacher.email || 'N/A'}</td>
-      <td className={styles.td}>{teacher.phoneNumber || 'N/A'}</td>
-      <td className={styles.td}>{teacher.department || 'N/A'}</td>
-      <td className={styles.td}>{teacher.address || 'N/A'}</td>
+//   return (
+//     <tr className={styles.row}>
+//       <td className={styles.td}>{fullName || 'N/A'}</td>
+//       <td className={styles.td}>{teacher.email || 'N/A'}</td>
+//       <td className={styles.td}>{teacher.phoneNumber || 'N/A'}</td>
+//       <td className={styles.td}>{teacher.department || 'N/A'}</td>
+//       <td className={styles.td}>{teacher.address || 'N/A'}</td>
 
-      {isAdmin && (
-        <td className={styles.td}>
-          <div className={styles.actions}>
-            <button onClick={() => onEdit(teacher)} className={styles.editBtn}>
-              Edit
-            </button>
-            <button onClick={() => onViewDetails(teacher)} className={styles.viewDetailsBtn}>
-              View Details
-            </button>
-          </div>
-        </td>
-      )}
-    </tr>
-  );
-};
+//       {isAdmin && (
+//         <td className={styles.td}>
+//           <div className={styles.actions}>
+//             <button onClick={() => onEdit(teacher)} className={styles.editBtn}>
+//               Edit
+//             </button>
+//             <button onClick={() => onViewDetails(teacher)} className={styles.viewDetailsBtn}>
+//               View Details
+//             </button>
+//           </div>
+//         </td>
+//       )}
+//     </tr>
+//   );
+// };
 
-export default TeacherRow;
+// export default TeacherRow;
 

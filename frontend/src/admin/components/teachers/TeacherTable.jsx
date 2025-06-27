@@ -33,7 +33,7 @@ const TeacherTable = ({ teachers, onEdit, onViewDetails, isAdmin }) => {
                     <button onClick={() => onEdit(teacher)} className={styles.editBtn}>
                       Edit
                     </button>
-                    <button onClick={() => onViewDetails(teacher)} className={styles.viewBtn}>
+                    <button onClick={() => onViewDetails(teacher)} className={styles.viewDetailsBtn}>
                       View Details
                     </button>
                   </div>

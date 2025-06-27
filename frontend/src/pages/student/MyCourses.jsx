@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import styles from './MyCourses.module.css'; // Create this CSS file for styling
-
+import styles from './MyCourses.module.css';
+import { getUserFromToken } from '../../utils/Auth';
 const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
 
 const MyCourses = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const user = getUserFromToken();
 
   useEffect(() => {
     fetchEnrolledCourses();
@@ -16,8 +18,8 @@ const MyCourses = () => {
   const fetchEnrolledCourses = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await axios.get(`${baseURL}/api/students/my-courses`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const res = await axios.get(`${baseURL}/api/students/my-courses/${user.userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
       });
       setCourses(res.data);
     } catch (err) {

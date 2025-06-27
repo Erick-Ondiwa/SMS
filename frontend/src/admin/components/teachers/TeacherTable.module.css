@@ -23,39 +23,60 @@
   color: #374151;
 }
 
+.row {
+  background-color: #fff;
+  transition: background-color 0.2s ease;
+}
+
 .row:hover {
-  background-color: #f9fafb;
+  background-color: #f9f9f9;
+}
+
+.td {
+  padding: 12px 16px;
+  font-size: 15px;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+  text-align: left;
+  max-width: 200px;
+  word-break: break-word;
 }
 
 .actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 10px;
+  justify-content: flex-start;
+  /* flex-wrap: wrap; */
+}
+
+.editBtn,
+.viewDetailsBtn {
+  padding: 4px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  min-width: 100px;
 }
 
 .editBtn {
-  background-color: #3b82f6;
-  color: white;
-  padding: 0.4rem 0.75rem;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  border: none;
-  cursor: pointer;
-}
-
-.deleteBtn {
-  background-color: #ef4444;
-  color: white;
-  padding: 0.4rem 0.75rem;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  border: none;
-  cursor: pointer;
+  background-color: #1976d2;
+  color: #fff;
 }
 
 .editBtn:hover {
-  background-color: #2563eb;
+  background-color: #1565c0;
+  transform: scale(1.03);
 }
 
-.deleteBtn:hover {
-  background-color: #dc2626;
+.viewDetailsBtn {
+  background-color: #43a047;
+  color: #fff;
+}
+
+.viewDetailsBtn:hover {
+  background-color: #388e3c;
+  transform: scale(1.03);
 }

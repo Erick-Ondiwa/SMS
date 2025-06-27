@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import styles from './AdminDashboard.module.css';
 
 const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
 
 const DashboardHome = () => {
-  const [stats, setStats] = useState({ students: 0, teachers: 0, staff: 0, courses: 0 });
+  const [stats, setStats] = useState({ students: 0, teachers: 0, programs: 0, courses: 0 });
   const [activities, setActivities] = useState([]);
   const [error, setError] = useState('');
 
@@ -15,15 +16,17 @@ const DashboardHome = () => {
 
     const fetchStats = async () => {
       try {
-        const [students, teachers] = await Promise.all([
+        const [students, teachers, programs, courses] = await Promise.all([
           axios.get(`${baseURL}/api/students`, { headers }),
-          axios.get(`${baseURL}/api/teachers`, { headers })
+          axios.get(`${baseURL}/api/teachers`, { headers }),
+          axios.get(`${baseURL}/api/programs`, { headers }),
+          axios.get(`${baseURL}/api/courses`, { headers })
         ]);
         setStats({
           students: students.data.length,
           teachers: teachers.data.length,
-          staff: 0,
-          courses: 0
+          programs: programs.data.length,
+          courses: courses.data.length
         });
       } catch (err) {
         console.error('Failed to load stats:', err);
@@ -53,7 +56,7 @@ const DashboardHome = () => {
       <div className={styles.statsGrid}>
         <div className={styles.statCard}><h3>Students</h3><p>{stats.students}</p></div>
         <div className={styles.statCard}><h3>Teachers</h3><p>{stats.teachers}</p></div>
-        <div className={styles.statCard}><h3>Programs</h3><p>{stats.staff}</p></div>
+        <div className={styles.statCard}><h3>Programs</h3><p>{stats.programs}</p></div>
         <div className={styles.statCard}><h3>Courses</h3><p>{stats.courses}</p></div>
       </div>
 
@@ -71,9 +74,15 @@ const DashboardHome = () => {
       </div>
 
       <div className={styles.quickActions}>
-        <button className={styles.actionButton}>➕ Add New User</button>
-        <button className={styles.actionButton}>📚 Create Course</button>
-        <button className={styles.actionButton}>👩‍🏫 Assign Teacher</button>
+        <Link to="/register" className={styles.actionButton}>
+          ➕ Add New User
+        </Link>
+        <Link to="/admin/courses" className={styles.actionButton}>
+          📚 Create Course
+        </Link>
+        <Link to="/admin/teachers" className={styles.actionButton}>
+          👩‍🏫 Assign Teacher
+        </Link>
       </div>
     </>
   );

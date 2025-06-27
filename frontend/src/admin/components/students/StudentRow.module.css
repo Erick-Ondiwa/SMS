@@ -9,48 +9,38 @@
 
 .actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 10px;
+  justify-content: flex-start;
+  /* flex-wrap: wrap; */
+}
+
+.editBtn,
+.viewDetailsBtn {
+  padding: 10px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  min-width: 100px;
 }
 
 .editBtn {
-  background-color: #3b82f6;
-  color: white;
-  padding: 0.4rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
+  background-color: #1976d2;
+  color: #fff;
 }
 
 .editBtn:hover {
-  background-color: #2563eb;
+  background-color: #1565c0;
+  transform: scale(1.03);
 }
 
 .viewDetailsBtn {
-  background-color: #2e7d32; /* Deep green */
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 2px 6px rgba(46, 125, 50, 0.3);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  background-color: #43a047;
+  color: #fff;
 }
 
 .viewDetailsBtn:hover {
-  background-color: #1b5e20;
-  transform: translateY(-1px);
+  background-color: #388e3c;
+  transform: scale(1.03);
 }
-
-.viewDetailsBtn:active {
-  background-color: #104f1d;
-  transform: translateY(0);
-}
-
-
