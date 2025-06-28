@@ -15,7 +15,7 @@ const LoginForm = () => {
       [e.target.name]: e.target.value,
     }));
   };
-  // Has no user
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
