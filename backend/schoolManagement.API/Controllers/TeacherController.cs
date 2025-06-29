@@ -104,6 +104,52 @@ namespace schoolManagement.API.Controllers
             return Ok(dto);
         }
 
+        [HttpGet("my-courses/{userId}")]
+        //[Authorize(Roles = "Teacher")]
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetMyCourses(string userId)
+        {
+            // var userId = User.FindFirst("userId")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized("User ID not found in token.");
+
+            // Get the teacher
+            var teacher = await _context.Teachers
+                .FirstOrDefaultAsync(t => t.UserId == userId);
+
+            if (teacher == null)
+                return NotFound("Teacher not found.");
+
+            // Get courses assigned to this teacher
+            var courses = await _context.Courses
+                .Include(c => c.AcademicProgram)
+                .Include(c => c.Enrollments)
+                .Where(c => c.TeacherId == teacher.TeacherId)
+                .ToListAsync();
+
+            var courseDtos = courses.Select(c => new CourseDto
+            {
+                CourseId = c.CourseId,
+                CourseCode = c.CourseCode,
+                Title = c.Title,
+                Description = c.Description,
+                Semester = c.Semester,
+                Level = c.Level,
+                CreditHours = c.CreditHours,
+                Status = c.Status,
+                CreatedAt = c.CreatedAt,
+                TotalStudents = c.Enrollments?.Count ?? 0,
+                AcademicProgram = c.AcademicProgram != null ? new ProgramDto
+                {
+                    ProgramId = c.AcademicProgram.ProgramId,
+                    Name = c.AcademicProgram.Name
+                } : null
+            }).ToList();
+
+            return Ok(courseDtos);
+        }
+
+
         // TeachersController.cs
         [HttpDelete("{teacherId}/courses/{courseId}")]
         //[Authorize(Roles = "Admin")]

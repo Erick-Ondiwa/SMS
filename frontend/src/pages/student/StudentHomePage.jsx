@@ -60,7 +60,7 @@ const StudentHomePage = () => {
           <section className={styles.profileCard}>
             <h3>Your Profile</h3>
             <div className={styles.detailsGrid}>
-              <div><strong>Student ID:</strong> {student?.studentId}</div>
+              <div><strong>Student ID:</strong> {student?.admissionNumber}</div>
               <div><strong>Level:</strong> {student?.level}</div>
               <div><strong>Semester:</strong> {student?.semester}</div>
               <div><strong>Email:</strong> {student?.email || user?.email}</div>

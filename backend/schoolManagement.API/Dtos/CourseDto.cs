@@ -38,10 +38,11 @@ namespace schoolManagement.API.Dtos
 
         public TeacherDto? Teacher { get; set; }
 
-        // ✅ NEW: Program association
         //[Required]
         public int? ProgramId { get; set; }
 
         public ProgramDto? AcademicProgram { get; set; }  // Optional for display
+
+        public int TotalStudents { get; set; }
     }
 }

@@ -1,0 +1,115 @@
+/* === TeacherHome.module.css === */
+
+.container {
+  /* padding: 30px; */
+  background-color: #f8fafc;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.statsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.statCard {
+  flex: 1;
+  min-width: 200px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+}
+
+.statCard h3 {
+  font-size: 28px;
+  color: #2563eb;
+  margin-bottom: 6px;
+}
+
+.statCard p {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+
+/* === Upcoming Classes === */
+.upcoming {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px 25px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 32px;
+}
+
+.upcoming h3 {
+  font-size: 20px;
+  color: #1e293b;
+  margin-bottom: 16px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th, .table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.table th {
+  background-color: #f1f5f9;
+  color: #334155;
+}
+
+.table tr:hover {
+  background-color: #f9fafb;
+}
+
+/* === Quick Actions === */
+.linksRow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.linksRow h4 {
+  font-size: 16px;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.actionBtn {
+  background-color: #2563eb;
+  color: white;
+  padding: 12px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  width: fit-content;
+}
+
+.actionBtn:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.03);
+}

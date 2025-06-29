@@ -20,7 +20,7 @@ const ParentDashboard = () => {
     } catch (error) {
       navigate('/login');
     }
-  }, [navigate]);
+  }, [navigate, user]);
   const navigate = useNavigate();
 
   const displayName = user?.firstName || user?.userName || 'Parent';

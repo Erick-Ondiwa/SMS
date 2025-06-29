@@ -11,11 +11,18 @@ import StudentDashboard from './pages/student/StudentDashboard.jsx';
 import StudentHomePage from './pages/student/StudentHomePage.jsx';
 import MyCourses from './pages/student/MyCourses.jsx';
 
+// Teacher Pages
+import TeachersDashboard from './pages/teacher/TeachersDashboard.jsx';
+import TeacherHome from './pages/teacher/TeacherHome.jsx';
+import TeacherCourses from './pages/teacher/TeacherCourses.jsx';
+// import TeacherProfile from './pages/teacher/Profile';
+
+
+
 // Program Pages
 import ProgramList from './components/programs/ProgramList.jsx';
 
 import ParentDashboardPage from './pages/ParentDashboardPage.jsx';
-import TeacherDashboardPage from './pages/TeacherDashboardPage.jsx';
 
 // Admin Pages
 import AdminDashboardPage from './admin/pages/AdminDashboardPage';
@@ -44,7 +51,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPasswordForm />} />
 
          
-          {/*  -------------- Pages ----------- */}
+          {/*  *********** Pages ************* */}
                   {/* -------Student Pages */}
           <Route path="/student" element={<StudentDashboard />}>
             <Route index element={<StudentHomePage />} />
@@ -54,8 +61,13 @@ function App() {
             <Route path="attendance" element={<ViewAttendance />} />  */}
           </Route>
           
-                  {/* -------Teacher Pages */}
-          <Route path="/teacher/dashboard" element={<TeacherDashboardPage />}/>
+                  {/* -------Teacher Routes */}
+            <Route path="/teacher" element={<TeachersDashboard />}>
+              <Route index element={<TeacherHome />} />
+              <Route path="dashboard" element={<TeacherHome />} />
+              <Route path="my-courses" element={<TeacherCourses />} />
+              {/* <Route path="profile" element={<TeacherProfile />} /> */}
+            </Route>
                   {/* -------Parent Pages */}
           <Route path="/parent/dashboard" element={<ParentDashboardPage />} />
 
