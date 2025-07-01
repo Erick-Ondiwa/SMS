@@ -72,113 +72,67 @@
 }
 
 /* === Main Content === */
+
 .mainContent {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  overflow: hidden;
-}
-
-/* === Header === */
-.header {
-  background-color: #ffffff;
-  padding: 20px 30px;
-  border-bottom: 1px solid #e2e8f0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-}
-
-.header h1 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1e293b;
-  margin: 0;
-}
-
-/* === Outlet Content === */
-.pageContent {
-  flex: 1;
-  padding: 24px 30px;
   overflow-y: auto;
+  height: 100vh; /* Adjust depending on your header height */
+  /* padding: 20px; */
+  box-sizing: border-box;
 }
 
-
-/* .dashboardContainer {
+.header {
   display: flex;
-  height: 100vh;
-  overflow: hidden;
-  background-color: #f5f7fa;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px 30px;
+  background: linear-gradient(135deg, #1e1e2f, #2a2a3d);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.sidebar {
-  width: 220px;
-  background-color: #1e293b;
-  color: white;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebarTitle {
-  font-size: 20px;
-  margin-bottom: 30px;
-  font-weight: bold;
-  color: #38bdf8;
-}
-
-.navLinks {
+.userInfo {
+  position: relative;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: center;
 }
 
-.link {
-  text-decoration: none;
-  color: #e2e8f0;
-  padding: 10px;
-  border-radius: 5px;
+.profileWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.link:hover {
-  background-color: #334155;
+.profileIcon {
+  color: #3b82f6;
+}
+
+.displayName {
+  font-size: 16px;
+  margin-top: 8px;
+  color:whitesmoke;
+  font-weight: 500;
 }
 
 .logoutBtn {
-  margin-top: auto;
-  background: #ef4444;
+  position: absolute;
+  top: 80px;
+  background-color: #ef4444;
   color: white;
+  padding: 6px 12px;
   border: none;
-  padding: 10px;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 14px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 10;
 }
 
 .logoutBtn:hover {
   background-color: #dc2626;
 }
 
-.mainContent {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
-
-.header {
-  background-color: white;
-  padding: 15px 20px;
-  border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
 .pageContent {
-  flex-grow: 1;
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
-  overflow-y: auto;
-} */
+  padding: 20px 30px;
+}

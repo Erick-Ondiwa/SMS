@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { getUserFromToken } from '../../utils/Auth';
 import styles from './TeacherHome.module.css'; // optional styling
 
 const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
@@ -11,6 +12,7 @@ const TeacherHome = () => {
     upcomingClasses: [],
   });
 
+  const user = getUserFromToken();
   useEffect(() => {
     fetchDashboardStats();
   }, []);
@@ -29,7 +31,7 @@ const TeacherHome = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.heading}>👋 Welcome Back, Teacher</h2>
+      <h2 className={styles.heading}>👋 Welcome Back, {user.firstName}</h2>
 
       <div className={styles.statsRow}>
         <div className={styles.statCard}>
@@ -69,14 +71,23 @@ const TeacherHome = () => {
       </div>
 
       <div className={styles.linksRow}>
-        <h4>Quick Actions</h4>
-        <button className={styles.actionBtn} onClick={() => window.location.href = '/teacher/my-courses'}>
-          📚 View My Courses
-        </button>
-        <button className={styles.actionBtn} onClick={() => window.location.href = '/teacher/profile'}>
-          👤 View Profile
-        </button>
+        <h1 className={styles.quickTitle}>Quick Actions</h1>
+        <div className={styles.actionButtons}>
+          <button
+            className={styles.actionBtn}
+            onClick={() => window.location.href = '/teacher/my-courses'}
+          >
+            📚 View My Courses
+          </button>
+          <button
+            className={styles.actionBtn}
+            onClick={() => window.location.href = '/teacher/profile'}
+          >
+            👤 View Profile
+          </button>
+        </div>
       </div>
+
     </div>
   );
 };

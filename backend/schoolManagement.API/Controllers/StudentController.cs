@@ -88,15 +88,21 @@ namespace schoolManagement.API.Controllers
                 DateOfBirth = student.DateOfBirth,
 
                 AdmissionNumber = student.AdmissionNumber,
-                ProgramId = student.ProgramId,              // ✅ New
-                Name = student.AcademicProgram?.Name,        // ✅ New
+                // ProgramId = student.ProgramId,              // ✅ New
+                // AcademicProgram = student.AcademicProgram?.Name,        // ✅ New
                 YearOfStudy = student.YearOfStudy,
                 Semester = student.Semester,
                 EnrollmentDate = student.EnrollmentDate,
 
                 ParentId = student.ParentId,
                 PhotoUrl = student.PhotoUrl,
-                UserId = student.UserId ?? string.Empty
+                UserId = student.UserId ?? string.Empty,
+
+                AcademicProgram = student.AcademicProgram != null ? new ProgramDto  // 👈 Add this block
+                {
+                    ProgramId = student.AcademicProgram.ProgramId,
+                    Name = student.AcademicProgram.Name
+                } : null
             };
 
             return Ok(dto);

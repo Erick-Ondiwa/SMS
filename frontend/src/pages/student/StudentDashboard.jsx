@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, NavLink, Outlet } from 'react-router-dom';
 import { getUserFromToken } from '../../utils/Auth';
 import { logout } from '../../utils/authService';
 import styles from './StudentDashboard.module.css';
+import { FaUserCircle } from 'react-icons/fa';
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
   const user = getUserFromToken();
+  const [showLogout, setShowLogout] = useState(false);
+  const profileRef = useRef();
 
   const displayName =
     user?.firstName || user?.userName || user?.email || 'Student';
@@ -28,6 +31,17 @@ const StudentDashboard = () => {
     navigate('/login');
   };
 
+  // Hide logout button when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowLogout(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <div className={styles.dashboard}>
       {/* Left Sidebar */}
@@ -35,10 +49,26 @@ const StudentDashboard = () => {
         <h2 className={styles.logo}>Student Panel</h2>
         <nav className={styles.nav}>
           <ul>
-            <li><NavLink to="dashboard" className={({ isActive }) => isActive ? styles.active : ''}>Dashboard</NavLink></li>
-            <li><NavLink to="courses" className={({ isActive }) => isActive ? styles.active : ''}>My Courses</NavLink></li>
-            <li><NavLink to="profile" className={({ isActive }) => isActive ? styles.active : ''}>Profile</NavLink></li>
-            <li><NavLink to="documents" className={({ isActive }) => isActive ? styles.active : ''}>Documents</NavLink></li>
+            <li>
+              <NavLink to="dashboard" className={({ isActive }) => isActive ? styles.active : ''}>
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="courses" className={({ isActive }) => isActive ? styles.active : ''}>
+                My Courses
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="profile" className={({ isActive }) => isActive ? styles.active : ''}>
+                Profile
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="documents" className={({ isActive }) => isActive ? styles.active : ''}>
+                Documents
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </aside>
@@ -46,16 +76,17 @@ const StudentDashboard = () => {
       {/* Right Content */}
       <main className={styles.main}>
         <header className={styles.header}>
-          <div className={styles.userInfo}>
-            <span className={styles.welcome}>Welcome, {displayName}</span>
-            <img
-              src={user?.profilePictureUrl || '/default-avatar.png'}
-              alt="Profile"
-              className={styles.profilePic}
-            />
-            <button onClick={handleLogout} className={styles.logoutBtn}>
-              Logout
-            </button>
+          <div className={styles.userInfo} ref={profileRef}>
+            <div onClick={() => setShowLogout(!showLogout)} className={styles.profileWrapper}>
+              <FaUserCircle size={60} className={styles.profileIcon} />
+              <span className={styles.displayName}>{displayName}</span>
+            </div>
+
+            {showLogout && (
+              <button onClick={handleLogout} className={styles.logoutBtn}>
+                Logout
+              </button>
+            )}
           </div>
         </header>
 

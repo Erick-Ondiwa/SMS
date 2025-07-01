@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import styles from './TeachersDashboard.module.css';
 import { getUserFromToken } from '../../utils/Auth';
+import { FaUserCircle } from 'react-icons/fa';
 
 const TeachersDashboard = () => {
   const user = getUserFromToken();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const [showLogout, setShowLogout] = useState(false);
+  const profileRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowLogout(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -27,22 +44,39 @@ const TeachersDashboard = () => {
           <NavLink to="/teacher/profile" className={styles.link}>
             👤 Profile
           </NavLink>
-          <button onClick={handleLogout} className={styles.logoutBtn}>
+          {/* <button onClick={handleLogout} className={styles.logoutBtn}>
             🚪 Logout
-          </button>
+          </button> */}
         </nav>
       </aside>
 
       {/* Main Area */}
       <main className={styles.mainContent}>
         <header className={styles.header}>
-          <h1>Welcome, {user?.firstName || 'Teacher'} 👋</h1>
+          <div className={styles.userInfo} ref={profileRef}>
+            <div
+              className={styles.profileWrapper}
+              onClick={() => setShowLogout((prev) => !prev)}
+            >
+              <FaUserCircle size={60} className={styles.profileIcon} />
+              <span className={styles.displayName}>
+                {user?.firstName || 'Teacher'}
+              </span>
+            </div>
+
+            {showLogout && (
+              <button onClick={handleLogout} className={styles.logoutBtn}>
+                Logout
+              </button>
+            )}
+          </div>
         </header>
 
         <div className={styles.pageContent}>
           <Outlet />
         </div>
       </main>
+
     </div>
   );
 };

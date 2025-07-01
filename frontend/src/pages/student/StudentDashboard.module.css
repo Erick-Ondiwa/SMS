@@ -66,7 +66,7 @@
 
 /* ==== Header ==== */
 .header {
-  background-color: #f1f5f9;
+  background: linear-gradient(135deg, #1e1e2f, #2a2a3d);
   padding: 15px 25px;
   display: flex;
   justify-content: flex-end;
@@ -75,38 +75,55 @@
 }
 
 .userInfo {
+  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 8px;
+  cursor: pointer;
 }
 
-.welcome {
-  font-size: 1rem;
+.profileWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profileIcon {
+  color: #1e3a8a;
+  transition: transform 0.2s ease;
+}
+
+.profileWrapper:hover .profileIcon {
+  transform: scale(1.05);
+}
+
+.displayName {
+  margin-top: 4px;
+  font-size: 14px;
+  color: whitesmoke;
   font-weight: 500;
-  color: #333;
 }
 
-.profilePic {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #0066cc;
-}
-
+/* Logout button dropdown */
 .logoutBtn {
-  background-color: #dc3545;
+  position: absolute;
+  top: 100%;
+  margin-top: 6px;
+  background-color: #ef4444;
   color: white;
   border: none;
-  padding: 8px 15px;
+  padding: 6px 12px;
   border-radius: 6px;
+  font-size: 13px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: background 0.2s ease;
+  z-index: 10;
 }
 
 .logoutBtn:hover {
-  background-color: #b02a37;
+  background-color: #dc2626;
 }
 
 /* ==== Main Page Outlet ==== */
