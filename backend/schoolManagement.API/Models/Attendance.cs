@@ -22,16 +22,11 @@ namespace schoolManagement.API.Models
         [ForeignKey(nameof(CourseId))]
         public Course? Course { get; set; }
 
-        [Required]
-        public DateTime Date { get; set; }
+        public int Week { get; set; }
+        public bool IsPresent { get; set; }
 
-        [Required]
-        [MaxLength(20)]
-        public string Status { get; set; } = "Present"; // Default value as example
-
-        [MaxLength(500)]
-        public string? Remarks { get; set; }
+        // [MaxLength(500)]
+        // public string? Remarks { get; set; }
     }
 }
-
 

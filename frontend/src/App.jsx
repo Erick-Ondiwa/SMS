@@ -15,6 +15,8 @@ import MyCourses from './pages/student/MyCourses.jsx';
 import TeachersDashboard from './pages/teacher/TeachersDashboard.jsx';
 import TeacherHome from './pages/teacher/TeacherHome.jsx';
 import TeacherCourses from './pages/teacher/TeacherCourses.jsx';
+import AttendanceOverview from './pages/teacher/AttendanceOverview.jsx';
+import MarkAttendanceModal from './pages/teacher/MarkAttendanceModal.jsx';
 // import TeacherProfile from './pages/teacher/Profile';
 
 
@@ -66,6 +68,8 @@ function App() {
               <Route index element={<TeacherHome />} />
               <Route path="dashboard" element={<TeacherHome />} />
               <Route path="my-courses" element={<TeacherCourses />} />
+              <Route path="student-attendance" element={<AttendanceOverview />} />
+              <Route path="mark-attendance" element={<MarkAttendanceModal />} />
               {/* <Route path="profile" element={<TeacherProfile />} /> */}
             </Route>
                   {/* -------Parent Pages */}

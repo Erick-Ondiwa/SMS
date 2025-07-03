@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './TeacherCourses.module.css';
+import AttendanceOverview from './AttendanceOverview';
+
 
 import { getUserFromToken } from '../../utils/Auth';
 
@@ -10,6 +12,9 @@ const TeacherCourses = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [showOverview, setShowOverview] = useState(false);
+  const [selectedCourseId, setSelectedCourseId] = useState(courses[0]?.courseId || null);
+
 
   const user = getUserFromToken();
 
@@ -46,8 +51,10 @@ const TeacherCourses = () => {
 
   return (
   <div className={styles.container}>
-    <h2>📚 My Assigned Courses</h2>
-  
+    <div className={styles.headerRow}>
+      <h2>📚 My Assigned Courses</h2>
+    </div>
+
     {loading ? (
       <p>Loading courses...</p>
     ) : courses.length === 0 ? (
@@ -55,17 +62,29 @@ const TeacherCourses = () => {
     ) : (
       <div className={styles.cardGrid}>
         {courses.map((course) => (
-          <div key={course.courseId} className={styles.card}>
+         <div key={course.courseId} className={styles.card}>
             <p className={styles.program}>{course.academicProgram?.name || 'N/A'}</p>
-
-            <h3 className={styles.courseTitle}>
-              {course.courseCode}: {course.title}
-            </h3>
-
+          
+            {/* === Title + Top-Right Button Row === */}
+            <div className={styles.cardHeader}>
+              <h3 className={styles.courseTitle}>
+                {course.courseCode}: {course.title}
+              </h3>
+              <button
+                className={styles.attendanceBtn}
+                onClick={() => {
+                  setSelectedCourseId(course.courseId);
+                  setShowOverview(true);
+                }}
+              >
+                Check Attendance
+              </button>
+            </div>
+          
             <p className={styles.level}><strong>Year:</strong> {course.level}</p>
             <p className={styles.semester}><strong>Semester:</strong> {course.semester}</p>
             <p className={styles.students}><strong>Enrolled Students:</strong> {course.totalStudents || 0}</p>
-
+          
             <button
               className={styles.viewBtn}
               onClick={() => handleViewStudents(course.courseId)}
@@ -73,10 +92,22 @@ const TeacherCourses = () => {
               View Enrolled Students
             </button>
           </div>
+       
         ))}
       </div>
 
     )}
+
+    {/* Render Attendance Overview Modal if needed */}
+    {showOverview && (
+      <div className={styles.modalOverlay}>
+        <div className={styles.modalContent}>
+          <button className={styles.closeBtn} onClick={() => setShowOverview(false)}>✖</button>
+          <AttendanceOverview courseId={selectedCourseId} onMarkAttendance={() => {}} />
+        </div>
+      </div>
+    )}
+
       
       {/* Modal for enrolled students */}
       {selectedCourse && (

@@ -42,7 +42,16 @@ const TeachersDashboard = () => {
             📚 My Courses
           </NavLink>
           <NavLink to="/teacher/profile" className={styles.link}>
-            👤 Profile
+            Grades
+          </NavLink>
+          <NavLink to="/teacher/profile" className={styles.link}>
+            Assignments
+          </NavLink>
+          <NavLink to="/teacher/profile" className={styles.link}>
+            Announcements
+          </NavLink>
+          <NavLink to="/teacher/profile" className={styles.link}>
+            Settings
           </NavLink>
           {/* <button onClick={handleLogout} className={styles.logoutBtn}>
             🚪 Logout
