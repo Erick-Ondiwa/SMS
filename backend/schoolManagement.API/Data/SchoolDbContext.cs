@@ -17,6 +17,7 @@ namespace schoolManagement.API.Data
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Grade> Grades { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
         public DbSet<AdminActivity> AdminActivities { get; set; }
 
         public DbSet<AcademicProgram> AcademicPrograms { get; set; } // ✅ ADDED
@@ -61,6 +62,13 @@ namespace schoolManagement.API.Data
                 .HasOne(e => e.Course)
                 .WithMany(c => c.Enrollments)
                 .HasForeignKey(e => e.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Assignment:
+            modelBuilder.Entity<Assignment>()
+                .HasOne(a => a.Course)
+                .WithMany(c => c.Assignments)
+                .HasForeignKey(a => a.CourseId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Grade mapping to Enrollment (optional FK)

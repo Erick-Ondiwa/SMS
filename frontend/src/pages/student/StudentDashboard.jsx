@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, NavLink, Outlet } from 'react-router-dom';
-import { getUserFromToken } from '../../utils/Auth';
+import { getUserFromToken } from '../../utils/auth';
 import { logout } from '../../utils/authService';
 import styles from './StudentDashboard.module.css';
 import { FaUserCircle } from 'react-icons/fa';
@@ -78,7 +78,7 @@ const StudentDashboard = () => {
         <header className={styles.header}>
           <div className={styles.userInfo} ref={profileRef}>
             <div onClick={() => setShowLogout(!showLogout)} className={styles.profileWrapper}>
-              <FaUserCircle size={60} className={styles.profileIcon} />
+              <FaUserCircle size={40} className={styles.profileIcon} />
               <span className={styles.displayName}>{displayName}</span>
             </div>
 

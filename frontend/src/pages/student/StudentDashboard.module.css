@@ -7,7 +7,7 @@
 
 /* ==== Sidebar ==== */
 .sidebar {
-  width: 240px;
+  width: 200px;
   background-color: #002b5b;
   color: #fff;
   padding: 20px;
@@ -99,16 +99,15 @@
 }
 
 .displayName {
-  margin-top: 4px;
-  font-size: 14px;
-  color: whitesmoke;
-  font-weight: 500;
+  font-size: 12px;
+  color: #50C878;
+  font-weight: bold;
 }
 
 /* Logout button dropdown */
 .logoutBtn {
   position: absolute;
-  top: 100%;
+  top:45px;
   margin-top: 6px;
   background-color: #ef4444;
   color: white;
@@ -128,7 +127,7 @@
 
 /* ==== Main Page Outlet ==== */
 .mainContent {
-  padding: 25px;
+  padding: 10px;
   height: 100%;
   overflow-y: auto;
 }

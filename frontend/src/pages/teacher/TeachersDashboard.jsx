@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import styles from './TeachersDashboard.module.css';
-import { getUserFromToken } from '../../utils/Auth';
+import { getUserFromToken } from '../../utils/auth';
 import { FaUserCircle } from 'react-icons/fa';
 
 const TeachersDashboard = () => {
@@ -44,7 +44,7 @@ const TeachersDashboard = () => {
           <NavLink to="/teacher/profile" className={styles.link}>
             Grades
           </NavLink>
-          <NavLink to="/teacher/profile" className={styles.link}>
+          <NavLink to="/teacher/assignments" className={styles.link}>
             Assignments
           </NavLink>
           <NavLink to="/teacher/profile" className={styles.link}>
@@ -67,7 +67,7 @@ const TeachersDashboard = () => {
               className={styles.profileWrapper}
               onClick={() => setShowLogout((prev) => !prev)}
             >
-              <FaUserCircle size={60} className={styles.profileIcon} />
+              <FaUserCircle size={40} className={styles.profileIcon} />
               <span className={styles.displayName}>
                 {user?.firstName || 'Teacher'}
               </span>

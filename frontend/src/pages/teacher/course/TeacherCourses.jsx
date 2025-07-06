@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './TeacherCourses.module.css';
-import AttendanceOverview from './AttendanceOverview';
+import AttendanceOverview from '../attendance/AttendanceOverview';
 
 
-import { getUserFromToken } from '../../utils/Auth';
+import { getUserFromToken } from '../../../utils/auth';
 
 const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
 

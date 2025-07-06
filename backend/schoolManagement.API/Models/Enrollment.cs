@@ -27,7 +27,7 @@ namespace schoolManagement.API.Models
 
         [Required]
         [MaxLength(20)]
-        public string Status { get; set; } = "Pending"; // Better default than empty string
+        public string Status { get; set; } = "Pending"; 
 
         // Navigation property for Grades
         public ICollection<Grade> Grades { get; set; } = new List<Grade>();

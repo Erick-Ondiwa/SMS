@@ -9,7 +9,7 @@
 
 /* === Sidebar === */
 .sidebar {
-  width: 240px;
+  width: 200px;
   background: linear-gradient(135deg, #1e1e2f, #2a2a3d);
   color: white;
   padding: 30px 20px;
@@ -24,7 +24,7 @@
   font-weight: 700;
   color: #00bcd4;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .navLinks {
@@ -109,15 +109,15 @@
 }
 
 .displayName {
-  font-size: 16px;
-  margin-top: 8px;
-  color:whitesmoke;
-  font-weight: 500;
+  font-size: 12px;
+  /* margin-top: 4px; */
+  color:#50C878;
+  font-weight: bold;
 }
 
 .logoutBtn {
   position: absolute;
-  top: 80px;
+  top: 45px;
   background-color: #ef4444;
   color: white;
   padding: 6px 12px;

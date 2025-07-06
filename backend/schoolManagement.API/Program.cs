@@ -4,6 +4,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.FileProviders;
 using schoolManagement.API.Data;
 using schoolManagement.API.Models;
 using System.Text;
@@ -126,6 +127,17 @@ app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+//------------------------ Serve wwwroot ---------------------------
+app.UseStaticFiles(); 
+
+// Optional - to serve files from "uploads" subfolder explicitly:
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", "Assignments")),
+    RequestPath = "/uploads/assignments"
+});
 
 // -------------------- Seed Roles and Admin --------------------
 

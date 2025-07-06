@@ -342,6 +342,35 @@ namespace schoolManagement.API.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("schoolManagement.API.Models.Assignment", b =>
+                {
+                    b.Property<int>("AssignmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssignmentId"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AssignmentId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Assignments");
+                });
+
             modelBuilder.Entity("schoolManagement.API.Models.Attendance", b =>
                 {
                     b.Property<int>("AttendanceId")
@@ -720,6 +749,17 @@ namespace schoolManagement.API.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("schoolManagement.API.Models.Assignment", b =>
+                {
+                    b.HasOne("schoolManagement.API.Models.Course", "Course")
+                        .WithMany("Assignments")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("schoolManagement.API.Models.Attendance", b =>
                 {
                     b.HasOne("schoolManagement.API.Models.Course", "Course")
@@ -867,6 +907,8 @@ namespace schoolManagement.API.Migrations
 
             modelBuilder.Entity("schoolManagement.API.Models.Course", b =>
                 {
+                    b.Navigation("Assignments");
+
                     b.Navigation("Attendances");
 
                     b.Navigation("Enrollments");

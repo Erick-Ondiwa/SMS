@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './MyCourses.module.css';
-import { getUserFromToken } from '../../utils/Auth';
+import { getUserFromToken } from '../../utils/auth';
 const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
 
 const MyCourses = () => {

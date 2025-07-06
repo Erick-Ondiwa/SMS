@@ -72,6 +72,10 @@
               "target": "Package",
               "version": "[9.0.5, )"
             },
+            "Microsoft.Extensions.FileProviders.Physical": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"
