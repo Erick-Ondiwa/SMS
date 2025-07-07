@@ -7,7 +7,8 @@ const AssignmentCard = ({ assignment, onView, onShare, onDelete }) => (
   <div className={styles.card}>
     <div className={styles.cardHeader}>
       <h3>{assignment.title}</h3>
-      <button className={styles.topRightButton} onClick={onShare}>
+
+      <button className={styles.topRightButton} onClick={() => onShare(assignment.assignmentId)}>
         <FontAwesomeIcon icon={faShareAlt} />
       </button>
     </div>

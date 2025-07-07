@@ -121,9 +121,26 @@ const StudentHomePage = () => {
           <section className={styles.quickLinks}>
             <h3>Quick Actions</h3>
             <div className={styles.actions}>
-              <button>📚 View Enrolled Courses</button>
-              <button>📅 View Attendance</button>
-              <button>📝 Check Grades</button>
+             <button
+                className={styles.actionBtn}
+                onClick={() => window.location.href = '/student/courses'}
+              >
+                📚 View Enrolled Courses
+              </button>
+
+              <button
+                className={styles.actionBtn}
+                onClick={() => window.location.href = '/student/attendance'}
+              >
+                📅 View Attendance
+              </button>
+             
+              <button
+                className={styles.actionBtn}
+                onClick={() => window.location.href = '/student/assignments'}
+              >
+                📝 Check Assignments
+              </button>
             </div>
           </section>
         </>

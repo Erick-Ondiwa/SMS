@@ -18,6 +18,7 @@ namespace schoolManagement.API.Data
         public DbSet<Grade> Grades { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<SharedAssignment> SharedAssignments { get; set; }
         public DbSet<AdminActivity> AdminActivities { get; set; }
 
         public DbSet<AcademicProgram> AcademicPrograms { get; set; } // ✅ ADDED

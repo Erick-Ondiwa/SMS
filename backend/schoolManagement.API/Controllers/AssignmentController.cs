@@ -132,18 +132,47 @@ namespace schoolManagement.API.Controllers
             if (assignment == null)
                 return NotFound("Assignment not found.");
 
+            // Get enrolled students
             var students = await _context.Enrollments
                 .Where(e => e.CourseId == assignment.CourseId)
-                .Select(e => e.Student)
+                .Select(e => e.StudentId)
                 .ToListAsync();
 
-            // TODO: Send email/notification logic here
-
-            return Ok(new
+            var sharedList = students.Select(studentId => new SharedAssignment
             {
-                message = $"Assignment shared with {students.Count} students enrolled in {assignment.Course.Title}."
+                AssignmentId = assignmentId,
+                StudentId = studentId
             });
+
+            _context.SharedAssignments.AddRange(sharedList);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Assignment shared with students successfully." });
         }
+
+        [HttpGet("student/{userId}")]
+        public async Task<ActionResult<IEnumerable<AssignmentDto>>> GetAssignmentsForStudent(string userId)
+        {
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.UserId == userId);
+            if (student == null) return NotFound("Student not found.");
+
+            var assignments = await _context.SharedAssignments
+                .Where(sa => sa.StudentId == student.StudentId)
+                .Include(sa => sa.Assignment)
+                    .ThenInclude(a => a.Course)
+                .Select(sa => new AssignmentDto
+                {
+                    AssignmentId = sa.AssignmentId,
+                    Title = sa.Assignment.Title,
+                    FilePath = sa.Assignment.FilePath,
+                    CourseId = sa.Assignment.CourseId,
+                    CourseCode = sa.Assignment.Course.CourseCode,
+                    CreatedAt = sa.Assignment.CreatedAt
+                }).ToListAsync();
+
+            return Ok(assignments);
+}
+
 
         [HttpDelete("{assignmentId}")]
         public async Task<IActionResult> DeleteAssignment(int assignmentId)

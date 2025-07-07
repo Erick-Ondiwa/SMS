@@ -27,6 +27,19 @@ const AssignmentsPage = () => {
     setAssignments(res.data);
   };
 
+  const handleShare = async (assignmentId) => {
+    const token = localStorage.getItem('token');
+    try {
+      await axios.post(`${baseURL}/api/assignment/share/${assignmentId}`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      alert("Assignment shared successfully!");
+    } catch (err) {
+      alert("Failed to share assignment.");
+    }
+  };
+  
+
   const handleDelete = async (assignmentId) => {
     if (!window.confirm('Are you sure you want to delete this assignment?')) return;
 
@@ -55,7 +68,7 @@ const AssignmentsPage = () => {
             key={a.assignmentId}
             assignment={a}
             onView={() => setSelectedAssignment(a)}
-            onShare={() => alert('Share functionality goes here')}
+            onShare={handleShare}
             onDelete={handleDelete}
           />
         ))}

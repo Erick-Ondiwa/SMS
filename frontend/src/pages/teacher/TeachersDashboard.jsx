@@ -36,14 +36,14 @@ const TeachersDashboard = () => {
         <h2 className={styles.sidebarTitle}>Teacher Panel</h2>
         <nav className={styles.navLinks}>
           <NavLink to="/teacher" className={styles.link} end>
-            📊 Dashboard
+            Dashboard
           </NavLink>
           <NavLink to="/teacher/my-courses" className={styles.link}>
-            📚 My Courses
+            My Courses
           </NavLink>
-          <NavLink to="/teacher/profile" className={styles.link}>
+          {/* <NavLink to="/teacher/profile" className={styles.link}>
             Grades
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/teacher/assignments" className={styles.link}>
             Assignments
           </NavLink>
