@@ -109,6 +109,31 @@ namespace schoolManagement.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("student/{userId}/course/{courseId}")]
+        public async Task<IActionResult> GetStudentCourseAttendance(string userId, int courseId)
+        {
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.UserId == userId);
+            if (student == null)
+                return NotFound("Student not found.");
+
+            var attendanceRecords = await _context.Attendances
+                .Where(a => a.StudentId == student.StudentId && a.CourseId == courseId)
+                .ToListAsync();
+
+            int presentCount = attendanceRecords.Count(a => a.IsPresent);
+            int totalWeeks = 12;
+
+            double percentage = Math.Round((double)presentCount / totalWeeks * 100, 1);
+
+            return Ok(new
+            {
+                presentWeeks = presentCount,
+                totalWeeks,
+                percentage
+            });
+        }
+
+
         // ✅ POST: api/attendance/mark
         [HttpPost("mark")]
         public async Task<IActionResult> MarkAttendance([FromBody] AttendanceSubmissionDto dto)

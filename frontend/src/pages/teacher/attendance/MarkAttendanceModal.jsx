@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './MarkAttendanceModal.module.css';
 import axios from 'axios';
 
-const MarkAttendanceModal = ({ courseId, onClose, onSaved }) => {
+const MarkAttendanceModal = ({ courseId, onClose, onRefresh, onSaved }) => {
   const [students, setStudents] = useState([]);
   const [week, setWeek] = useState(1);
   const [marked, setMarked] = useState([]);
@@ -51,6 +51,7 @@ const MarkAttendanceModal = ({ courseId, onClose, onSaved }) => {
       headers: { Authorization: `Bearer ${token}` }
     });
     onSaved?.();
+    onRefresh();    
     onClose();
   };
 

@@ -182,7 +182,6 @@ namespace schoolManagement.API.Controllers
             return Ok(enrolledCourses);
         }
 
-
         [HttpDelete("{studentId}/courses/{courseId}")]
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveCourseFromStudent(string studentId, int courseId)
