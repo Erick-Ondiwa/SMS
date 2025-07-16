@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AssignmentCard from './AssignmentCard';
-import { getUserFromToken } from '../../utils/auth';
+import { getUserFromToken } from '../../../utils/auth';
 
 import styles from './StudentAssignmentsPage.module.css';
 

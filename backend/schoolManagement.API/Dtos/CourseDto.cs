@@ -23,11 +23,11 @@ namespace schoolManagement.API.Dtos
 
         [Required]
         [MaxLength(20)]
-        public string Semester { get; set; }
+        public int Semester { get; set; }
 
         [Required]
         [MaxLength(20)]
-        public string Level { get; set; }
+        public int YearOfStudy { get; set; }
 
         public string Status { get; set; }
 

@@ -63,8 +63,8 @@ const StudentDashboard = () => {
                 Assignments
               </NavLink>
             <li>
-              <NavLink to="profile" className={({ isActive }) => isActive ? styles.active : ''}>
-                Profile
+              <NavLink to="results" className={({ isActive }) => isActive ? styles.active : ''}>
+                Results
               </NavLink>
             </li>
             <li>

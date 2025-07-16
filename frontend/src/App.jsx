@@ -9,8 +9,9 @@ import ForgotPasswordForm from './components/Auth/ForgotPasswordForm';
 // Student Pages
 import StudentDashboard from './pages/student/StudentDashboard.jsx';
 import StudentHomePage from './pages/student/StudentHomePage.jsx';
-import MyCourses from './pages/student/MyCourses.jsx';
-import StudentAssignmentsPage from './pages/student/StudentAssignmentPage.jsx';
+import MyCourses from './pages/student/course/MyCourses.jsx';
+import StudentAssignmentsPage from './pages/student/assignment/StudentAssignmentPage.jsx';
+import StudentResultsPage from './pages/student/result/StudentResultsPage.jsx';
 
 // Teacher Pages
 import TeachersDashboard from './pages/teacher/TeachersDashboard.jsx';
@@ -21,8 +22,6 @@ import MarkAttendanceModal from './pages/teacher/attendance/MarkAttendanceModal.
 import AssignmentsPage from './pages/teacher/assignment/AssignmentsPage.jsx';
 import TeacherResultsPage from './pages/teacher/results/TeacherResultsPage.jsx';
 // import TeacherProfile from './pages/teacher/Profile';
-
-
 
 // Program Pages
 import ProgramList from './components/programs/ProgramList.jsx';
@@ -63,8 +62,9 @@ function App() {
             <Route path="dashboard" element={<StudentHomePage />} />
             <Route path="courses" element={<MyCourses />} />
             <Route path="assignments" element={<StudentAssignmentsPage />} />
-            {/* <Route path="grades" element={<ViewGrades />} />
-            <Route path="attendance" element={<ViewAttendance />} />  */}
+            <Route path="results" element={<StudentResultsPage />} />
+            
+            {/* <Route path="attendance" element={<ViewAttendance />} />  */}
           </Route>
           
                   {/* -------Teacher Routes */}

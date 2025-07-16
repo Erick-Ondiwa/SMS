@@ -54,6 +54,47 @@ namespace schoolManagement.API.Controllers
             return Ok(results);
         }
 
+        // GET: api/results/student/{userId}
+        [HttpGet("student/{userId}")]
+        public async Task<ActionResult<IEnumerable<ResultDto>>> GetStudentResults(string userId)
+        {
+            // Step 1: Get StudentId from userId
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.UserId == userId);
+            if (student == null)
+                return NotFound("Student profile not found for this user.");
+
+            // Step 2: Fetch results for that student
+            var results = await _context.Results
+                .Where(r => r.StudentId == student.StudentId)
+                .Include(r => r.Course)
+                .Select(r => new ResultDto
+                {
+                    StudentId = r.StudentId,
+                    AdmissionNumber = r.Student.AdmissionNumber,
+                    StudentFullName = r.Student.ApplicationUser.FirstName + " " + r.Student.ApplicationUser.LastName,
+                    CourseId = r.CourseId,
+                    CourseCode = r.Course.CourseCode,
+                    CourseTitle = r.Course.Title,
+                    YearOfStudy = r.Course.YearOfStudy,
+                    Semester = r.Course.Semester,
+                    CATScore = r.CATScore,
+                    AssignmentScore = r.AssignmentScore,
+                    ExamScore = r.ExamScore,
+                    Grade = r.Grade,
+                    Remarks = r.Remarks,
+                    TotalScore = r.CATScore + r.AssignmentScore + r.ExamScore,
+                    AcademicProgram = student.AcademicProgram != null ? new ProgramDto 
+                    {
+                        ProgramId = student.AcademicProgram.ProgramId,
+                        Name = student.AcademicProgram.Name
+                    } : null
+                })
+                .ToListAsync();
+
+            return Ok(results);
+        }
+
+
         // POST: api/results
         [HttpPost]
         public async Task<IActionResult> SubmitResults([FromBody] List<CreateResultDto> results)

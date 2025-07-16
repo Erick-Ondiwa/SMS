@@ -25,13 +25,11 @@ namespace schoolManagement.API.Models
         [Range(1, 10, ErrorMessage = "Credit hours must be between 1 and 10.")]
         public int CreditHours { get; set; }
 
-        [Required]
-        [MaxLength(20)]
-        public string Semester { get; set; } = string.Empty;
+        [Range(1, 6)]
+        public int YearOfStudy { get; set; } = 1;
 
-        [Required]
-        [MaxLength(20)]
-        public string Level { get; set; } = string.Empty;
+        [Range(1, 3)]
+        public int Semester { get; set; } = 1;
 
         // Link to Teacher
         public string? TeacherId { get; set; }

@@ -36,7 +36,7 @@ namespace schoolManagement.API.Controllers
                 CourseCode = c.CourseCode,
                 Title = c.Title,
                 Description = c.Description,
-                Level = c.Level,
+                YearOfStudy = c.YearOfStudy,
                 Semester = c.Semester,
                 Status = c.Status,
                 CreditHours = c.CreditHours,
@@ -77,7 +77,7 @@ namespace schoolManagement.API.Controllers
                 Title = course.Title,
                 Description = course.Description,
                 Semester = course.Semester,
-                Level = course.Level,
+                YearOfStudy = course.YearOfStudy,
                 Status = course.Status,
                 CreditHours = course.CreditHours,
                 TeacherId = course.TeacherId,
@@ -111,7 +111,7 @@ namespace schoolManagement.API.Controllers
                 Title = dto.Title,
                 Description = dto.Description,
                 Semester = dto.Semester,
-                Level = dto.Level,
+                YearOfStudy = dto.YearOfStudy,
                 Status = dto.Status,
                 CreditHours = dto.CreditHours,
                 TeacherId = dto.TeacherId,
@@ -136,7 +136,7 @@ namespace schoolManagement.API.Controllers
             course.Title = dto.Title;
             course.Description = dto.Description;
             course.Semester = dto.Semester;
-            course.Level = dto.Level;
+            course.YearOfStudy = dto.YearOfStudy;
             course.Status = dto.Status;
             course.CreditHours = dto.CreditHours;
             course.ProgramId = dto.ProgramId;
