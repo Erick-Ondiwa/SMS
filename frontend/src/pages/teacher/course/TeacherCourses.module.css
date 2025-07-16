@@ -123,11 +123,11 @@
   background-color: white;
   padding: 30px;
   width: 90%;
-  max-width: 700px;
+  max-width: 900px;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  overflow-y: auto;
-  max-height: 80vh;
+  /* overflow-y: auto; */
+  max-height: 100vh;
 }
 
 .modalContent h3 {

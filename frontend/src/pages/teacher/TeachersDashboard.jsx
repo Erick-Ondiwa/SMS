@@ -50,8 +50,8 @@ const TeachersDashboard = () => {
           <NavLink to="/teacher/profile" className={styles.link}>
             Announcements
           </NavLink>
-          <NavLink to="/teacher/profile" className={styles.link}>
-            Settings
+          <NavLink to="/teacher/results" className={styles.link}>
+            Results
           </NavLink>
           {/* <button onClick={handleLogout} className={styles.logoutBtn}>
             🚪 Logout

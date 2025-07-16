@@ -1,5 +1,6 @@
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\appsettings.json
+C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\schoolManagement.API.staticwebassets.runtime.json
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\schoolManagement.API.staticwebassets.endpoints.json
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\schoolManagement.API.exe
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\schoolManagement.API.deps.json
@@ -32,6 +33,9 @@ C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.A
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\Microsoft.Extensions.FileSystemGlobbing.dll
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
@@ -168,7 +172,3 @@ C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.A
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\schoolManagement.API.pdb
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\schoolManagement.API.genruntimeconfig.cache
 C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\obj\Debug\net8.0\ref\schoolManagement.API.dll
-C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\schoolManagement.API.staticwebassets.runtime.json
-C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Abstractions.dll
-C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Physical.dll
-C:\Users\ErickOndiwa\Desktop\school-management-system\backend\schoolManagement.API\bin\Debug\net8.0\Microsoft.Extensions.FileSystemGlobbing.dll

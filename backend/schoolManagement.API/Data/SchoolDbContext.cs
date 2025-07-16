@@ -20,8 +20,8 @@ namespace schoolManagement.API.Data
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<SharedAssignment> SharedAssignments { get; set; }
         public DbSet<AdminActivity> AdminActivities { get; set; }
-
-        public DbSet<AcademicProgram> AcademicPrograms { get; set; } // ✅ ADDED
+        public DbSet<Result> Results { get; set; }
+        public DbSet<AcademicProgram> AcademicPrograms { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -72,6 +72,11 @@ namespace schoolManagement.API.Data
                 .HasForeignKey(a => a.CourseId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Result
+            modelBuilder.Entity<Result>()
+                .HasIndex(r => new { r.StudentId, r.CourseId })
+                .IsUnique();
+                
             // Grade mapping to Enrollment (optional FK)
             modelBuilder.Entity<Grade>()
                 .HasOne(g => g.Enrollment)
@@ -107,14 +112,14 @@ namespace schoolManagement.API.Data
                 .HasForeignKey(s => s.ParentId)
                 .OnDelete(DeleteBehavior.SetNull);
 
-            // ✅ Course - Program
+            // Course - Program
             modelBuilder.Entity<Course>()
                 .HasOne(c => c.AcademicProgram)
                 .WithMany(p => p.Courses)
                 .HasForeignKey(c => c.ProgramId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // ✅ Student - Program
+            // Student - Program
             modelBuilder.Entity<Student>()
                 .HasOne(s => s.AcademicProgram)
                 .WithMany(p => p.Students)

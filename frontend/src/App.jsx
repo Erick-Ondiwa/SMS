@@ -19,6 +19,7 @@ import TeacherCourses from './pages/teacher/course/TeacherCourses.jsx';
 import AttendanceOverview from './pages/teacher/attendance/AttendanceOverview.jsx';
 import MarkAttendanceModal from './pages/teacher/attendance/MarkAttendanceModal.jsx';
 import AssignmentsPage from './pages/teacher/assignment/AssignmentsPage.jsx';
+import TeacherResultsPage from './pages/teacher/results/TeacherResultsPage.jsx';
 // import TeacherProfile from './pages/teacher/Profile';
 
 
@@ -74,6 +75,7 @@ function App() {
               <Route path="student-attendance" element={<AttendanceOverview />} />
               <Route path="mark-attendance" element={<MarkAttendanceModal />} />
               <Route path="assignments" element={<AssignmentsPage />} />
+              <Route path="results" element={<TeacherResultsPage />} />
               {/* <Route path="profile" element={<TeacherProfile />} /> */}
             </Route>
                   {/* -------Parent Pages */}
