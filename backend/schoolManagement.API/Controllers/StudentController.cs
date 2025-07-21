@@ -29,7 +29,7 @@ namespace schoolManagement.API.Controllers
         {
             var students = await _context.Students
                 .Include(s => s.ApplicationUser)
-                .Include(s => s.AcademicProgram) // ✅ Added to fetch Program.Name
+                .Include(s => s.AcademicProgram) 
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -54,7 +54,7 @@ namespace schoolManagement.API.Controllers
                 PhotoUrl = s.PhotoUrl,
                 UserId = s.UserId ?? string.Empty,
                 
-                AcademicProgram = s.AcademicProgram != null ? new ProgramDto  // 👈 Add this block
+                AcademicProgram = s.AcademicProgram != null ? new ProgramDto
                 {
                     ProgramId = s.AcademicProgram.ProgramId,
                     Name = s.AcademicProgram.Name
@@ -69,7 +69,7 @@ namespace schoolManagement.API.Controllers
         {
             var student = await _context.Students
                 .Include(s => s.ApplicationUser)
-                .Include(s => s.AcademicProgram) // ✅ Added to fetch Program.Name
+                .Include(s => s.AcademicProgram)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(s => s.UserId == userId);
 
@@ -86,19 +86,14 @@ namespace schoolManagement.API.Controllers
                 Address = student.Address,
                 Gender = student.Gender,
                 DateOfBirth = student.DateOfBirth,
-
                 AdmissionNumber = student.AdmissionNumber,
-                // ProgramId = student.ProgramId,              // ✅ New
-                // AcademicProgram = student.AcademicProgram?.Name,        // ✅ New
                 YearOfStudy = student.YearOfStudy,
                 Semester = student.Semester,
                 EnrollmentDate = student.EnrollmentDate,
-
                 ParentId = student.ParentId,
                 PhotoUrl = student.PhotoUrl,
                 UserId = student.UserId ?? string.Empty,
-
-                AcademicProgram = student.AcademicProgram != null ? new ProgramDto  // 👈 Add this block
+                AcademicProgram = student.AcademicProgram != null ? new ProgramDto
                 {
                     ProgramId = student.AcademicProgram.ProgramId,
                     Name = student.AcademicProgram.Name
@@ -219,7 +214,6 @@ namespace schoolManagement.API.Controllers
                 PhoneNumber = dto.PhoneNumber,
                 PhotoUrl = dto.PhotoUrl,
                 UserId = dto.UserId,
-                ProgramId = dto.ProgramId,                 // ✅ New
                 YearOfStudy = dto.YearOfStudy,
                 Semester = dto.Semester
             };
@@ -229,7 +223,7 @@ namespace schoolManagement.API.Controllers
 
             var created = await _context.Students
                 .Include(s => s.ApplicationUser)
-                .Include(s => s.AcademicProgram) // ✅ To get program name
+                .Include(s => s.AcademicProgram) 
                 .FirstOrDefaultAsync(s => s.StudentId == student.StudentId);
 
             var result = new StudentDto
@@ -245,8 +239,8 @@ namespace schoolManagement.API.Controllers
                 DateOfBirth = created.DateOfBirth,
 
                 AdmissionNumber = created.AdmissionNumber,
-                ProgramId = created.ProgramId,             // ✅ New
-                Name = created.AcademicProgram?.Name,       // ✅ New
+                ProgramId = created.ProgramId,           
+                Name = created.AcademicProgram?.Name,       
                 YearOfStudy = created.YearOfStudy,
                 Semester = created.Semester,
                 EnrollmentDate = created.EnrollmentDate,

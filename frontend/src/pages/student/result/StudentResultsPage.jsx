@@ -8,15 +8,35 @@ const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
 
 const StudentResultsPage = () => {
   const [results, setResults] = useState([]);
-  const [studentInfo, setStudentInfo] = useState(null);
+  const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   const user = getUserFromToken();
+  const stage = student?.yearOfStudy && student?.semester
+  ? `Y${student.yearOfStudy}S${student.semester}`
+  : 'N/A';
 
   useEffect(() => {
     fetchStudentResults();
-  }, []);
+    fetchStudentDetails();
+  }, [user?.userId]);
+
+  const fetchStudentDetails = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.get(`${baseURL}/api/students/user/${user.userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setStudent(response.data);
+    } catch (err) {
+      setError('Unable to fetch your student profile.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
 
   const fetchStudentResults = async () => {
     const token = localStorage.getItem('token');
@@ -24,15 +44,6 @@ const StudentResultsPage = () => {
       const res = await axios.get(`${baseURL}/api/results/student/${user.userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      if (res.data.length > 0) {
-        setStudentInfo({
-          fullName: `${res.data[0].studentFullName}`,
-          regNo: res.data[0].admissionNumber,
-          program: res.data[0].academicProgram,
-          year: res.data[0].yearOfStudy,
-          semester: res.data[0].semester,
-        });
-      }
       setResults(res.data);
     } catch (err) {
       setError('Failed to fetch results. Please try again.');
@@ -51,13 +62,13 @@ const StudentResultsPage = () => {
         <p className={styles.info}>No results found yet. Please check back later.</p>
       )}
 
-      {studentInfo && (
+      {student && (
         <div className={styles.studentDetails}>
-          <p><strong>Full Name:</strong> {studentInfo.fullName}</p>
-          <p><strong>Registration No:</strong> {studentInfo.regNo}</p>
-          <p><strong>Program:</strong> {studentInfo.program}</p>
-          <p><strong>Year of Study:</strong> {studentInfo.year}</p>
-          <p><strong>Semester:</strong> {studentInfo.semester}</p>
+          <p><strong>Full Name:</strong> {student?.fullName}</p>
+          <p><strong>Registration No:</strong> {student?.admissionNumber}</p>
+          <p><strong>Program:</strong> {student.academicProgram.name}</p>
+          <p><strong>Year of Study:</strong> {stage}</p>
+          <p><strong>Semester:</strong> {student.semester}</p>
         </div>
       )}
 
