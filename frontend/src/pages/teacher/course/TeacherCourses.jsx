@@ -81,7 +81,7 @@ const TeacherCourses = () => {
               </button>
             </div>
           
-            <p className={styles.level}><strong>Year:</strong> {course.level}</p>
+            <p className={styles.level}><strong>Year:</strong> {course.yearOfStudy}</p>
             <p className={styles.semester}><strong>Semester:</strong> {course.semester}</p>
             <p className={styles.students}><strong>Enrolled Students:</strong> {course.totalStudents || 0}</p>
           

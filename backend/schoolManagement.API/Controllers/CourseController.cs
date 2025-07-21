@@ -82,7 +82,7 @@ namespace schoolManagement.API.Controllers
                 CreditHours = course.CreditHours,
                 TeacherId = course.TeacherId,
                 CreatedAt = course.CreatedAt,
-                ProgramId = course.ProgramId, // ✅ NEW
+                ProgramId = course.ProgramId,
                 AcademicProgram = await _context.AcademicPrograms
                     .Where(p => p.ProgramId == course.ProgramId)
                     .Select(p => new ProgramDto
@@ -91,7 +91,7 @@ namespace schoolManagement.API.Controllers
                         Name = p.Name,
                         Category = p.Category,
                         DurationInYears = p.DurationInYears
-                    }).FirstOrDefaultAsync(), // ✅ NEW
+                    }).FirstOrDefaultAsync(),
                 Teacher = course.Teacher != null ? new TeacherDto
                 {
                     TeacherId = course.Teacher.TeacherId,
@@ -103,7 +103,7 @@ namespace schoolManagement.API.Controllers
 
         // POST: api/courses
         [HttpPost]
-        public async Task<ActionResult<CourseDto>> PostCourse([FromBody] CourseDto dto)
+        public async Task<ActionResult<CourseDto>> PostCourse([FromBody] CreateOrUpdateCourseDto dto)
         {
             var course = new Course
             {
@@ -127,7 +127,7 @@ namespace schoolManagement.API.Controllers
 
         // PUT: api/courses/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCourse(int id, [FromBody] CourseDto dto)
+        public async Task<IActionResult> PutCourse(int id, [FromBody] CreateOrUpdateCourseDto dto)
         {
             var course = await _context.Courses.FindAsync(id);
             if (course == null) return NotFound();

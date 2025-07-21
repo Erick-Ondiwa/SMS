@@ -91,8 +91,8 @@ namespace schoolManagement.API.Controllers
                 Status = c.Status,
                 CreatedAt = c.CreatedAt,
                 TeacherId = c.TeacherId,
-                TeacherName = null,
-                Teacher = null,
+                // TeacherName = null,
+                // Teacher = null,
                 AcademicProgram = c.AcademicProgram != null ? new ProgramDto {
                     ProgramId = c.AcademicProgram.ProgramId,
                     Name = c.AcademicProgram.Name,

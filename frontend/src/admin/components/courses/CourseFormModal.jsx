@@ -13,21 +13,21 @@ const CourseFormModal = ({ course, onClose, onRefresh }) => {
     description: '',
     creditHours: 3,
     semester: '',
-    level: '',
+    yearOfStudy: 1,
     status: 'Active',
     teacherId: '',
-    programId: '' // ✅ Add programId
+    programId: '' 
   });
 
   const [teachers, setTeachers] = useState([]);
-  const [programs, setPrograms] = useState([]); // ✅ Program list
+  const [programs, setPrograms] = useState([]);
 
   useEffect(() => {
     if (course) {
-      setFormData({ ...course, programId: course.program?.programId || '' }); // ✅ Preload programId
+      setFormData({ ...course, programId: course.program?.programId || '' }); 
     }
     fetchTeachers();
-    fetchPrograms(); // ✅ Fetch programs
+    fetchPrograms();
   }, [course]);
 
   const fetchTeachers = async () => {
@@ -79,7 +79,7 @@ const CourseFormModal = ({ course, onClose, onRefresh }) => {
           <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
           <input type="number" name="creditHours" placeholder="Credit Hours" value={formData.creditHours} onChange={handleChange} min={1} max={10} />
           <input name="semester" placeholder="Semester" value={formData.semester} onChange={handleChange} />
-          <input name="level" placeholder="Level" value={formData.level} onChange={handleChange} />
+          <input name="yearOfStudy" placeholder="Year of Study" value={formData.yearOfStudy} onChange={handleChange} />
 
           {/* ✅ Program selection */}
           <select name="programId" value={formData.programId} onChange={handleChange} required>

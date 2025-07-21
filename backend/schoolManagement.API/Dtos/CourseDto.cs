@@ -22,27 +22,19 @@ namespace schoolManagement.API.Dtos
         public int CreditHours { get; set; }
 
         [Required]
-        [MaxLength(20)]
-        public int Semester { get; set; }
+        [Range(1, 6)]
+        public int Semester { get; set; } = 1;
 
         [Required]
-        [MaxLength(20)]
-        public int YearOfStudy { get; set; }
-
+        [Range(1, 6)]
+        public int YearOfStudy { get; set; } = 1;
         public string Status { get; set; }
-
-        public string? TeacherId { get; set; }  // Can be null initially
-        public string? TeacherName { get; set; }  // Optional for display
-
         public DateTime CreatedAt { get; set; }
-
+        public string? TeacherId { get; set; } 
+        // public string? TeacherName { get; set; }  // Optional for display
         public TeacherDto? Teacher { get; set; }
-
-        //[Required]
         public int? ProgramId { get; set; }
-
         public ProgramDto? AcademicProgram { get; set; }  // Optional for display
-
         public int TotalStudents { get; set; }
     }
 }

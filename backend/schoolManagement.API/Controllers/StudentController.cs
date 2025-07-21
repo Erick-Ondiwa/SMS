@@ -162,6 +162,7 @@ namespace schoolManagement.API.Controllers
                 CreditHours = e.Course.CreditHours,
                 Status = e.Course.Status,
                 CreatedAt = e.Course.CreatedAt,
+                TeacherId = e.Course.TeacherId,
                 Teacher = e.Course.Teacher != null ? new TeacherDto
                 {
                     TeacherId = e.Course.Teacher.TeacherId,
@@ -267,7 +268,7 @@ namespace schoolManagement.API.Controllers
             student.Address = dto.Address;
             student.PhoneNumber = dto.PhoneNumber;
             student.PhotoUrl = dto.PhotoUrl;
-            student.ProgramId = dto.ProgramId;               // ✅ New
+            student.ProgramId = dto.ProgramId;            
             student.YearOfStudy = dto.YearOfStudy;
             student.Semester = dto.Semester;
 

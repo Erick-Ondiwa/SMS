@@ -74,7 +74,7 @@ const CourseDetailsModal = ({ course, onClose, onRefresh }) => {
         <p><strong>Title:</strong> {course.title}</p>
         <p><strong>Program:</strong> {course.academicProgram?.name || '—'}</p>
         <p><strong>Description:</strong> {course.description || '—'}</p>
-        <p><strong>Level:</strong> {course.level}</p>
+        <p><strong>Year Of Study:</strong> {course.yearOfStudy}</p>
         <p><strong>Semester:</strong> {course.semester}</p>
         <p><strong>Status:</strong> {course.status || '—'}</p>
         <p><strong>Teacher:</strong> {course.teacher?.fullName || 'Unassigned'}</p>

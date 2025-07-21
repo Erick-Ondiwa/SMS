@@ -6,7 +6,7 @@ const CourseRow = ({ course, onEdit, onViewDetails }) => (
     <td>{course.courseCode}</td>
     <td>{course.title}</td>
     <td>{course.academicProgram?.name || 'N/A'}</td>
-    <td>{course.level}</td>
+    <td>{course.yearOfStudy}</td>
     <td>{course.semester}</td>
     <td>{course.teacher?.fullName || 'Unassigned'}</td>
     <td>{new Date(course.createdAt).toLocaleDateString()}</td>
