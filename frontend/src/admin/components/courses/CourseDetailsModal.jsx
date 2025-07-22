@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Select from 'react-select';
 import styles from './CourseDetailsModal.module.css';
 
 const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
@@ -7,7 +8,7 @@ const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
 const CourseDetailsModal = ({ course, onClose, onRefresh }) => {
   const [students, setStudents] = useState([]);
   const [enrolled, setEnrolled] = useState([]);
-  const [selectedStudentId, setSelectedStudentId] = useState('');
+  const [selectedStudentIds, setSelectedStudentIds] = useState([]);
 
   useEffect(() => {
     if (course?.courseId) {
@@ -33,14 +34,24 @@ const CourseDetailsModal = ({ course, onClose, onRefresh }) => {
   };
 
   const handleEnroll = async () => {
-    if (!selectedStudentId) return;
+    if (selectedStudentIds.length === 0) return;
+
     const token = localStorage.getItem('token');
-    await axios.post(`${baseURL}/api/courses/${course.courseId}/enroll`, 
-      { studentId: selectedStudentId },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    setSelectedStudentId('');
-    fetchEnrollments();
+    try {
+      await Promise.all(
+        selectedStudentIds.map((id) =>
+          axios.post(
+            `${baseURL}/api/courses/${course.courseId}/enroll`,
+            { studentId: id },
+            { headers: { Authorization: `Bearer ${token}` } }
+          )
+        )
+      );
+      setSelectedStudentIds([]);
+      fetchEnrollments();
+    } catch (err) {
+      console.error('Error enrolling students:', err);
+    }
   };
 
   const handleUnenroll = async (studentId) => {
@@ -66,6 +77,15 @@ const CourseDetailsModal = ({ course, onClose, onRefresh }) => {
     onClose();
   };
 
+  const studentOptions = students.map((s) => ({
+    value: s.studentId,
+    label: s.fullName || `${s.firstName ?? ''} ${s.lastName ?? ''}`.trim(),
+  }));
+
+  const availableOptions = studentOptions.filter(
+    (opt) => !enrolled.some((e) => e.studentId === opt.value)
+  );
+
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
@@ -81,18 +101,23 @@ const CourseDetailsModal = ({ course, onClose, onRefresh }) => {
         <p><strong>Enrolled Students:</strong> {enrolled.length}</p>
 
         <div className={styles.enrollSection}>
-          <select
-            value={selectedStudentId}
-            onChange={(e) => setSelectedStudentId(e.target.value)}
-          >
-            <option value="">-- Select Student --</option>
-            {students.map((s) => (
-              <option key={s.studentId} value={s.studentId}>
-                {`${s.fullName}`}
-              </option>
-            ))}
-          </select>
-          <button onClick={handleEnroll} className={styles.enrollBtn}>Enroll</button>
+          <label>Select Students to Enroll</label>
+
+          <Select
+            options={availableOptions}
+            isMulti
+            value={studentOptions.filter((opt) => selectedStudentIds.includes(opt.value))}
+            onChange={(selected) => {
+              const selectedIds = selected ? selected.map((opt) => opt.value) : [];
+              setSelectedStudentIds(selectedIds);
+            }}
+            className={styles.multiSelect}
+            placeholder="Search and select students..."
+          />
+
+          <button onClick={handleEnroll} className={styles.enrollBtn}>
+            Enroll Selected
+          </button>
         </div>
 
         <div className={styles.enrolledList}>
@@ -114,9 +139,12 @@ const CourseDetailsModal = ({ course, onClose, onRefresh }) => {
                   <tr key={s.studentId}>
                     <td>{s.admissionNumber || 'N/A'}</td>
                     <td>{`${s.firstName ?? ''} ${s.lastName ?? ''}`.trim()}</td>
-                    <td>{new Date(s.enrollmentDate).toLocaleDateString()}</td>
+                    <td>{new Date(s.enrollmentDate).toISOString().split('T')[0]}</td>
                     <td>
-                      <button onClick={() => handleUnenroll(s.studentId)} className={styles.unenrollBtn}>
+                      <button
+                        onClick={() => handleUnenroll(s.studentId)}
+                        className={styles.unenrollBtn}
+                      >
                         Unenroll
                       </button>
                     </td>

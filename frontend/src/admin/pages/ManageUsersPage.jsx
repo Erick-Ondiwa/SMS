@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './ManageUsersPage.module.css';
 import { useNavigate } from 'react-router-dom';
-import { getUserFromToken } from '../../utils/Auth';
+import { getUserFromToken } from '../../utils/auth';
 
 const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';
 
@@ -78,7 +78,7 @@ const ManageUsersPage = () => {
                   <td>{u.email}</td>
                   <td>{role}</td>
                   <td>{u.phoneNumber || '—'}</td>
-                  <td>{u.CreatedAt}</td>
+                  <td>{new Date(u.createdAt).toLocaleDateString()}</td>
                 </tr>
               );
             })}

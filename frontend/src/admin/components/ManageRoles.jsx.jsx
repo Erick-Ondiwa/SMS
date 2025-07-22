@@ -84,7 +84,7 @@ const ManageRoles = () => {
           <tbody>
             {users.map(user => (
               <tr key={user.id}>
-                <td> {user.FirstName}</td>
+                <td> {user.fullName}</td>
                 <td>{user.email}</td>
                 <td>{user.roles?.length > 0 ? user.roles.join(', ') : 'None'}</td>
                 <td>

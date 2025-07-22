@@ -1,7 +1,7 @@
 import styles from '../pages/AdminDashboard.module.css';
 import { useNavigate, NavLink, Outlet } from 'react-router-dom';
 import { useEffect } from 'react';
-import { getUserFromToken } from '../../utils/Auth';
+import { getUserFromToken } from '../../utils/auth';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();

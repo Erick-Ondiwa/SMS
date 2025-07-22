@@ -25,6 +25,11 @@ import styles from './RegisterForm.module.css';
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const isStrongPassword = (password) => {
+    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    return strongPasswordRegex.test(password);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -41,6 +46,11 @@ import styles from './RegisterForm.module.css';
 
     if (password !== confirmPassword) {
       setError('Passwords do not match!');
+      return;
+    }
+
+    if (!isStrongPassword(password)) {
+      setError('Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.');
       return;
     }
 

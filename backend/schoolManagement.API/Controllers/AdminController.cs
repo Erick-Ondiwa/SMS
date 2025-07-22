@@ -23,11 +23,11 @@ namespace schoolManagement.API.Controllers
         public AdminController(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            SchoolDbContext context) // <- Inject here
+            SchoolDbContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _context = context; // <- Assign here
+            _context = context; 
         }
 
 
@@ -57,18 +57,6 @@ namespace schoolManagement.API.Controllers
 
             return Ok(userList);
         }
-
-        //[Authorize(Roles = "Admin")]
-        // [HttpGet("recent-activities")]
-        // public async Task<IActionResult> GetRecentActivities()
-        // {
-        //     var activities = await _context.AdminActivities
-        //         .OrderByDescending(a => a.Timestamp)
-        //         .Take(10)
-        //         .ToListAsync();
-
-        //     return Ok(activities);
-        // }
 
         // Assign Roles
         [HttpPost("roles")]

@@ -213,7 +213,8 @@ namespace schoolManagement.API.Controllers
                     LastName = e.Student.ApplicationUser.LastName,
                     Email = e.Student.ApplicationUser.Email,
                     YearOfStudy = e.Student.YearOfStudy,
-                    AdmissionNumber = e.Student.AdmissionNumber
+                    AdmissionNumber = e.Student.AdmissionNumber,
+                    EnrollmentDate = e.EnrollmentDate
                 })
                 .ToListAsync();
 
