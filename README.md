@@ -1,10 +1,10 @@
-# 🏫 School Management System
+# School Management System
 
 A full-stack **School Management System** built with **React**, **Tailwind CSS**, **.NET Core**, **Entity Framework Core**, and **SQL Server**. The system enables streamlined management of courses, students, teachers, attendance, assignments, and results.
 
 ---
 
-## 📌 Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
@@ -20,7 +20,7 @@ A full-stack **School Management System** built with **React**, **Tailwind CSS**
 
 ---
 
-## 🔍 Overview
+##  Overview
 
 This project provides a role-based school management solution that helps:
 
@@ -30,21 +30,21 @@ This project provides a role-based school management solution that helps:
 
 ---
 
-## ✨ Features
+##  Features
 
-### 👨‍🏫 Teacher Module
+### Teacher Module
 - View and manage assigned courses.
 - Record and view student attendance.
 - Upload and review assignments.
 - Enter and edit student results.
 
-### 👨‍🎓 Student Module
+###  Student Module
 - View enrolled courses.
 - Access and download assignments.
 - View attendance per course.
 - View results grouped by academic stage (e.g. Y1S1, Y1S2).
 
-### 👩‍💼 Admin Module
+###  Admin Module
 - Register and manage students and teachers.
 - Create courses and assign them to teachers.
 - Enroll students into multiple courses at once.
@@ -52,7 +52,7 @@ This project provides a role-based school management solution that helps:
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Category        | Technology                   |
 |----------------|------------------------------|
@@ -66,7 +66,6 @@ This project provides a role-based school management solution that helps:
 
 ##  Project Structure
 
-```bash
 SchoolManagementSystem/
 ├── frontend/             
 │   ├── components/           
@@ -149,6 +148,3 @@ Open a pull request.
 ## Erick Ondiwa
 
 ### erickondiwaz01@gmail.com
-
-💼 LinkedIn
-"""
