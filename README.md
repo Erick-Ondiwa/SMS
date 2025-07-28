@@ -1,6 +1,3 @@
-from pathlib import Path
-
-readme_content = """
 # 🏫 School Management System
 
 A full-stack **School Management System** built with **React**, **Tailwind CSS**, **.NET Core**, **Entity Framework Core**, and **SQL Server**. The system enables streamlined management of courses, students, teachers, attendance, assignments, and results.
@@ -64,104 +61,68 @@ This project provides a role-based school management solution that helps:
 | **Database**    | SQL Server, EF Core          |
 | **Authentication** | JWT Token Authentication |
 | **API Client**  | Axios (React)                |
-| **Hosting (Optional)** | Render, Azure, Vercel |
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```bash
 SchoolManagementSystem/
-├── client/                   # React Frontend
-│   ├── components/           # Reusable UI Components
-│   ├── pages/                # Route-based Views
-│   ├── services/             # Axios API Calls
-│   ├── utils/                # Token & auth utilities
-│   └── App.jsx               # Main App Entry
-├── server/                   # .NET Core Backend
-│   ├── Controllers/          # API Controllers
-│   ├── Models/               # Entity Framework Models
-│   ├── DTOs/                 # Data Transfer Objects
-│   ├── Services/             # Business Logic
-│   ├── Migrations/           # EF Core Migrations
-│   └── Program.cs            # Startup Configuration
-└── README.md                 # This file
+├── frontend/             
+│   ├── components/           
+│   ├── pages/             
+│   ├── services/          
+│   ├── utils/              
+│   └── App.jsx             
+├── backend/               
+│   ├── Controllers/        
+│   ├── Models/               
+│   ├── DTOs/             
+│   ├── Data/               
+│   ├── Migrations/           
+│   └── Program.cs           
+└── README.md                 
 
 
-🚀 Getting Started
-✅ Prerequisites
+## Getting Started
+
+### Prerequisites
 .NET 7 SDK
-
 Node.js
-
 SQL Server
-
 Visual Studio or VS Code
 
-🧠 Backend Setup (.NET Core)
+### Backend Setup (.NET Core)
 Navigate to the backend directory:
 
-bash
-Always show details
-
-Copy
-cd server
+cd backend
 Restore dependencies and build:
 
-bash
-Always show details
-
-Copy
 dotnet restore
 dotnet build
+
 Apply migrations:
 
-bash
-Always show details
-
-Copy
 dotnet ef database update
 Run the backend server:
 
-bash
-Always show details
-
-Copy
 dotnet run
 The backend will be available at: https://localhost:7009
 
-🎨 Frontend Setup (React + Tailwind CSS)
+### Frontend Setup (React + Tailwind CSS)
 Navigate to the frontend:
-
-bash
-Always show details
-
-Copy
-cd client
+cd fronetnd
 Install dependencies:
 
-bash
-Always show details
-
-Copy
 npm install
-Create .env file and add:
 
-ini
-Always show details
-
-Copy
 VITE_API_URL=https://localhost:7009
 Start the React development server:
 
-bash
-Always show details
-
-Copy
 npm run dev
 The app will be available at: http://localhost:5173
 
-🔗 API Endpoints
+## API Endpoints
 Here’s a summary of key endpoints:
 
 Method	Endpoint	Description
@@ -176,28 +137,18 @@ GET	/api/attendance/student/{userId}?courseId={id}	Get student attendance for a 
 ⚙️ Ensure JWT token is sent in the Authorization header for all protected endpoints.
 
 📸 Screenshots
-(Add screenshots here showing UI for dashboard, results view, attendance view, etc.)
 
-🤝 Contributing
+## Contributing
 Fork the repository.
-
 Create your feature branch: git checkout -b feature/feature-name.
-
 Commit your changes: git commit -m "Add new feature".
-
 Push to the branch: git push origin feature/feature-name.
-
 Open a pull request.
 
-📄 License
-This project is licensed under the MIT License.
+# 👨 Author
+## Erick Ondiwa
 
-👨‍💻 Author
-Erick Ochieng Ondiwa
-
-📧 erickondiwaz01@gmail.com
-
-🌐 Portfolio Website
+### erickondiwaz01@gmail.com
 
 💼 LinkedIn
 """
