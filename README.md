@@ -16,7 +16,7 @@ A full-stack **School Management System** built with **React**, **Tailwind CSS**
 - [API Endpoints](#api-endpoints)
 - [Screenshots](#screenshots)
 - [Contributing](#contributing)
-- [License](#license)
+<!-- - [License](#license) -->
 
 ---
 
@@ -86,63 +86,43 @@ SchoolManagementSystem/
 ## Getting Started
 
 ### Prerequisites
-.NET 7 SDK
-Node.js
-SQL Server
-Visual Studio or VS Code
+- .NET 7 SDK
+- Node.js
+- SQL Server
+- Visual Studio or VS Code
 
 ### Backend Setup (.NET Core)
-Navigate to the backend directory:
+- cd backend
+- dotnet restore
+- dotnet build
 
-cd backend
-Restore dependencies and build:
+#### Apply migrations:
 
-dotnet restore
-dotnet build
-
-Apply migrations:
-
-dotnet ef database update
-Run the backend server:
-
-dotnet run
-The backend will be available at: https://localhost:7009
+- dotnet ef database update
+- dotnet run
 
 ### Frontend Setup (React + Tailwind CSS)
-Navigate to the frontend:
-cd fronetnd
-Install dependencies:
+- cd fronetnd
+- npm install
+- npm run dev
 
-npm install
-
-VITE_API_URL=https://localhost:7009
-Start the React development server:
-
-npm run dev
-The app will be available at: http://localhost:5173
-
-## API Endpoints
-Here’s a summary of key endpoints:
-
-Method	Endpoint	Description
-GET	/api/courses	Fetch all courses
-GET	/api/courses/{id}	Get course details
-POST	/api/courses	Create new course
-GET	/api/teachers/{id}/courses	Get courses assigned to a teacher
-GET	/api/courses/{courseId}/enrollments	Get enrolled students
-GET	/api/results/student/{userId}	Get results for a student
-GET	/api/attendance/student/{userId}?courseId={id}	Get student attendance for a course
-
-⚙️ Ensure JWT token is sent in the Authorization header for all protected endpoints.
+## Key API Endpoints
+- GET	/api/courses	<!-- Fetch all courses -->
+- GET	/api/courses/{id}<!--	Get course details -->
+- POST	/api/courses	<!--Create new course -->
+- GET	/api/teachers/{id}/courses	<!-- Get courses assigned to a teacher -->
+- GET	/api/courses/{courseId}/enrollments	<!-- Get enrolled students -->
+- GET	/api/results/student/{userId}<!-- 	Get results for a student -->
+- GET	/api/attendance/student/{userId}?courseId={id}	<!-- Get student attendance for a course -->
 
 📸 Screenshots
 
 ## Contributing
-Fork the repository.
-Create your feature branch: git checkout -b feature/feature-name.
-Commit your changes: git commit -m "Add new feature".
-Push to the branch: git push origin feature/feature-name.
-Open a pull request.
+- Fork the repository.
+- Create your feature branch: git checkout -b feature/feature-name.
+- Commit your changes: git commit -m "Add new feature".
+- Push to the branch: git push origin feature/feature-name.
+- Open a pull request.
 
 # 👨 Author
 ## Erick Ondiwa
