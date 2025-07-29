@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using schoolManagement.API.Dtos;
@@ -139,11 +140,12 @@ namespace schoolManagement.API.Controllers
 
         private async Task<string> GenerateJwtToken(ApplicationUser user)
         {
+
             var roles = await _userManager.GetRolesAsync(user);
 
             var claims = new List<Claim>
             {
-                new Claim("userId", user.Id ?? ""), // This was the original code
+                new Claim("userId", user.Id ?? ""), 
                 new Claim("email", user.Email ?? ""),
                 new Claim("firstName", user.FirstName ?? ""), // Custom claim
                 new Claim("userName", user.UserName ?? ""),
@@ -162,7 +164,7 @@ namespace schoolManagement.API.Controllers
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddHours(6),
+                expires: DateTime.Now.AddHours(3),
                 signingCredentials: creds
             );
 

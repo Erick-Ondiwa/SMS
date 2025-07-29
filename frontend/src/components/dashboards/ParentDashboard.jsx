@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './ParentDashboard.module.css';
 import { LogOut, Users, Mail, Calendar } from 'lucide-react';
-import { getUserFromToken } from '../../utils/Auth';
+import { getUserFromToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
 
 const ParentDashboard = () => {

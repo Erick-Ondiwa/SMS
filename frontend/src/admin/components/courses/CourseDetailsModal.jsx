@@ -19,11 +19,23 @@ const CourseDetailsModal = ({ course, onClose, onRefresh }) => {
 
   const fetchStudents = async () => {
     const token = localStorage.getItem('token');
-    const res = await axios.get(`${baseURL}/api/students`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setStudents(res.data);
+    try {
+      const res = await axios.get(`${baseURL}/api/courses/${course.courseId}/eligible-students`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setStudents(res.data);
+    } catch (err) {
+      console.error('Failed to fetch eligible students:', err);
+    }
   };
+
+  // const fetchStudents = async () => {
+  //   const token = localStorage.getItem('token');
+  //   const res = await axios.get(`${baseURL}/api/students`, {
+  //     headers: { Authorization: `Bearer ${token}` },
+  //   });
+  //   setStudents(res.data);
+  // };
 
   const fetchEnrollments = async () => {
     const token = localStorage.getItem('token');

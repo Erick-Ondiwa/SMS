@@ -80,8 +80,6 @@ const CourseFormModal = ({ course, onClose, onRefresh }) => {
           <input type="number" name="creditHours" placeholder="Credit Hours" value={formData.creditHours} onChange={handleChange} min={1} max={10} />
           <input name="semester" placeholder="Semester" value={formData.semester} onChange={handleChange} />
           <input name="yearOfStudy" placeholder="Year of Study" value={formData.yearOfStudy} onChange={handleChange} />
-
-          {/* ✅ Program selection */}
           <select name="programId" value={formData.programId} onChange={handleChange} required>
             <option value="">-- Select Program --</option>
             {programs.map(p => (
@@ -91,7 +89,6 @@ const CourseFormModal = ({ course, onClose, onRefresh }) => {
             ))}
           </select>
 
-          {/* ✅ Teacher selection */}
           <select name="teacherId" value={formData.teacherId} onChange={handleChange}>
             <option value="">-- Assign Teacher --</option>
             {teachers.map(t => (

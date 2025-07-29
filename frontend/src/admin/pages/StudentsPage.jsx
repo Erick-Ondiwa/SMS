@@ -5,7 +5,7 @@ import StudentTable from '../components/students/StudentTable';
 import StudentFormModal from '../components/students/StudentFormModal';
 import StudentDetailsModal from '../components/students/StudentDetailsModal';
 import RegisterForm from '../../components/Auth/RegisterForm';
-import { getUserFromToken } from '../../utils/Auth';
+import { getUserFromToken } from '../../utils/auth';
 import styles from './StudentsPage.module.css';
 
 const baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7009';

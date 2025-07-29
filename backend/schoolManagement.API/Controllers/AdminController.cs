@@ -69,7 +69,6 @@ namespace schoolManagement.API.Controllers
             if (user == null)
                 return NotFound(new { message = "User not found." });
 
-            // Ensure the role exists
             if (!await _roleManager.RoleExistsAsync(model.Role))
             {
                 var roleResult = await _roleManager.CreateAsync(new IdentityRole(model.Role));

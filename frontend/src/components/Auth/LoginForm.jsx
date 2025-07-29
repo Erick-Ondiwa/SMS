@@ -56,6 +56,11 @@ const LoginForm = () => {
   };
   return (
     <form className={styles.container} onSubmit={handleSubmit}>
+      <div className={styles.backHome}>
+        <Link to="/" className={styles.link}>
+         Back
+        </Link>
+      </div>
       <h2>Login</h2>
 
       <input

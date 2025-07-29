@@ -9,7 +9,7 @@ namespace schoolManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     public class CoursesController : ControllerBase
     {
         private readonly SchoolDbContext _context;
@@ -100,6 +100,31 @@ namespace schoolManagement.API.Controllers
             };
 
         }
+
+        [HttpGet("{courseId}/eligible-students")]
+        public async Task<IActionResult> GetEligibleStudents(int courseId)
+        {
+            var course = await _context.Courses
+                .Include(c => c.AcademicProgram)
+                .FirstOrDefaultAsync(c => c.CourseId == courseId);
+
+            if (course == null)
+                return NotFound("Course not found");
+
+            var eligibleStudents = await _context.Students
+                .Where(s => s.ProgramId == course.ProgramId &&
+                            s.YearOfStudy == course.YearOfStudy)
+                .Select(s => new
+                {
+                    s.StudentId,
+                    s.FullName,
+                    s.AdmissionNumber
+                })
+                .ToListAsync();
+
+            return Ok(eligibleStudents);
+        }
+
 
         // POST: api/courses
         [HttpPost]

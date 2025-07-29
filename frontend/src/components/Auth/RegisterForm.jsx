@@ -92,6 +92,11 @@ import styles from './RegisterForm.module.css';
 
   return (
     <form className={styles.container} onSubmit={handleSubmit}>
+      <div className={styles.backHome}>
+        <Link to="/" className={styles.link}>
+         Back
+        </Link>
+      </div>
       <h2>{isAdminCreating ? `Add New ${role}` : 'Create Account'}</h2>
 
       <input
